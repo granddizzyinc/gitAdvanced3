@@ -12,7 +12,7 @@ public abstract class UnitSupportiveHealer extends UnitSupportive {
      *
      * @param unit
      */
-    public void heal(Unit unit) {
-
+    public void smallHeal(Unit unit) {
+        unit.addHealth(10);
     }
 }

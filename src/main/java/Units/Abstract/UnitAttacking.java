@@ -2,27 +2,35 @@ package Units.Abstract;
 
 public abstract class UnitAttacking extends Unit {
 
-    private int stamina;
-    private int attack;
+    private int abilityPoints;
 
     public UnitAttacking() {
         super();
-        stamina = 100;
-        attack = 10;
-    }
-
-    public void performAnAttack(Unit unit) {
+        abilityPoints = 0;
 
     }
 
-    public int getStamina() {
-        return stamina;
-    }
-    public void addStamina(int value) {
-        stamina += value;
+//    @Override
+//    public void performAnAttack(Unit unit) {
+//
+//    }
+
+    public void concentration() {
+//        super.decreasePointActivites(1);
+        super.skipAMove();
+        if (abilityPoints < 3) {
+            abilityPoints += 1;
+        }
     }
 
-    public void decreaseStamina(int value) {
-        stamina -= value;
+    public int getAbilityPoints() {
+        return abilityPoints;
+    }
+//    public void addAbilityPoints(int value) {
+//        abilityPoints += value;
+//    }
+
+    public void useAbility(){
+        abilityPoints = 0;
     }
 }

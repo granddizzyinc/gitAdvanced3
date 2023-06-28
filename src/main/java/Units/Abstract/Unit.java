@@ -7,49 +7,90 @@ public abstract class Unit {
     private int pointActivites;
     private int defense;
     private int speed;
+    private int attack;
+
+    private boolean defended;
+    private boolean attacked;
 
 
     public Unit() {
         health = 50;
-        defense = 10;
+        defense = 2;
         speed = 1;
-        pointActivites = 100;
+        pointActivites = 1;
+        attack = 5;
+        defended = false;
+        attacked = false;
     }
+
+    /**
+     * Атака
+     * @param unit
+     */
+    public void performAnAttack(Unit unit) {
+        if (attack - defense > 0) unit.decreaseHealth(attack - defense);
+    }
+
 
     public void makeAMove() {
 
     }
 
     public void skipAMove() {
+        pointActivites = 0;
+    }
 
+    public void skipActivity() {
+        pointActivites -= 1;
+    }
+
+    public int getAttack() {
+        return attack;
+    }
+
+//    public void setAttack(int value) {
+//        attack = value;
+//    }
+
+//    public void addAttack(int value) {
+//        attack += value;
+//    }
+
+    public void decreaseAttack(int value) {
+        attack -= value;
     }
 
     public int getPointActivites() {
-        return health;
+        return pointActivites;
     }
 
     public void setPointActivites(int value) {
-        health = value;
+        pointActivites = value;
     }
 
     public void addPointActivites(int value) {
-        health += value;
+        pointActivites += value;
     }
 
-    public void decreasePointActivites(int value) {
-        health -= value;
-    }
+//    public void decreasePointActivites(int value) {
+//        health -= value;
+//    }
 
-    public int getHealth() {
-        return health;
-    }
+    // рассмотреть удаление
+//    public int getHealth() {
+//        return health;
+//    }
 
     public void addHealth(int value) {
         health += value;
     }
 
     public void decreaseHealth(int value) {
-        health -= value;
+        if (health - value > 0) {
+            health -= value;
+        } else {
+            health = 0; // умер
+        }
     }
 
     public int getDefense() {
@@ -74,5 +115,14 @@ public abstract class Unit {
 
     public void decreaseSpeed(int value) {
         defense -= value;
+    }
+
+    public String getUnitBaseInfo() {
+        return "Здоровье: " + health + " Атака: " + attack;
+    }
+
+    @Override
+    public String toString() {
+        return getUnitBaseInfo();
     }
 }

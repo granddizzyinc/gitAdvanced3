@@ -2,21 +2,39 @@ package Units.Abstract;
 
 public abstract class UnitProtective extends Unit {
 
-    private int stamina;
+    private int abilityPoints;
 
     public UnitProtective() {
         super();
-        stamina = 100;
+        abilityPoints = 0;
+
     }
 
-    public int getStamina() {
-        return stamina;
-    }
-    public void addStamina(int value) {
-        stamina += value;
+//    @Override
+//    public void performAnAttack(Unit unit) {
+//
+//    }
+
+    public void concentration() {
+//        super.decreasePointActivites(1);
+        super.skipAMove();
+        if (abilityPoints < 3) {
+            abilityPoints += 1;
+        }
     }
 
-    public void decreaseStamina(int value) {
-        stamina -= value;
+    public int getAbilityPoints() {
+        return abilityPoints;
+    }
+//    public void addAbilityPoints(int value) {
+//        abilityPoints += value;
+//    }
+
+    public void useAbility(){
+        abilityPoints = 0;
+    }
+
+    public void decreaseAttack(int value) {
+        //super.d
     }
 }

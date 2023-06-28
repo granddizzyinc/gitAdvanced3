@@ -17,5 +17,13 @@ public class Main {
         Sniper sniper1 = new Sniper();
         Crossbowman crossbowman1 = new Crossbowman();
         Peasant peasant1 = new Peasant();
+
+        System.out.println(mag1);
+        System.out.println(monk1);
+        System.out.println(robber1);
+        System.out.println(spearman1);
+        System.out.println(sniper1);
+        System.out.println(crossbowman1);
+        System.out.println(peasant1);
     }
 }
