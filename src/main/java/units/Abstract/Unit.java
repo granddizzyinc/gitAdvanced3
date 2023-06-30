@@ -2,7 +2,7 @@ package units.Abstract;
 
 import units.UnitsTypes;
 
-public abstract class Unit implements UnitInterface {
+public abstract class Unit implements UnitInterface {   //implements AutoCloseable  попробовать?
     private final String name;
     private final UnitsTypes type;
     private int health;
@@ -41,9 +41,7 @@ public abstract class Unit implements UnitInterface {
         }
     }
 
-    public String getName() {
-        return name;
-    }
+    public String getName() {return name;}
 
     public String getType() {
         return type.toString();
@@ -97,6 +95,7 @@ public abstract class Unit implements UnitInterface {
             die(health); // умер
         }
     }
+    // реализовать смерть посредством удаления юнита из списка на "арене"
     public int die(int health){
         return health =0;
     }
