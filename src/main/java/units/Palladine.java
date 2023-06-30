@@ -7,11 +7,7 @@ import units.Abstract.UnitProtectiveWithShield;
  */
 public class Palladine extends UnitProtectiveWithShield {
 
-    Equipment shield_and_sword = Equipment.shield_and_sword;
-    int extraHealth = shield_and_sword.getHealth();
-    int extraAttack = shield_and_sword.getAttack();
-    int extraDefence = shield_and_sword.getDefend();
     public Palladine(String name) {
-        super(UnitsTypes.Palladine, name);
+        super(Equipment.shield_and_sword.getHealth(), Equipment.shield_and_sword.getAttack(), Equipment.shield_and_sword.getDefend(), UnitsTypes.Palladine, name);
     }
 }

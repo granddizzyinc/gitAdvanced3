@@ -6,10 +6,13 @@ public abstract class UnitProtective extends Unit {
 
     private int abilityPoints;
 
-    public UnitProtective(UnitsTypes type, String name) {
-        super(type, name);
-        abilityPoints = 0;
+    public UnitProtective(int health, int defense, int attack, UnitsTypes type, String name) {
+        super(health, defense, attack, type, name);
+        this.abilityPoints = 0;
+    }
 
+    public UnitProtective(UnitsTypes type, String name) {
+        this(0,0,0,type,name);
     }
 
 //    @Override
