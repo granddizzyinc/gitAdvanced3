@@ -35,9 +35,10 @@ public abstract class Unit implements UnitInterface {   //implements AutoCloseab
      * @param unit
      */
     public void performAnAttack(Unit unit) {
-
-        if (attack - defense > 0) {
-            unit.decreaseHealth(attack - defense);
+        if (getPointActivites() >0) {
+            if (attack - defense > 0) {
+                unit.decreaseHealth(attack - defense);
+            }
         }
     }
 
