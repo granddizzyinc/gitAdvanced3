@@ -1,19 +1,20 @@
-package Units.Abstract;
+package units.Abstract;
 
-import java.util.Random;
+import units.UnitsTypes;
 
-public abstract class Unit {
+public abstract class Unit implements UnitInterface {
+    private final String name;
+    private final UnitsTypes type;
     private int health;
     private int pointActivites;
     private int defense;
     private int speed;
     private int attack;
-
     private boolean defended;
     private boolean attacked;
 
 
-    public Unit() {
+    public Unit(UnitsTypes type, String name) {
         health = 50;
         defense = 2;
         speed = 1;
@@ -21,16 +22,27 @@ public abstract class Unit {
         attack = 5;
         defended = false;
         attacked = false;
+        this.name = name;
+        this.type = type;
     }
+
 
     /**
      * Атака
+     *
      * @param unit
      */
     public void performAnAttack(Unit unit) {
         if (attack - defense > 0) unit.decreaseHealth(attack - defense);
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public String getType() {
+        return type.toString();
+    }
 
     public void makeAMove() {
 
@@ -118,11 +130,21 @@ public abstract class Unit {
     }
 
     public String getUnitBaseInfo() {
-        return "Здоровье: " + health + " Атака: " + attack;
+        return "Тип: " + type.toString() + " Имя: " + name + " Здоровье: " + health + " Атака: " + attack;
     }
 
     @Override
     public String toString() {
         return getUnitBaseInfo();
+    }
+
+    @Override
+    public String getInfo() {
+        return this.toString();
+    }
+
+    @Override
+    public void step() {
+
     }
 }

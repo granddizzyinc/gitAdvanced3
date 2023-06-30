@@ -1,4 +1,6 @@
-package Units.Abstract;
+package units.Abstract;
+
+import units.UnitsTypes;
 
 public abstract class UnitAttackingWithMagician extends UnitAttacking {
 
@@ -6,8 +8,9 @@ public abstract class UnitAttackingWithMagician extends UnitAttacking {
     public int baseSpell;
 
     private static final int MANACONC = 20;
-    public UnitAttackingWithMagician() {
-        super();
+
+    public UnitAttackingWithMagician(UnitsTypes type, String name) {
+        super(type, name);
         mana = 100;
         baseSpell = 15;
     }

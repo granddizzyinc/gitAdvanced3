@@ -1,10 +1,12 @@
-package Units.Abstract;
+package units.Abstract;
+
+import units.UnitsTypes;
 
 public abstract class UnitSupportiveHealer extends UnitSupportive {
 
 
-    public UnitSupportiveHealer() {
-        super();
+    public UnitSupportiveHealer(UnitsTypes type, String name) {
+        super(type, name);
     }
 
     /**

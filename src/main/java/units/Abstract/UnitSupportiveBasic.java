@@ -1,9 +1,11 @@
-package Units.Abstract;
+package units.Abstract;
+
+import units.UnitsTypes;
 
 public abstract class UnitSupportiveBasic extends UnitSupportive {
 
-    public UnitSupportiveBasic() {
-        super();
+    public UnitSupportiveBasic(UnitsTypes type, String name) {
+        super(type, name);
     }
 
     public void putUpABarrier(Unit unit) {

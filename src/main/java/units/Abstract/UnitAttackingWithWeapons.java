@@ -1,4 +1,6 @@
-package Units.Abstract;
+package units.Abstract;
+
+import units.UnitsTypes;
 
 public abstract class UnitAttackingWithWeapons extends UnitAttacking {
 
@@ -7,8 +9,8 @@ public abstract class UnitAttackingWithWeapons extends UnitAttacking {
     private int baseWeapon;
 
 
-    public UnitAttackingWithWeapons() {
-        super();
+    public UnitAttackingWithWeapons(UnitsTypes type, String name) {
+        super(type, name);
         stamina = 100;
         baseWeapon = 15;
     }
@@ -36,6 +38,7 @@ public abstract class UnitAttackingWithWeapons extends UnitAttacking {
     public int getStamina() {
         return stamina;
     }
+
     public void addStamina(int value) {
         stamina += value;
     }

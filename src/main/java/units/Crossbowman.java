@@ -1,15 +1,15 @@
-package Units;
+package units;
 
-import Units.Abstract.Unit;
-import Units.Abstract.UnitAttackingWithWeapons;
+import units.Abstract.Unit;
+import units.Abstract.UnitAttackingWithWeapons;
 
 /**
  * Арбалетчик
  */
 public class Crossbowman extends UnitAttackingWithWeapons {
 
-    public Crossbowman() {
-        super();
+    public Crossbowman(String name) {
+        super(UnitsTypes.Crossbowman, name);
     }
 
     @Override

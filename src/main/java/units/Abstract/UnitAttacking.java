@@ -1,11 +1,13 @@
-package Units.Abstract;
+package units.Abstract;
+
+import units.UnitsTypes;
 
 public abstract class UnitAttacking extends Unit {
 
     private int abilityPoints;
 
-    public UnitAttacking() {
-        super();
+    public UnitAttacking(UnitsTypes type, String name) {
+        super(type, name);
         abilityPoints = 0;
 
     }
@@ -30,7 +32,7 @@ public abstract class UnitAttacking extends Unit {
 //        abilityPoints += value;
 //    }
 
-    public void useAbility(){
+    public void useAbility() {
         abilityPoints = 0;
     }
 }
