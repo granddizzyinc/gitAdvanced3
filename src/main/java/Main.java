@@ -36,7 +36,7 @@ public class Main {
 
     public static void generateTeam(ArrayList<Unit> team) {
         for (int i = 0; i < 10; i++) {
-            switch (new Random().nextInt(9)) {
+            switch (new Random().nextInt(10)) {
                 case 0 -> team.add(new Crossbowman(getRandomName()));
                 case 1 -> team.add(new Druid(getRandomName()));
                 case 2 -> team.add(new Monk(getRandomName()));
@@ -46,6 +46,7 @@ public class Main {
                 case 6 -> team.add(new Sniper(getRandomName()));
                 case 7 -> team.add(new Spearman(getRandomName()));
                 case 8 -> team.add(new Wizard(getRandomName()));
+                case 9 -> team.add(new Sorcerer(getRandomName()));
             }
         }
     }

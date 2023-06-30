@@ -6,11 +6,15 @@ public abstract class UnitAttacking extends Unit {
 
     private int abilityPoints;
 
-    public UnitAttacking(UnitsTypes type, String name) {
-        super(type, name);
-        abilityPoints = 0;
-
+    public UnitAttacking(int health, int defense, int attack, UnitsTypes type, String name, int abilityPoints) {
+        super(health, defense, attack, type, name);
+        this.abilityPoints = abilityPoints;
     }
+
+    public UnitAttacking(UnitsTypes type, String name, int abilityPoints) {
+        this(0, 0, 0, type, name, 0);
+    }
+
 
 //    @Override
 //    public void performAnAttack(Unit unit) {
