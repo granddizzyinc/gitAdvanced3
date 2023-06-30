@@ -6,7 +6,11 @@ public abstract class UnitSupportiveHealer extends UnitSupportive {
 
 
     public UnitSupportiveHealer(UnitsTypes type, String name) {
-        super(type, name);
+        this(0,0,0,type, name);
+    }
+
+    public UnitSupportiveHealer(int health, int defense, int attack, UnitsTypes type, String name) {
+        super(health, defense, attack, type, name);
     }
 
     /**

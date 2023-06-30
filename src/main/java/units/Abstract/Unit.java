@@ -2,7 +2,7 @@ package units.Abstract;
 
 import units.UnitsTypes;
 
-public abstract class Unit implements UnitInterface {
+public abstract class Unit implements UnitInterface {   //implements AutoCloseable  попробовать?
     private final String name;
     private final UnitsTypes type;
     private int health;
@@ -14,18 +14,20 @@ public abstract class Unit implements UnitInterface {
     private boolean attacked;
 
 
-    public Unit(UnitsTypes type, String name) {
-        health = 50;
-        defense = 2;
-        speed = 1;
+    public Unit(int health, int defense, int attack, UnitsTypes type, String name) {
+        this.health = 50+health;
+        this.defense = 2+defense;
+        this.attack = 5+attack;
+        speed = 3;
         pointActivites = 1;
-        attack = 5;
         defended = false;
         attacked = false;
         this.name = name;
         this.type = type;
     }
-
+    public Unit(UnitsTypes type, String name) {
+        this(0, 0, 0, type, name);
+    }
 
     /**
      * Атака
@@ -33,19 +35,17 @@ public abstract class Unit implements UnitInterface {
      * @param unit
      */
     public void performAnAttack(Unit unit) {
-        if (attack - defense > 0) unit.decreaseHealth(attack - defense);
+        if (getPointActivites() >0) {
+            if (attack - defense > 0) {
+                unit.decreaseHealth(attack - defense);
+            }
+        }
     }
 
-    public String getName() {
-        return name;
-    }
+    public String getName() {return name;}
 
     public String getType() {
         return type.toString();
-    }
-
-    public void makeAMove() {
-
     }
 
     public void skipAMove() {
@@ -60,21 +60,14 @@ public abstract class Unit implements UnitInterface {
         return attack;
     }
 
-//    public void setAttack(int value) {
-//        attack = value;
-//    }
-
-//    public void addAttack(int value) {
-//        attack += value;
-//    }
+    public void addAttack(int value) {
+        attack += value;
+    }
 
     public void decreaseAttack(int value) {
         attack -= value;
     }
 
-    public int getPointActivites() {
-        return pointActivites;
-    }
 
     public void setPointActivites(int value) {
         pointActivites = value;
@@ -88,10 +81,9 @@ public abstract class Unit implements UnitInterface {
 //        health -= value;
 //    }
 
-    // рассмотреть удаление
-//    public int getHealth() {
-//        return health;
-//    }
+    public int getHealth() {
+        return health;
+    }
 
     public void addHealth(int value) {
         health += value;
@@ -101,12 +93,12 @@ public abstract class Unit implements UnitInterface {
         if (health - value > 0) {
             health -= value;
         } else {
-            health = 0; // умер
+            die(health); // умер
         }
     }
-
-    public int getDefense() {
-        return defense;
+    // реализовать смерть посредством удаления юнита из списка на "арене"
+    public int die(int health){
+        return health =0;
     }
 
     public void addDefence(int value) {
@@ -144,7 +136,19 @@ public abstract class Unit implements UnitInterface {
     }
 
     @Override
-    public void step() {
+    public int step(int speed) {
+        return speed -=1;
+    }
 
+    // Все геттеры и сеттеры:
+    public int getDefense() {
+        return defense;
+    }
+    public void setAttack(int value) {
+        attack = value;
+    }
+
+    public int getPointActivites() {
+        return pointActivites;
     }
 }

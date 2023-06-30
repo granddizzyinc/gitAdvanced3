@@ -8,11 +8,14 @@ public abstract class UnitAttackingWithWeapons extends UnitAttacking {
     private static final int STAMINACONC = 20;
     private int baseWeapon;
 
+    public UnitAttackingWithWeapons(int health, int attack, int defence, UnitsTypes type, String name) {
+        super(health, attack, defence, type, name);
+        this.stamina = 100;
+        this.baseWeapon = 15;
+    }
 
     public UnitAttackingWithWeapons(UnitsTypes type, String name) {
-        super(type, name);
-        stamina = 100;
-        baseWeapon = 15;
+        this(0, 0, 0, type, name);
     }
 
     @Override

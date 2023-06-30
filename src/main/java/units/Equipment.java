@@ -13,15 +13,29 @@ public enum Equipment {
     pitchfork_and_robe(15, 7, 5, "peasant"),
     frogfoot_and_bearskin(17, 7, 5, "druid");
 
-//    private int health;
-//    private int atack;
-//    private int defend;
-//    private String parameter;
+    private int health, attack, defend;
+    private String parameter;
 
     Equipment(int health, int attack, int defend, String parameter) {
-//        this.health = health;
-//        this.atack = attack;
-//        this.defend = defend;
-//        this.parameter = parameter;
+        this.health = health;
+        this.attack = attack;
+        this.defend = defend;
+        this.parameter = parameter;
+    }
+
+    public int getHealth() {
+        return health;
+    }
+
+    public int getAttack() {
+        return attack;
+    }
+
+    public int getDefend() {
+        return defend;
+    }
+
+    public String getParameter() {
+        return parameter;
     }
 }

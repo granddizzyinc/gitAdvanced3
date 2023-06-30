@@ -1,7 +1,9 @@
 package units.Abstract;
 
 public interface UnitInterface {
-    void step();
 
     String getInfo();
+    int die(int health);
+
+    int step(int speed);
 }

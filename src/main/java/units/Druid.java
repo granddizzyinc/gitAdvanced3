@@ -6,9 +6,10 @@ import units.Abstract.UnitSupportiveHealer;
  * Друид
  */
 public class Druid extends UnitSupportiveHealer {
-
+    ;
     public Druid(String name) {
-        super(UnitsTypes.Druid, name);
+        super(Equipment.frogfoot_and_bearskin.getHealth(), Equipment.frogfoot_and_bearskin.getAttack(),
+                Equipment.frogfoot_and_bearskin.getDefend(), UnitsTypes.Druid, name);
     }
 
 
