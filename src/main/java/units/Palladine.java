@@ -1,6 +1,6 @@
 package units;
 
-import units.Abstract.UnitProtectiveWithShield;
+import units.abstractUnits.UnitProtectiveWithShield;
 
 /**
  * Палладин
