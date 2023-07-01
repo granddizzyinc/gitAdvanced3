@@ -1,4 +1,4 @@
-package units.Abstract;
+package units.abstractUnits;
 
 public interface ArenaInterface {
     void unit_turning();

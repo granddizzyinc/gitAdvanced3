@@ -1,6 +1,6 @@
 package units;
 
-import units.Abstract.UnitAttackingWithWeapons;
+import units.abstractUnits.UnitAttackingWithWeapons;
 
 /**
  * Снайпер

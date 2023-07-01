@@ -4,11 +4,9 @@
 // выстрел принести стрелу кастануть магию
 
 import units.*;
-import units.Abstract.Unit;
+import units.abstractUnits.Unit;
 
 import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
 import java.util.Random;
 
 //Проанализировать и описать персонажей: Маг, монах, разбойник, копейщик, снайпер, арбалетчик, крестьянин.

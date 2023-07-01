@@ -1,6 +1,6 @@
 package units;
 
-import units.Abstract.UnitSupportiveBasic;
+import units.abstractUnits.UnitSupportiveBasic;
 
 /**
  * Крестьянин
