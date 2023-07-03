@@ -15,9 +15,9 @@ public abstract class Unit implements UnitInterface {   //implements AutoCloseab
 
 
     public Unit(int health, int defense, int attack, UnitsTypes type, String name) {
-        this.health = 50+health;
-        this.defense = 2+defense;
-        this.attack = 5+attack;
+        this.health = 50 + health;
+        this.defense = 2 + defense;
+        this.attack = 5 + attack;
         speed = 3;
         pointActivites = 1;
         defended = false;
@@ -25,6 +25,7 @@ public abstract class Unit implements UnitInterface {   //implements AutoCloseab
         this.name = name;
         this.type = type;
     }
+
     public Unit(UnitsTypes type, String name) {
         this(0, 0, 0, type, name);
     }
@@ -35,14 +36,16 @@ public abstract class Unit implements UnitInterface {   //implements AutoCloseab
      * @param unit
      */
     public void performAnAttack(Unit unit) {
-        if (getPointActivites() >0) {
+        if (getPointActivites() > 0) {
             if (attack - defense > 0) {
                 unit.decreaseHealth(attack - defense);
             }
         }
     }
 
-    public String getName() {return name;}
+    public String getName() {
+        return name;
+    }
 
     public String getType() {
         return type.toString();
@@ -93,12 +96,13 @@ public abstract class Unit implements UnitInterface {   //implements AutoCloseab
         if (health - value > 0) {
             health -= value;
         } else {
-            die(health); // умер
+            die(); // умер
         }
     }
+
     // реализовать смерть посредством удаления юнита из списка на "арене"
-    public int die(int health){
-        return health =0;
+    public void die() {
+        health = 0;
     }
 
     public void addDefence(int value) {
@@ -135,15 +139,21 @@ public abstract class Unit implements UnitInterface {   //implements AutoCloseab
         return this.toString();
     }
 
+
+    public String getShortInfo() {
+        return "Тип: " + type.toString() + " Имя: " + name + " Здоровье: " + health;
+    }
+
     @Override
     public int step(int speed) {
-        return speed -=1;
+        return speed -= 1;
     }
 
     // Все геттеры и сеттеры:
     public int getDefense() {
         return defense;
     }
+
     public void setAttack(int value) {
         attack = value;
     }
