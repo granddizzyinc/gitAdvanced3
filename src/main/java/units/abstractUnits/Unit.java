@@ -1,5 +1,6 @@
 package units.abstractUnits;
 
+import units.Coordinates;
 import units.UnitsTypes;
 
 public abstract class Unit implements UnitInterface {   //implements AutoCloseable  попробовать?
@@ -12,6 +13,7 @@ public abstract class Unit implements UnitInterface {   //implements AutoCloseab
     private int attack;
     private boolean defended;
     private boolean attacked;
+    private Coordinates coordinates;
 
 
     public Unit(int health, int defense, int attack, UnitsTypes type, String name) {
@@ -126,7 +128,8 @@ public abstract class Unit implements UnitInterface {   //implements AutoCloseab
     }
 
     public String getUnitBaseInfo() {
-        return "Тип: " + type.toString() + " Имя: " + name + " Здоровье: " + health + " Атака: " + attack;
+        return "Тип: " + type.toString() + " Имя: " + name + " Здоровье: " + health + " Атака: " + attack + " x:" + coordinates.x + " y:" + coordinates.y;
+
     }
 
     @Override
@@ -160,5 +163,13 @@ public abstract class Unit implements UnitInterface {   //implements AutoCloseab
 
     public int getPointActivites() {
         return pointActivites;
+    }
+
+    public Coordinates getCoordinates() {
+        return coordinates;
+    }
+
+    public void setCoordinates(Coordinates coordinates) {
+        this.coordinates = coordinates;
     }
 }
