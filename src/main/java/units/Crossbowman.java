@@ -1,9 +1,7 @@
 package units;
 
-import units.Abstract.Unit;
-import units.Abstract.UnitAttackingWithWeapons;
-
-import java.util.EnumSet;
+import units.abstractUnits.Unit;
+import units.abstractUnits.UnitAttackingWithWeapons;
 
 /**
  * Арбалетчик

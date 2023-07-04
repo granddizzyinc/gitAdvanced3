@@ -1,6 +1,6 @@
 package units;
 
-import units.Abstract.UnitAttackingWithMagician;
+import units.abstractUnits.UnitAttackingWithMagician;
 
 public class Sorcerer extends UnitAttackingWithMagician {
     public Sorcerer(String name) {

@@ -1,6 +1,6 @@
 package units;
 
-import units.Abstract.UnitProtectiveWithoutShild;
+import units.abstractUnits.UnitProtectiveWithoutShild;
 
 /**
  * Монах
