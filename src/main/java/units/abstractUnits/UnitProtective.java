@@ -28,7 +28,7 @@ public abstract class UnitProtective extends Unit {
         abilityPoints = 0;
     }
 
-    public void decreaseAttack(int increasingDefence) {
+    public void decreaseDamage(int increasingDefence) {
         super.decreaseAttack(increasingDefence);
     }
 

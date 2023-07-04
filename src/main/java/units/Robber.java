@@ -16,15 +16,16 @@ public class Robber extends UnitAttackingWithWeapons {
     public void theft(Unit target){
         if (getAbilityPoints() == 2) {
             super.useAbility();
-            target.decreasePointActivities();
-            target.decreasePointActivities();
+            for (int i = 0; i < 2; i++) {
+                target.decreasePointActivities();
+            }
         }
     }
     public void jab(Unit target){
         if (getAbilityPoints() == 2){
             super.useAbility();
             target.decreasePointActivities();
-            super.performAnAttack(target);
+            target.decreaseHealth(10);
         }
     }
 }

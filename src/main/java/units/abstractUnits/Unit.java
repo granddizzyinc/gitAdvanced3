@@ -12,6 +12,9 @@ public abstract class Unit implements UnitInterface {   //implements AutoCloseab
     private int attack;
     private boolean defended;
     private boolean attacked;
+    private boolean done_move;
+    private boolean done_attack;
+    private int initiative;
     private Coordinates coordinates;
 
 
@@ -23,6 +26,8 @@ public abstract class Unit implements UnitInterface {   //implements AutoCloseab
         pointActivites = 1;
         defended = false;
         attacked = false;
+        done_move = false;
+        done_attack = false;
         this.name = name;
         this.type = type;
     }
@@ -40,6 +45,7 @@ public abstract class Unit implements UnitInterface {   //implements AutoCloseab
         if (getPointActivites() > 0) {
             if (this.attack - target.getDefense() > 0) {
                 target.decreaseHealth(this.attack - target.getDefense());
+                decreasePointActivities();
             }
         }
     }
@@ -100,7 +106,7 @@ public abstract class Unit implements UnitInterface {   //implements AutoCloseab
         health = 0;
     }
 
-    public void addDefence(int value) {
+    public void increaseDefence(int value) {
         defense += value;
     }
 
@@ -166,5 +172,9 @@ public abstract class Unit implements UnitInterface {   //implements AutoCloseab
     }
     public int getHealth() {
         return health;
+    }
+
+    public void setInitiative(int initiative) {
+        this.initiative = initiative;
     }
 }
