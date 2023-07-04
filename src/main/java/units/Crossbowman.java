@@ -26,4 +26,10 @@ public class Crossbowman extends UnitAttackingWithWeapons {
             }
         }
     }
+    public void arrow_to_the_knee(Unit unit){
+        if (getAbilityPoints() == 2) {
+            super.useAbility();
+            decreaseSpeed(1);
+        }
+    }
 }

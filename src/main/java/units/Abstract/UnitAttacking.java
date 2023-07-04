@@ -15,12 +15,6 @@ public abstract class UnitAttacking extends Unit {
         this(0, 0, 0, type, name);
     }
 
-
-//    @Override
-//    public void performAnAttack(Unit unit) {
-//
-//    }
-
     public void concentration() {
         super.skipAMove();
         if (abilityPoints < 3) {
