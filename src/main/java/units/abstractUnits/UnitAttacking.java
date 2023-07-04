@@ -1,9 +1,7 @@
 package units.abstractUnits;
 
-import units.UnitsTypes;
-
 public abstract class UnitAttacking extends Unit {
-
+    private float increasingAttack;
     private int abilityPoints;
 
     public UnitAttacking(int health, int defense, int attack, UnitsTypes type, String name) {
@@ -14,12 +12,6 @@ public abstract class UnitAttacking extends Unit {
     public UnitAttacking(UnitsTypes type, String name) {
         this(0, 0, 0, type, name);
     }
-
-
-//    @Override
-//    public void performAnAttack(Unit unit) {
-//
-//    }
 
     public void concentration() {
         super.skipAMove();
@@ -33,4 +25,14 @@ public abstract class UnitAttacking extends Unit {
     public void useAbility() {
         abilityPoints = 0;
     }
+
+    @Override
+    public void increaseAttack(int increasingAttack) {
+        super.increaseAttack(increasingAttack);
+    }
+
+    public float getIncreasingAttack() {
+        return increasingAttack;
+    }
+
 }

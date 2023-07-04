@@ -35,12 +35,12 @@ public abstract class Unit implements UnitInterface {   //implements AutoCloseab
     /**
      * Атака
      *
-     * @param unit
+     * @param target
      */
-    public void performAnAttack(Unit unit) {
+    public void performAnAttack(Unit target) {
         if (getPointActivites() > 0) {
-            if (attack - defense > 0) {
-                unit.decreaseHealth(attack - defense);
+            if (this.attack - target.getDefense() > 0) {
+                target.decreaseHealth(this.attack - target.getDefense());
             }
         }
     }
@@ -65,7 +65,7 @@ public abstract class Unit implements UnitInterface {   //implements AutoCloseab
         return attack;
     }
 
-    public void addAttack(int value) {
+    public void increaseAttack(int value) {
         attack += value;
     }
 
@@ -81,15 +81,9 @@ public abstract class Unit implements UnitInterface {   //implements AutoCloseab
     public void addPointActivites(int value) {
         pointActivites += value;
     }
-
-//    public void decreasePointActivites(int value) {
-//        health -= value;
-//    }
-
-    public int getHealth() {
-        return health;
+    public void decreasePointActivities(){
+        pointActivites -= 1;
     }
-
     public void addHealth(int value) {
         health += value;
     }
@@ -113,10 +107,6 @@ public abstract class Unit implements UnitInterface {   //implements AutoCloseab
 
     public void decreaseDefence(int value) {
         defense -= value;
-    }
-
-    public int getSpeed() {
-        return speed;
     }
 
     public void addSpeed(int value) {
@@ -171,5 +161,11 @@ public abstract class Unit implements UnitInterface {   //implements AutoCloseab
 
     public void setCoordinates(Coordinates coordinates) {
         this.coordinates = coordinates;
+    }
+    public int getSpeed() {
+        return speed;
+    }
+    public int getHealth() {
+        return health;
     }
 }

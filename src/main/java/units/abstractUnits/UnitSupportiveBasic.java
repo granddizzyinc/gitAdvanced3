@@ -1,7 +1,5 @@
 package units.abstractUnits;
 
-import units.UnitsTypes;
-
 public abstract class UnitSupportiveBasic extends UnitSupportive {
 
     public UnitSupportiveBasic(UnitsTypes type, String name) {
@@ -12,7 +10,7 @@ public abstract class UnitSupportiveBasic extends UnitSupportive {
         super(health, defense, attack, type, name);
     }
 
-    public void putUpABarrier(Unit unit) {
+    public void putUpABarrier(Unit unit) {  //это предварительно, а так должен появитсья объект на карте
         unit.decreaseAttack(5);
     }
 }

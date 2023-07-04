@@ -1,7 +1,5 @@
 package units.abstractUnits;
 
-import units.UnitsTypes;
-
 public abstract class UnitAttackingWithMagician extends UnitAttacking {
 
     private int mana;

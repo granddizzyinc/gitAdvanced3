@@ -1,4 +1,4 @@
-package weapons;
+package Weapons;
 
 public class Weapon {
 }
