@@ -1,7 +1,6 @@
 package units.abstractUnits;
 
 import units.Coordinates;
-import units.UnitsTypes;
 
 public abstract class Unit implements UnitInterface {   //implements AutoCloseable  попробовать?
     private final String name;
