@@ -1,5 +1,4 @@
-package units;
-
+package units.abstractUnits;
 
 public enum Equipment {
     spear_and_cuirass(30, 17, 10, "spearman"),

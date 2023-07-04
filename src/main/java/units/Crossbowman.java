@@ -1,7 +1,9 @@
 package units;
 
+import units.abstractUnits.Equipment;
 import units.abstractUnits.Unit;
 import units.abstractUnits.UnitAttackingWithWeapons;
+import units.abstractUnits.UnitsTypes;
 
 /**
  * Арбалетчик
@@ -22,6 +24,12 @@ public class Crossbowman extends UnitAttackingWithWeapons {
             if (getAttack() - getDefense() > 0) {
                 unit.decreaseHealth(getAttack() - getDefense());
             }
+        }
+    }
+    public void arrow_to_the_knee(Unit unit){
+        if (getAbilityPoints() == 2) {
+            super.useAbility();
+            decreaseSpeed(1);
         }
     }
 }

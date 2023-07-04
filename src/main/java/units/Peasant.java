@@ -1,6 +1,8 @@
 package units;
 
+import units.abstractUnits.Equipment;
 import units.abstractUnits.UnitSupportiveBasic;
+import units.abstractUnits.UnitsTypes;
 
 /**
  * Крестьянин

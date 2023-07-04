@@ -1,9 +1,7 @@
 package units.abstractUnits;
 
-import units.UnitsTypes;
-
 public abstract class UnitProtective extends Unit {
-
+    private float increasingDefence;
     private int abilityPoints;
 
     public UnitProtective(int health, int defense, int attack, UnitsTypes type, String name) {
@@ -15,13 +13,7 @@ public abstract class UnitProtective extends Unit {
         this(0,0,0,type,name);
     }
 
-//    @Override
-//    public void performAnAttack(Unit unit) {
-//
-//    }
-
     public void concentration() {
-//        super.decreasePointActivites(1);
         super.skipAMove();
         if (abilityPoints < 3) {
             abilityPoints += 1;
@@ -31,15 +23,16 @@ public abstract class UnitProtective extends Unit {
     public int getAbilityPoints() {
         return abilityPoints;
     }
-//    public void addAbilityPoints(int value) {
-//        abilityPoints += value;
-//    }
 
     public void useAbility() {
         abilityPoints = 0;
     }
 
-    public void decreaseAttack(int value) {
-        //super.d
+    public void decreaseAttack(int increasingDefence) {
+        super.decreaseAttack(increasingDefence);
+    }
+
+    public float getIncreasingDefence() {
+        return increasingDefence;
     }
 }

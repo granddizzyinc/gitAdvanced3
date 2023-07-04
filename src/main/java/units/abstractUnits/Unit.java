@@ -1,6 +1,6 @@
 package units.abstractUnits;
 
-import units.UnitsTypes;
+import units.Coordinates;
 
 public abstract class Unit implements UnitInterface {   //implements AutoCloseable  попробовать?
     private final String name;
@@ -12,12 +12,13 @@ public abstract class Unit implements UnitInterface {   //implements AutoCloseab
     private int attack;
     private boolean defended;
     private boolean attacked;
+    private Coordinates coordinates;
 
 
     public Unit(int health, int defense, int attack, UnitsTypes type, String name) {
-        this.health = 50+health;
-        this.defense = 2+defense;
-        this.attack = 5+attack;
+        this.health = 50 + health;
+        this.defense = 2 + defense;
+        this.attack = 5 + attack;
         speed = 3;
         pointActivites = 1;
         defended = false;
@@ -25,6 +26,7 @@ public abstract class Unit implements UnitInterface {   //implements AutoCloseab
         this.name = name;
         this.type = type;
     }
+
     public Unit(UnitsTypes type, String name) {
         this(0, 0, 0, type, name);
     }
@@ -32,17 +34,19 @@ public abstract class Unit implements UnitInterface {   //implements AutoCloseab
     /**
      * Атака
      *
-     * @param unit
+     * @param target
      */
-    public void performAnAttack(Unit unit) {
-        if (getPointActivites() >0) {
-            if (attack - defense > 0) {
-                unit.decreaseHealth(attack - defense);
+    public void performAnAttack(Unit target) {
+        if (getPointActivites() > 0) {
+            if (this.attack - target.getDefense() > 0) {
+                target.decreaseHealth(this.attack - target.getDefense());
             }
         }
     }
 
-    public String getName() {return name;}
+    public String getName() {
+        return name;
+    }
 
     public String getType() {
         return type.toString();
@@ -60,7 +64,7 @@ public abstract class Unit implements UnitInterface {   //implements AutoCloseab
         return attack;
     }
 
-    public void addAttack(int value) {
+    public void increaseAttack(int value) {
         attack += value;
     }
 
@@ -76,15 +80,9 @@ public abstract class Unit implements UnitInterface {   //implements AutoCloseab
     public void addPointActivites(int value) {
         pointActivites += value;
     }
-
-//    public void decreasePointActivites(int value) {
-//        health -= value;
-//    }
-
-    public int getHealth() {
-        return health;
+    public void decreasePointActivities(){
+        pointActivites -= 1;
     }
-
     public void addHealth(int value) {
         health += value;
     }
@@ -93,12 +91,13 @@ public abstract class Unit implements UnitInterface {   //implements AutoCloseab
         if (health - value > 0) {
             health -= value;
         } else {
-            die(health); // умер
+            die(); // умер
         }
     }
+
     // реализовать смерть посредством удаления юнита из списка на "арене"
-    public int die(int health){
-        return health =0;
+    public void die() {
+        health = 0;
     }
 
     public void addDefence(int value) {
@@ -107,10 +106,6 @@ public abstract class Unit implements UnitInterface {   //implements AutoCloseab
 
     public void decreaseDefence(int value) {
         defense -= value;
-    }
-
-    public int getSpeed() {
-        return speed;
     }
 
     public void addSpeed(int value) {
@@ -122,7 +117,8 @@ public abstract class Unit implements UnitInterface {   //implements AutoCloseab
     }
 
     public String getUnitBaseInfo() {
-        return "Тип: " + type.toString() + " Имя: " + name + " Здоровье: " + health + " Атака: " + attack;
+        return "Тип: " + type.toString() + " Имя: " + name + " Здоровье: " + health + " Атака: " + attack + " x:" + coordinates.x + " y:" + coordinates.y;
+
     }
 
     @Override
@@ -135,20 +131,40 @@ public abstract class Unit implements UnitInterface {   //implements AutoCloseab
         return this.toString();
     }
 
+
+    public String getShortInfo() {
+        return "Тип: " + type.toString() + " Имя: " + name + " Здоровье: " + health;
+    }
+
     @Override
     public int step(int speed) {
-        return speed -=1;
+        return speed -= 1;
     }
 
     // Все геттеры и сеттеры:
     public int getDefense() {
         return defense;
     }
+
     public void setAttack(int value) {
         attack = value;
     }
 
     public int getPointActivites() {
         return pointActivites;
+    }
+
+    public Coordinates getCoordinates() {
+        return coordinates;
+    }
+
+    public void setCoordinates(Coordinates coordinates) {
+        this.coordinates = coordinates;
+    }
+    public int getSpeed() {
+        return speed;
+    }
+    public int getHealth() {
+        return health;
     }
 }

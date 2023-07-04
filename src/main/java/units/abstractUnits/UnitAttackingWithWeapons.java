@@ -1,7 +1,5 @@
 package units.abstractUnits;
 
-import units.UnitsTypes;
-
 public abstract class UnitAttackingWithWeapons extends UnitAttacking {
 
     private int stamina;
@@ -20,8 +18,6 @@ public abstract class UnitAttackingWithWeapons extends UnitAttacking {
 
     @Override
     public void performAnAttack(Unit unit) {
-        super.performAnAttack(unit);
-        // super.decreaseStamina(10);
         if (stamina - baseWeapon > 0) {
             super.performAnAttack(unit);
             stamina -= baseWeapon;
