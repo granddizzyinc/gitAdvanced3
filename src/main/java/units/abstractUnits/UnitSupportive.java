@@ -1,7 +1,5 @@
 package units.abstractUnits;
 
-import units.UnitsTypes;
-
 public abstract class UnitSupportive extends Unit {
 
     private int speed;

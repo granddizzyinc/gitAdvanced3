@@ -1,6 +1,8 @@
 package units;
 
+import units.abstractUnits.Equipment;
 import units.abstractUnits.UnitSupportiveHealer;
+import units.abstractUnits.UnitsTypes;
 
 /**
  * Друид

@@ -1,7 +1,9 @@
 package units;
 
+import units.abstractUnits.Equipment;
 import units.abstractUnits.Unit;
 import units.abstractUnits.UnitAttackingWithWeapons;
+import units.abstractUnits.UnitsTypes;
 
 /**
  * Арбалетчик

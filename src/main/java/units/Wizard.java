@@ -1,6 +1,8 @@
 package units;
 
+import units.abstractUnits.Equipment;
 import units.abstractUnits.UnitAttackingWithMagician;
+import units.abstractUnits.UnitsTypes;
 
 /**
  * Маг
