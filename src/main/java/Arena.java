@@ -29,11 +29,11 @@ public class Arena implements ArenaInterface {
         generateTeam(team, teamSize);
         placeUnits(team);
     }
-    public void giveInitiative(ArrayList<Team> teammates){
-        for (int i = 0; i < teams.size(); i++) {
-            getTeam(i).se
-        }
-    }
+//    public void giveInitiative(ArrayList<Team> teammates){
+//        for (int i = 0; i < teams.size(); i++) {
+//            getTeam(i).se
+//        }
+//    }
 
     /**
      * генерирует команду из случайных юнитов
