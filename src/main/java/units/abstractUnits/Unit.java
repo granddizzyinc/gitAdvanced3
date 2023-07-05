@@ -1,6 +1,9 @@
 package units.abstractUnits;
 
 import units.Coordinates;
+import units.Names;
+
+import java.util.Random;
 
 public abstract class Unit implements UnitInterface {   //implements AutoCloseable  попробовать?
     private final String name;
@@ -176,5 +179,9 @@ public abstract class Unit implements UnitInterface {   //implements AutoCloseab
 
     public void setInitiative(int initiative) {
         this.initiative = initiative;
+    }
+
+    public static String getRandomUnitName() {
+        return Names.values()[new Random().nextInt(Names.values().length)].toString();
     }
 }

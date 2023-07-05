@@ -44,16 +44,16 @@ public class Arena implements ArenaInterface {
     private static void generateTeam(Team team, int teamSize) {
         for (int i = 0; i < teamSize; i++) {
             switch (new Random().nextInt(10)) {
-                case 0 -> team.addUnit(new Crossbowman(getRandomUnitName()));
-                case 1 -> team.addUnit(new Druid(getRandomUnitName()));
-                case 2 -> team.addUnit(new Monk(getRandomUnitName()));
-                case 3 -> team.addUnit(new Palladine(getRandomUnitName()));
-                case 4 -> team.addUnit(new Peasant(getRandomUnitName()));
-                case 5 -> team.addUnit(new Robber(getRandomUnitName()));
-                case 6 -> team.addUnit(new Sniper(getRandomUnitName()));
-                case 7 -> team.addUnit(new Spearman(getRandomUnitName()));
-                case 8 -> team.addUnit(new Wizard(getRandomUnitName()));
-                case 9 -> team.addUnit(new Sorcerer(getRandomUnitName()));
+                case 0 -> team.addUnit(new Crossbowman(Unit.getRandomUnitName()));
+                case 1 -> team.addUnit(new Druid(Unit.getRandomUnitName()));
+                case 2 -> team.addUnit(new Monk(Unit.getRandomUnitName()));
+                case 3 -> team.addUnit(new Palladine(Unit.getRandomUnitName()));
+                case 4 -> team.addUnit(new Peasant(Unit.getRandomUnitName()));
+                case 5 -> team.addUnit(new Robber(Unit.getRandomUnitName()));
+                case 6 -> team.addUnit(new Sniper(Unit.getRandomUnitName()));
+                case 7 -> team.addUnit(new Spearman(Unit.getRandomUnitName()));
+                case 8 -> team.addUnit(new Wizard(Unit.getRandomUnitName()));
+                case 9 -> team.addUnit(new Sorcerer(Unit.getRandomUnitName()));
             }
         }
     }
@@ -68,10 +68,6 @@ public class Arena implements ArenaInterface {
         for (Unit unit : team) {
             unit.setCoordinates(getStartCoordinates(team, unit));
         }
-    }
-
-    private static String getRandomUnitName() {
-        return Names.values()[new Random().nextInt(Names.values().length)].toString();
     }
 
     public void returningPointActivities() {
@@ -166,15 +162,11 @@ public class Arena implements ArenaInterface {
         return null;
     }
 
-    private static double distance(int x1, int y1, int x2, int y2) {
-        return Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
-    }
-
     private Unit findTheNearestTeamUnit(Unit unit, Team team) {
         Unit nearest = null;
         double minDistance = this.sizeX + this.sizeY;
         for (Unit u : team) {
-            double distance = distance(unit.getCoordinates().x, unit.getCoordinates().y, u.getCoordinates().x, u.getCoordinates().y);
+            double distance = unit.getCoordinates().calculateDistance(u.getCoordinates());
             if (distance < minDistance) {
                 minDistance = distance;
                 nearest = u;
