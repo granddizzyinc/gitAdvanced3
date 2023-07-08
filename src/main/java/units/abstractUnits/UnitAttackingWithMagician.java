@@ -32,7 +32,8 @@ public abstract class UnitAttackingWithMagician extends UnitAttacking {
         if (mana - baseSpell > 0) {
             super.performAnAttack(unit);
             mana -= baseSpell;
+        } else {
+            System.out.println("mana - baseSpell <= 0");
         }
-
     }
 }

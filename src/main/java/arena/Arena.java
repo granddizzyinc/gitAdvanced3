@@ -142,6 +142,8 @@ public class Arena implements ArenaInterface {
 
                         //если в диапазоне то если соответсвует условию атаки то атакует или действует
                         if (who.distanceSkill >= who.getCoordinates().calculateDistance(targetUnit.getCoordinates())) {
+                            System.out.println("Цель в диапазоне");
+
                             if (who instanceof UnitAttacking) {
                                 if (((UnitAttacking) who).getAbilityPoints() == 2) {
 

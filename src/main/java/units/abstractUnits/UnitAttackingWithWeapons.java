@@ -21,6 +21,8 @@ public abstract class UnitAttackingWithWeapons extends UnitAttacking {
         if (stamina - baseWeapon > 0) {
             super.performAnAttack(unit);
             stamina -= baseWeapon;
+        } else {
+            System.out.println("stamina - baseWeapon <= 0");
         }
     }
 

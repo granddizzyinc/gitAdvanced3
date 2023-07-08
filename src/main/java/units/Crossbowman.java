@@ -22,11 +22,14 @@ public class Crossbowman extends UnitAttackingWithWeapons {
 
     @Override
     public void performAnAttack(Unit unit) {
-        super.performAnAttack(unit);
+
         if (extraActivities > 0) {
-            if (getAttack() - getDefense() > 0) {
-                unit.decreaseHealth(getAttack() - getDefense());
-            }
+//            if (getAttack() - getDefense() > 0) {
+//                unit.decreaseHealth(getAttack() - getDefense());
+//            }
+            super.performAnAttack(unit);
+        } else {
+            System.out.println("extraActivites <= 0");
         }
     }
     public void arrow_to_the_knee(Unit unit){

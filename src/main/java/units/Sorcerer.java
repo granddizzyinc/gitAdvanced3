@@ -16,11 +16,14 @@ public class Sorcerer extends UnitAttackingWithMagician {
                 Equipment.runes_and_powders.getDefend(), UnitsTypes.Sorcerer, name);
     }
     public void performAnAttack(Unit unit) {
-        super.performAnAttack(unit);
+
         if (extraActivities > 0) {
-            if (getAttack() - getDefense() > 0) {
-                unit.decreaseHealth(getAttack() - getDefense());
-            }
+//            if (getAttack() - getDefense() > 0) {
+//                unit.decreaseHealth(getAttack() - getDefense());
+//            }
+            super.performAnAttack(unit);
+        } else {
+            System.out.println("extraActivites <= 0");
         }
     }
     public void tricks(Unit target){
