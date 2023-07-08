@@ -111,6 +111,11 @@ public class Arena implements ArenaInterface {
                     //второе очко тратит на действие
                     who.setPointActivites(2);
 
+
+                    //вот это нужно перенести в ХОД каждого юнита и он сам будет знать атаковать ему или шо
+                    //для этого юниту пробрасывается THIS арены и он может справшивать у арены что ему нужно
+                    //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
                     //выбираем цель
                     Unit targetUnit = who.findTarget(this, teamWho);
 
@@ -153,7 +158,15 @@ public class Arena implements ArenaInterface {
                             //атакуем
 //                            * Ближники (не дальше 1 клетки)
 //                                * Дальники (5 клеток - 100% урон, до 7 клеток - 75% урона, до 9 клеток - 50%, 10 и более - не может атаковать)
-                            who.performAnAttack(targetUnit);
+
+
+                            if (getUnitTeam(targetUnit).equals(teamWho)) {
+                                //если это наш
+                                System.out.println("Нужно что-то делать со своими");
+                            } else {
+                                // это чужой
+                                who.performAnAttack(targetUnit);
+                            }
 
                             //проверяем убили ли
                             if (targetUnit.getHealth() == 0) {
@@ -228,6 +241,9 @@ public class Arena implements ArenaInterface {
             }
 
             for (Unit tmpUnit : tmpTeam) {
+                //главное в любом расследовании не выйти на самого себя
+                if (tmpUnit.equals(unit)) continue;
+
                 double distance = unit.getCoordinates().calculateDistance(tmpUnit.getCoordinates());
                 if (distance < minDistance) {
                     minDistance = distance;
@@ -452,5 +468,16 @@ public class Arena implements ArenaInterface {
         }
 
         return stepCoordinates;
+    }
+
+    public Team getUnitTeam(Unit unit) {
+        for (Team tmpTeam: teams) {
+            for (Unit tmpUnit: tmpTeam) {
+                if (unit.equals(tmpUnit)) {
+                    return tmpTeam;
+                }
+            }
+        }
+        return null;
     }
 }
