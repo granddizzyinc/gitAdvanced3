@@ -16,12 +16,8 @@ public class Peasant extends UnitSupportiveBasic {
     }
 
     @Override
-    public void step(int speed, Unit target) {
-        // поменяли координаты в напревлении таргета
-
-//        вызвать какую то спобовность
-
-
+    public void step(int speed, Unit target, Arena arena, Coordinates stepCoordinates) {
+        this.setCoordinates(stepCoordinates);
     }
 
     @Override

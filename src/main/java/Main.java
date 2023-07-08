@@ -6,8 +6,8 @@ public class Main {
     public static void main(String[] args) throws InterruptedException {
         Arena arena = new Arena(50, 50);
 
-        arena.createTeam("Команда Добра", 10);
-        arena.createTeam("Команда Зла", 10);
+        arena.createTeam("Команда Добра", 2);
+        arena.createTeam("Команда Зла", 2);
 
         for (Team team : arena.getTeams()) {
             //team.showUnits(team);

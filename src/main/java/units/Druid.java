@@ -18,10 +18,10 @@ public class Druid extends UnitSupportiveHealer {
                 Equipment.frogfoot_and_bearskin.getDefend(), UnitsTypes.Druid, name);
     }
 
-    @Override
-    public void step(int speed, Unit target) {
 
-//        return speed -= 1;
+    @Override
+    public void step(int speed, Unit target, Arena arena, Coordinates stepCoordinates) {
+        this.setCoordinates(stepCoordinates);
     }
 
     @Override

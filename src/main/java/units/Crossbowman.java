@@ -37,8 +37,8 @@ public class Crossbowman extends UnitAttackingWithWeapons {
     }
 
     @Override
-    public void step(int speed, Unit target) {
-
+    public void step(int speed, Unit target, Arena arena, Coordinates stepCoordinates) {
+        this.setCoordinates(stepCoordinates);
     }
 
     @Override

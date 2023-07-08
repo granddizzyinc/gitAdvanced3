@@ -86,8 +86,14 @@ public class Arena implements ArenaInterface {
             return;
         }
 
+        System.out.println("Да начнеться бой!");
+
         //если нужен следующий раунд то запускаем
         while (checkTheNeedForTheNextRound()) {
+            round += 1;
+
+            System.out.println("Раунд: " + round);
+
             //каждый делает ход в порядке уменьшения инициативы
             for (Team teamWho : teams) {
                 // если всех уже замочили
@@ -98,6 +104,7 @@ public class Arena implements ArenaInterface {
 
                 //выбираем кто будет ходить
                 for (Unit who : teamWho) {
+                    System.out.println("ХОД: " + who);
 
                     //восстанавливаем очки активности
                     //одно очко тратит на ходьбу
@@ -107,10 +114,13 @@ public class Arena implements ArenaInterface {
                     //выбираем цель
                     Unit targetUnit = who.findTarget(this, teamWho);
 
-                    System.out.println("Цель: " + targetUnit);
-                    TimeUnit.SECONDS.sleep(1);
+                    if (targetUnit == null) {
+                        System.out.println("Цель: не найдена");
+                    } else {
+                        System.out.println("Цель: " + targetUnit + " " + targetUnit.getCoordinates());
+                        //TimeUnit.SECONDS.sleep(1);
 
-                    //ближники
+                        //ближники
 //                    if (who instanceof Spearman || who instanceof Robber || who instanceof Druid || who instanceof Palladine || who instanceof Peasant) {
 //                        //ближайшего
 //                        if (who instanceof UnitAttacking || who instanceof UnitSupportiveBasic) {
@@ -130,41 +140,43 @@ public class Arena implements ArenaInterface {
 //                        }
 //                    }
 
-                    //если в диапазоне то если соответсвует условию атаки то атакует или действует
-                    if (who.distanceSkill >= who.getCoordinates().calculateDistance(targetUnit.getCoordinates())) {
-                        if (who instanceof UnitAttacking) {
-                            if (((UnitAttacking) who).getAbilityPoints() == 2) {
+                        //если в диапазоне то если соответсвует условию атаки то атакует или действует
+                        if (who.distanceSkill >= who.getCoordinates().calculateDistance(targetUnit.getCoordinates())) {
+                            if (who instanceof UnitAttacking) {
+                                if (((UnitAttacking) who).getAbilityPoints() == 2) {
 
+                                }
                             }
-                        }
 
-                        //атакуем
+                            //атакуем
 //                            * Ближники (не дальше 1 клетки)
 //                                * Дальники (5 клеток - 100% урон, до 7 клеток - 75% урона, до 9 клеток - 50%, 10 и более - не может атаковать)
-                        who.performAnAttack(targetUnit);
+                            who.performAnAttack(targetUnit);
 
-                        //проверяем убили ли
-                        if (targetUnit.getHealth() == 0) {
-                            this.killUnit(targetUnit);
+                            //проверяем убили ли
+                            if (targetUnit.getHealth() == 0) {
+                                this.killUnit(targetUnit);
+                            }
+
+                            TimeUnit.SECONDS.sleep(1);
+                        } else {
+                            //если не в диапазоне то или ходит, концентрируется или пропускает ход
+
+                            System.out.print("Хожу: " + who.getCoordinates());
+                            Coordinates stepCoordinates = getNextStepPosition(who.getCoordinates(), targetUnit.getCoordinates());
+                            who.step(1, targetUnit, this, stepCoordinates);
+                            System.out.println(" -> " + stepCoordinates);
+                            TimeUnit.SECONDS.sleep(1);
                         }
-
-                        TimeUnit.SECONDS.sleep(1);
-                    } else {
-                        //если не в диапазоне то или ходит, концентрируется или пропускает ход
-
-                        who.step(1, targetUnit);
-
-                        System.out.println("Хожу");
-                        TimeUnit.SECONDS.sleep(1);
-                    }
 
 //                        Ближники: копейщик (у него исключение в 2 клетки), разбойник, друид, паладин, крестьянин
 //                        Дальники: Арбалетчик, монах, снайпер, чародей (ему уменьшить дальности на 1 клетку), волшебник
+                        System.out.println();
+                    }
                 }
             }
 
-            System.out.println("Раунд");
-            TimeUnit.SECONDS.sleep(1);
+            //TimeUnit.SECONDS.sleep(1);
         }
 
         //  победитель
@@ -368,5 +380,75 @@ public class Arena implements ArenaInterface {
                 }
             }
         }
+    }
+
+    public Coordinates getNextStepPosition(Coordinates beginCoordinates, Coordinates endCoordinates) {
+        Coordinates stepCoordinates = new Coordinates(beginCoordinates.x, beginCoordinates.y);
+        //если по прямой
+        if (beginCoordinates.x == endCoordinates.x) {
+            if (endCoordinates.y > beginCoordinates.y) {
+                stepCoordinates.y += 1;
+            } else {
+                stepCoordinates.y -= 1;
+            }
+        } else if (beginCoordinates.y == endCoordinates.y) {
+            if (endCoordinates.x > beginCoordinates.x) {
+                stepCoordinates.x += 1;
+            } else {
+                stepCoordinates.x -= 1;
+            }
+        } else {
+            //иначе вычисляем угол
+            double angle = Math.asin(Math.abs(endCoordinates.y - beginCoordinates.y) / beginCoordinates.calculateDistance(endCoordinates)) * 180 / Math.PI;
+
+            if (endCoordinates.y > beginCoordinates.y && endCoordinates.x > beginCoordinates.x) {
+                // 1 четверть
+
+                if (angle <= 33) {
+                    stepCoordinates.x += 1;
+                } else if (angle >= 66) {
+                    stepCoordinates.y += 1;
+                } else {
+                    stepCoordinates.x += 1;
+                    stepCoordinates.y += 1;
+                }
+            } else if (endCoordinates.y > beginCoordinates.y && endCoordinates.x < beginCoordinates.x) {
+                // 2 четверть
+
+                if (angle <= 33) {
+                    stepCoordinates.x -= 1;
+                } else if (angle >= 66) {
+                    stepCoordinates.y += 1;
+                } else {
+                    stepCoordinates.x -= 1;
+                    stepCoordinates.y += 1;
+                }
+            } else if (endCoordinates.y < beginCoordinates.y && endCoordinates.x < beginCoordinates.x) {
+                // 3 четверть
+
+                if (angle <= 33) {
+                    stepCoordinates.x -= 1;
+                } else if (angle >= 66) {
+                    stepCoordinates.y -= 1;
+                } else {
+                    stepCoordinates.x -= 1;
+                    stepCoordinates.y -= 1;
+                }
+            } else if (endCoordinates.y < beginCoordinates.y && endCoordinates.x > beginCoordinates.x) {
+                // 4 четверть
+
+                if (angle <= 33) {
+                    stepCoordinates.x += 1;
+                } else if (angle >= 66) {
+                    stepCoordinates.y -= 1;
+                } else {
+                    stepCoordinates.x += 1;
+                    stepCoordinates.y -= 1;
+                }
+            }
+
+        }
+
+        return stepCoordinates;
     }
 }

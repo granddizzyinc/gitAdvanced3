@@ -24,9 +24,8 @@ public class Monk extends UnitProtectiveWithoutShild {
     }
 
     @Override
-    public void step(int speed, Unit target) {
-
-//        return speed -= 1;
+    public void step(int speed, Unit target, Arena arena, Coordinates stepCoordinates) {
+        this.setCoordinates(stepCoordinates);
     }
 
     @Override

@@ -2,6 +2,7 @@ package units.abstractUnits;
 
 import units.Coordinates;
 import units.Names;
+import units.Palladine;
 import units.UnitInterface;
 
 import java.util.Random;
@@ -48,13 +49,17 @@ public abstract class Unit implements UnitInterface {   //implements AutoCloseab
      * @param target
      */
     public void performAnAttack(Unit target) {
-        System.out.println(this + " атакует " + target);
+        System.out.println("Атакую: " + target);
 
         if (getPointActivites() > 0) {
             if (this.attack - target.getDefense() > 0) {
                 target.decreaseHealth(this.attack - target.getDefense());
                 decreasePointActivities();
+            } else {
+                System.out.println("Не прокатило");
             }
+        } else {
+            System.out.println("Нет очков активности");
         }
     }
 
@@ -131,7 +136,7 @@ public abstract class Unit implements UnitInterface {   //implements AutoCloseab
     }
 
     public String getUnitBaseInfo() {
-        return "Тип: " + type.toString() + " Имя: " + name + " Здоровье: " + health + " Атака: " + attack + " x:" + coordinates.x + " y:" + coordinates.y;
+        return "Тип: " + type.toString() + " Имя: " + name + " Здоровье: " + health + " Атака: " + attack;
 
     }
 
