@@ -1,10 +1,9 @@
-import units.Coordinates;
+import arena.Arena;
+import units.Team;
 import units.abstractUnits.Unit;
 
-import java.util.ArrayList;
-
 public class Main {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InterruptedException {
         Arena arena = new Arena(50, 50);
 
         arena.createTeam("Команда Добра", 10);
@@ -20,6 +19,7 @@ public class Main {
             System.out.println();
         }
 
-        arena.startTheBattle();
+       arena.startTheBattle();
+
     }
 }

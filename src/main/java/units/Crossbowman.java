@@ -1,9 +1,11 @@
 package units;
 
+import arena.Arena;
 import units.abstractUnits.Equipment;
 import units.abstractUnits.Unit;
 import units.abstractUnits.UnitAttackingWithWeapons;
 import units.abstractUnits.UnitsTypes;
+
 
 /**
  * Арбалетчик
@@ -11,6 +13,7 @@ import units.abstractUnits.UnitsTypes;
 public class Crossbowman extends UnitAttackingWithWeapons {
     // переопределить очки активности??
     int extraActivities = 1;
+    int distanceSkill = 9;
     public Crossbowman(String name) {
         super(Equipment.crossbow_and_helmet.getHealth(), Equipment.crossbow_and_helmet.getAttack(),
                 Equipment.crossbow_and_helmet.getDefend(), UnitsTypes.Crossbowman, name);
@@ -31,5 +34,17 @@ public class Crossbowman extends UnitAttackingWithWeapons {
             super.useAbility();
             decreaseSpeed(1);
         }
+    }
+
+    @Override
+    public void step(int speed, Unit target) {
+
+    }
+
+    @Override
+    public Unit findTarget(Arena arena, Team ourTeam) {
+
+        // ищем чужого с минимальным здоровьем
+        return arena.findAUnitWithMinimumHealth(ourTeam, true);
     }
 }

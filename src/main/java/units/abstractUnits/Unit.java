@@ -2,6 +2,7 @@ package units.abstractUnits;
 
 import units.Coordinates;
 import units.Names;
+import units.UnitInterface;
 
 import java.util.Random;
 
@@ -19,6 +20,8 @@ public abstract class Unit implements UnitInterface {   //implements AutoCloseab
     private boolean done_attack;
     private int initiative;
     private Coordinates coordinates;
+
+    public int distanceSkill = 1;
 
 
     public Unit(int health, int defense, int attack, UnitsTypes type, String name) {
@@ -45,6 +48,8 @@ public abstract class Unit implements UnitInterface {   //implements AutoCloseab
      * @param target
      */
     public void performAnAttack(Unit target) {
+        System.out.println(this + " атакует " + target);
+
         if (getPointActivites() > 0) {
             if (this.attack - target.getDefense() > 0) {
                 target.decreaseHealth(this.attack - target.getDefense());
@@ -145,10 +150,10 @@ public abstract class Unit implements UnitInterface {   //implements AutoCloseab
         return "Тип: " + type.toString() + " Имя: " + name + " Здоровье: " + health;
     }
 
-    @Override
-    public int step(int speed) {
-        return speed -= 1;
-    }
+//    @Override
+//    public int step(int speed, Unit target) {
+//        return speed -= 1;
+//    }
 
     // Все геттеры и сеттеры:
     public int getDefense() {

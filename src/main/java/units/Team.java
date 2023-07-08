@@ -1,3 +1,5 @@
+package units;
+
 import org.jetbrains.annotations.NotNull;
 import units.abstractUnits.Unit;
 
@@ -20,16 +22,6 @@ public class Team implements Iterator<Unit>, Iterable<Unit> {
 
     public void addUnit(Unit unit) {
         teamList.add(unit);
-    }
-
-    public void killUnit(Unit unit) {
-        for (int i = 0; i < teamList.size(); i++) {
-            if (teamList.get(i).equals(unit)) {
-                teamList.remove(i);
-                System.out.println("Убит: Команда: " + name + " " + unit.getInfo());
-                break;
-            }
-        }
     }
 
     public void showUnits(Team team) {

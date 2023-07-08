@@ -1,5 +1,6 @@
 package units;
 
+import arena.Arena;
 import units.abstractUnits.Equipment;
 import units.abstractUnits.Unit;
 import units.abstractUnits.UnitAttackingWithWeapons;
@@ -27,5 +28,17 @@ public class Robber extends UnitAttackingWithWeapons {
             target.decreasePointActivities();
             target.decreaseHealth(10);
         }
+    }
+
+    @Override
+    public void step(int speed, Unit target) {
+
+//        return speed -= 1;
+    }
+
+    @Override
+    public Unit findTarget(Arena arena, Team ourTeam) {
+        // ищем ближайшего чужого
+        return arena.findTheNearestTeamUnit(ourTeam, this, true);
     }
 }

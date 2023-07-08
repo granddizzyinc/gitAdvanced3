@@ -1,5 +1,6 @@
 package units;
 
+import arena.Arena;
 import units.abstractUnits.Equipment;
 import units.abstractUnits.Unit;
 import units.abstractUnits.UnitProtectiveWithShield;
@@ -19,5 +20,16 @@ public class Palladine extends UnitProtectiveWithShield {
             super.useAbility();
             super.decreaseDamage(target.getDefense()*1);   // вот здесь как-то определить тип атаки
         }
+    }
+    @Override
+    public void step(int speed, Unit target) {
+
+//        return speed -= 1;
+    }
+
+    @Override
+    public Unit findTarget(Arena arena, Team ourTeam) {
+        // ищем ближайшего своего
+        return arena.findTheNearestTeamUnit(ourTeam, this, false);
     }
 }

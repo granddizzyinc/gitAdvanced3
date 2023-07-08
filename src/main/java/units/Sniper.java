@@ -1,5 +1,6 @@
 package units;
 
+import arena.Arena;
 import units.abstractUnits.Equipment;
 import units.abstractUnits.Unit;
 import units.abstractUnits.UnitAttackingWithWeapons;
@@ -9,6 +10,7 @@ import units.abstractUnits.UnitsTypes;
  * Снайпер
  */
 public class Sniper extends UnitAttackingWithWeapons {
+    int distanceSkill = 9;
     private boolean using_Hit_the_bulls_eye = false;
     public Sniper(String name) {
         super(Equipment.bow_and_arrows.getHealth(), Equipment.bow_and_arrows.getAttack(),
@@ -22,5 +24,18 @@ public class Sniper extends UnitAttackingWithWeapons {
                 using_Hit_the_bulls_eye = true;
             }
         }
+    }
+
+    @Override
+    public void step(int speed, Unit target) {
+
+//        return speed -= 1;
+    }
+
+    @Override
+    public Unit findTarget(Arena arena, Team ourTeam) {
+
+        // ищем чужого с минимальным здоровьем
+        return arena.findAUnitWithMinimumHealth(ourTeam, true);
     }
 }
