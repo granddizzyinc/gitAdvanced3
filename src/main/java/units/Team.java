@@ -24,12 +24,6 @@ public class Team implements Iterator<Unit>, Iterable<Unit> {
         teamList.add(unit);
     }
 
-    public void showUnits(Team team) {
-        for (Unit unit : teamList) {
-            System.out.println(unit.getInfo());
-        }
-    }
-
     public int getNumberOfUnits() {
         return teamList.size();
     }

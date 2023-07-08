@@ -14,7 +14,7 @@ public abstract class UnitAttackingWithMagician extends UnitAttacking {
     }
 
     public UnitAttackingWithMagician(UnitsTypes type, String name, int mana, int baseSpell) {
-        this(0,0,0,type, name);
+        this(0, 0, 0, type, name);
     }
 
     @Override

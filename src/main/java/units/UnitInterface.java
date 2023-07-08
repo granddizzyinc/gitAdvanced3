@@ -10,7 +10,7 @@ public interface UnitInterface {
 
     void die();
 
-    void step(int speed, Unit target, Arena arena, Coordinates stepCoordinates);
+    void step(Arena arena);
 
     public Unit findTarget(Arena arena, Team ourTeam);
 }

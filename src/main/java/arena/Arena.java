@@ -2,6 +2,7 @@ package arena;
 
 import units.*;
 import units.abstractUnits.*;
+import view.View;
 
 import java.util.*;
 import java.util.concurrent.TimeUnit;
@@ -21,9 +22,12 @@ public class Arena implements ArenaInterface {
         return teams.get(index);
     }
 
-    public Arena(int sizeX, int sizeY) {
+    private View view;
+
+    public Arena(int sizeX, int sizeY, View view) {
         this.sizeX = sizeX;
         this.sizeY = sizeY;
+        this.view = view;
     }
 
     public void createTeam(String name, int teamSize) {
@@ -82,17 +86,17 @@ public class Arena implements ArenaInterface {
      */
     public void startTheBattle() throws InterruptedException {
         if (teams.size() < 2) {
-            System.out.println("Создайте минимум две команды!");
+            view.errorNumberCommands();
             return;
         }
 
-        System.out.println("Да начнеться бой!");
+        view.showStartBattle();
 
         //если нужен следующий раунд то запускаем
         while (checkTheNeedForTheNextRound()) {
             round += 1;
 
-            System.out.println("Раунд: " + round);
+            view.showRaund(round);
 
             //каждый делает ход в порядке уменьшения инициативы
             for (Team teamWho : teams) {
@@ -104,101 +108,30 @@ public class Arena implements ArenaInterface {
 
                 //выбираем кто будет ходить
                 for (Unit who : teamWho) {
-                    System.out.println("ХОД: " + who);
+                    view.showWhoseMove(who);
 
                     //восстанавливаем очки активности
                     //одно очко тратит на ходьбу
                     //второе очко тратит на действие
                     who.setPointActivites(2);
 
+                    who.step(this);
 
-                    //вот это нужно перенести в ХОД каждого юнита и он сам будет знать атаковать ему или шо
-                    //для этого юниту пробрасывается THIS арены и он может справшивать у арены что ему нужно
-                    //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                    TimeUnit.SECONDS.sleep(1);
 
-                    //выбираем цель
-                    Unit targetUnit = who.findTarget(this, teamWho);
+                    view.showVoid();
 
-                    if (targetUnit == null) {
-                        System.out.println("Цель: не найдена");
-                    } else {
-                        System.out.println("Цель: " + targetUnit + " " + targetUnit.getCoordinates());
-                        //TimeUnit.SECONDS.sleep(1);
+////                        Ближники: копейщик (у него исключение в 2 клетки), разбойник, друид, паладин, крестьянин
+////                        Дальники: Арбалетчик, монах, снайпер, чародей (ему уменьшить дальности на 1 клетку), волшебник
 
-                        //ближники
-//                    if (who instanceof Spearman || who instanceof Robber || who instanceof Druid || who instanceof Palladine || who instanceof Peasant) {
-//                        //ближайшего
-//                        if (who instanceof UnitAttacking || who instanceof UnitSupportiveBasic) {
-//                            targetUnit = findTheNearestTeamUnit(teamWho, who, true);
-//                        } else {
-//                            targetUnit = findTheNearestTeamUnit(teamWho, who, false);
-//                        }
-//
-//
-//                        //дальники
-//                    } else if (who instanceof Crossbowman || who instanceof Monk || who instanceof Sniper || who instanceof Wizard || who instanceof Sorcerer) {
-//                        //мин здоровьем
-//                        if (who instanceof UnitAttacking || who instanceof UnitSupportiveHealer) {
-//                            targetUnit = this.findAUnitWithMinimumHealth(teamWho, true);
-//                        } else {
-//                            targetUnit = this.findAUnitWithMinimumHealth(teamWho, false);
-//                        }
-//                    }
-
-                        //если в диапазоне то если соответсвует условию атаки то атакует или действует
-                        if (who.distanceSkill >= who.getCoordinates().calculateDistance(targetUnit.getCoordinates())) {
-                            System.out.println("Цель в диапазоне");
-
-                            if (who instanceof UnitAttacking) {
-                                if (((UnitAttacking) who).getAbilityPoints() == 2) {
-
-                                }
-                            }
-
-                            //атакуем
-//                            * Ближники (не дальше 1 клетки)
-//                                * Дальники (5 клеток - 100% урон, до 7 клеток - 75% урона, до 9 клеток - 50%, 10 и более - не может атаковать)
-
-
-                            if (getUnitTeam(targetUnit).equals(teamWho)) {
-                                //если это наш
-                                System.out.println("Нужно что-то делать со своими");
-                            } else {
-                                // это чужой
-                                who.performAnAttack(targetUnit);
-                            }
-
-                            //проверяем убили ли
-                            if (targetUnit.getHealth() == 0) {
-                                this.killUnit(targetUnit);
-                            }
-
-                            TimeUnit.SECONDS.sleep(1);
-                        } else {
-                            //если не в диапазоне то или ходит, концентрируется или пропускает ход
-
-                            System.out.print("Хожу: " + who.getCoordinates());
-                            Coordinates stepCoordinates = getNextStepPosition(who.getCoordinates(), targetUnit.getCoordinates());
-                            who.step(1, targetUnit, this, stepCoordinates);
-                            System.out.println(" -> " + stepCoordinates);
-                            TimeUnit.SECONDS.sleep(1);
-                        }
-
-//                        Ближники: копейщик (у него исключение в 2 клетки), разбойник, друид, паладин, крестьянин
-//                        Дальники: Арбалетчик, монах, снайпер, чародей (ему уменьшить дальности на 1 клетку), волшебник
-                        System.out.println();
-                    }
                 }
             }
-
-            //TimeUnit.SECONDS.sleep(1);
         }
 
         //  победитель
         Team winner = getWinner();
         if (winner != null) {
-            System.out.println();
-            System.out.println("Победитель: " + winner.name);
+            view.reportWinner(winner);
         }
     }
 
@@ -388,12 +321,12 @@ public class Arena implements ArenaInterface {
         team.teamList = tmp;
     }
 
-    public void killUnit(Unit unit) {
+    public void removeTheCorpse(Unit unit) {
         for (Team team : teams) {
             for (int i = 0; i < team.teamList.size(); i++) {
                 if (team.teamList.get(i).equals(unit)) {
                     team.teamList.remove(i);
-                    System.out.println("Убит: Команда: " + team.name + " " + unit.getInfo());
+                    view.reportDeath(team, unit);
                     break;
                 }
             }
@@ -471,8 +404,8 @@ public class Arena implements ArenaInterface {
     }
 
     public Team getUnitTeam(Unit unit) {
-        for (Team tmpTeam: teams) {
-            for (Unit tmpUnit: tmpTeam) {
+        for (Team tmpTeam : teams) {
+            for (Unit tmpUnit : tmpTeam) {
                 if (unit.equals(tmpUnit)) {
                     return tmpTeam;
                 }

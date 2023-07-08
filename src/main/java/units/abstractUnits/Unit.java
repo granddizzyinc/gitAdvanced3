@@ -1,5 +1,6 @@
 package units.abstractUnits;
 
+import arena.Arena;
 import units.Coordinates;
 import units.Names;
 import units.Palladine;
@@ -49,6 +50,10 @@ public abstract class Unit implements UnitInterface {   //implements AutoCloseab
      * @param target
      */
     public void performAnAttack(Unit target) {
+        //атакуем
+        //* Ближники (не дальше 1 клетки)
+        //* Дальники (5 клеток - 100% урон, до 7 клеток - 75% урона, до 9 клеток - 50%, 10 и более - не может атаковать)
+
         System.out.println("Атакую: " + target);
 
         if (getPointActivites() > 0) {
@@ -99,9 +104,11 @@ public abstract class Unit implements UnitInterface {   //implements AutoCloseab
     public void addPointActivites(int value) {
         pointActivites += value;
     }
-    public void decreasePointActivities(){
+
+    public void decreasePointActivities() {
         pointActivites -= 1;
     }
+
     public void addHealth(int value) {
         health += value;
     }
@@ -180,9 +187,11 @@ public abstract class Unit implements UnitInterface {   //implements AutoCloseab
     public void setCoordinates(Coordinates coordinates) {
         this.coordinates = coordinates;
     }
+
     public int getSpeed() {
         return speed;
     }
+
     public int getHealth() {
         return health;
     }
@@ -193,5 +202,16 @@ public abstract class Unit implements UnitInterface {   //implements AutoCloseab
 
     public static String getRandomUnitName() {
         return Names.values()[new Random().nextInt(Names.values().length)].toString();
+    }
+
+    @Override
+    public void step(Arena arena) {
+//        Unit targetUnit = findTarget(arena, arena.getUnitTeam(this));
+//
+//        if (targetUnit == null) {
+//            System.out.println("Цель: не найдена");
+//        } else {
+//            System.out.println("Цель: " + targetUnit + " " + targetUnit.getCoordinates());
+//        }
     }
 }

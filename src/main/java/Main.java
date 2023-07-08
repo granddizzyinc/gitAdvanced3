@@ -1,25 +1,18 @@
 import arena.Arena;
 import units.Team;
 import units.abstractUnits.Unit;
+import view.View;
 
 public class Main {
     public static void main(String[] args) throws InterruptedException {
-        Arena arena = new Arena(50, 50);
+        View view = new View();
+        Arena arena = new Arena(50, 50, view);
 
-        arena.createTeam("Команда Добра", 2);
-        arena.createTeam("Команда Зла", 2);
+        arena.createTeam("Команда Добра", 10);
+        arena.createTeam("Команда Зла", 10);
 
-        for (Team team : arena.getTeams()) {
-            //team.showUnits(team);
-            System.out.println(team.name);
-            for (Unit unit : team) {
-                System.out.println(unit.getInfo());
-            }
+        view.showUnits(arena.getTeams());
 
-            System.out.println();
-        }
-
-       arena.startTheBattle();
-
+        arena.startTheBattle();
     }
 }
