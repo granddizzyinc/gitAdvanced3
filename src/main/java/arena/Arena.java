@@ -98,25 +98,27 @@ public class Arena implements ArenaInterface {
 
             view.showRaund(round);
 
-            //каждый делает ход в порядке уменьшения инициативы
-            for (Team teamWho : teams) {
+            //выбираем команду которая будет ходить
+            for (Team team : teams) {
                 // если всех уже замочили
-                if (teamWho.getNumberOfUnits() == 0) continue;
+                if (team.getNumberOfUnits() == 0) continue;
 
                 // рандомно задаем инициативу
-                setTheInitiative(teamWho);
+                setTheInitiative(team);
 
-                //выбираем кто будет ходить
-                for (Unit who : teamWho) {
-                    view.showWhoseMove(who);
+                //каждый юнит делает ход в порядке уменьшения инициативы
+                for (Unit unit : team) {
+                    view.showWhoseMove(unit);
 
                     //восстанавливаем очки активности
                     //одно очко тратит на ходьбу
                     //второе очко тратит на действие
-                    who.setPointActivites(2);
+                    unit.setPointActivites(2);
 
-                    who.step(this);
+                    // персонаж делает ход в игре
+                    unit.step(this);
 
+                    // пауза для наглядности
                     TimeUnit.SECONDS.sleep(1);
 
                     view.showVoid();
@@ -128,7 +130,7 @@ public class Arena implements ArenaInterface {
             }
         }
 
-        //  победитель
+        // проверяем победителя
         Team winner = getWinner();
         if (winner != null) {
             view.reportWinner(winner);
@@ -285,7 +287,7 @@ public class Arena implements ArenaInterface {
      *
      * @return
      */
-    public Unit findAUnitWithMinimumHealth(Team ourTeam, boolean alien) {
+    public Unit findAUnitWithMinimumHealth(Team ourTeam, Unit unit, boolean alien) {
         Unit minHealthUnit = null;
         int minHealth = 100;
         for (Team teamTmp : teams) {
@@ -294,6 +296,9 @@ public class Arena implements ArenaInterface {
             }
 
             for (Unit unit_tmp : teamTmp) {
+                //главное в любом расследовании не выйти на самого себя
+                if (unit_tmp.equals(unit)) continue;
+
                 if (unit_tmp.getHealth() < minHealth) {
                     minHealth = unit_tmp.getHealth();
                     minHealthUnit = unit_tmp;
