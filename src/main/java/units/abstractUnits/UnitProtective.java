@@ -38,47 +38,13 @@ public abstract class UnitProtective extends Unit {
         return increasingDefence;
     }
 
-//    @Override
-//    public void step(Arena arena) {
-//        Unit targetUnit = findTarget(arena, arena.getUnitTeam(this));
-//
-//        if (targetUnit == null) {
-//            System.out.println("Цель: не найдена");
-//        } else {
-//            System.out.println("Цель: " + targetUnit + " " + targetUnit.getCoordinates());
-//
-//            //если в диапазоне то если соответсвует условию атаки то атакует или действует
-//            if (super.isInDiapason(targetUnit)) {
-//                this.actionInDiapason(arena, targetUnit);
-//            } else {
-//                super.doMove(arena, targetUnit);
-//
-//                if (super.isInDiapason(targetUnit)) {
-//                    this.actionInDiapason(arena, targetUnit);
-//                } else {
-////                    if (this.getAbilityPoints() < 2) {
-////                        //концентрация
-////                        this.concentration();
-////                    } else {
-////                        //абилити
-////                        if (kindOfBattle == KindOfBattle.distant) {
-////                            this.applyAbility(targetUnit);
-////                        } else if (kindOfBattle == KindOfBattle.near) {
-////                            this.skipAMove();
-////                        }
-////                    }
-//                }
-//            }
-//        }
-//    }
-
     @Override
     public void actionInDiapason(Arena arena, Unit targetUnit, boolean moveMade) {
-        System.out.println("Не знаю что делать в диапазоне");
+        System.out.println("Защищаюший Не знаю что делать в диапазоне");
     }
 
     @Override
     public void actionNotInDiapason(Arena arena, Unit targetUnit, boolean moveMade) {
-        System.out.println("Не знаю что делать вне диапазона");
+        System.out.println("Защищающий Не знаю что делать вне диапазона");
     }
 }

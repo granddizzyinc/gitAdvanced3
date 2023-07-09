@@ -42,26 +42,6 @@ public abstract class UnitAttacking extends Unit {
         return increasingAttack;
     }
 
-//    @Override
-//    public void step(Arena arena) {
-//        Unit targetUnit = findTarget(arena, arena.getUnitTeam(this));
-//
-//        if (targetUnit == null) {
-//            System.out.println("Цель: не найдена");
-//        } else {
-//            System.out.println("Цель: " + targetUnit + " " + targetUnit.getCoordinates());
-//
-//            //если в диапазоне то если соответсвует условию атаки то атакует или действует
-//            if (super.isInDiapason(targetUnit)) {
-//                this.actionInDiapason(arena, targetUnit);
-//            } else {
-//                super.doMove(arena, targetUnit);
-//
-//                this.actionNotInDiapason(arena, targetUnit);
-//            }
-//        }
-//    }
-
     @Override
     public void actionInDiapason(Arena arena, Unit targetUnit, boolean moveMade) {
         if (this.getAbilityPoints() == 2) {

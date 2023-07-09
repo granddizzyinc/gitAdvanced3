@@ -445,6 +445,10 @@ public class Arena implements ArenaInterface {
             // меняем направление для обхода препятствия
             if (!checkCoordinates) {
                 direction += 1;
+
+                if (direction == 8) {
+                    direction = 0;
+                }
                 countTurn += 1;
             }
 
@@ -462,10 +466,10 @@ public class Arena implements ArenaInterface {
     private boolean checkCoordinates(Coordinates coordinates) {
 
         // пока проверим всех персонажей с такими координатами
-        for (Team team: this.getTeams()) {
-            for(Unit unit: team.getTeamList()) {
+        for (Team team : this.getTeams()) {
+            for (Unit unit : team.getTeamList()) {
                 if (unit.getCoordinates().equals(coordinates)) {
-                    System.out.print(" Занято. Иду в обход. ");
+                    System.out.print(" -> " + coordinates + " Занято. Иду в обход. ");
                     return false;
                 }
             }

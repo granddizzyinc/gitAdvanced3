@@ -25,46 +25,6 @@ public class Spearman extends UnitAttackingWithWeapons {
         }
     }
 
-//    @Override
-//    public void performAnAttack(Unit target1, Unit target2) {
-//        super.performAnAttack(target1);
-//        if () {      /**здесь нужно вписать, что если дистанция между юнитами равно 1
-//                                    * и три х или три у равны, то тогда таргет2 получает +урон
-//                                    */
-//
-//        }
-//    }
-
-//    @Override
-//    public void step(Arena arena) {
-//        Unit targetUnit = findTarget(arena, arena.getUnitTeam(this));
-//
-//        if (targetUnit == null) {
-//            System.out.println("Цель: не найдена");
-//        } else {
-//            System.out.println("Цель: " + targetUnit + " " + targetUnit.getCoordinates());
-//
-//            //если в диапазоне то если соответсвует условию атаки то атакует или действует
-//            if (super.isInDiapason(targetUnit)) {
-//                super.actionInDiapason(arena, targetUnit);
-//            } else {
-//                super.doMove(arena, targetUnit);
-//
-//                if (super.isInDiapason(targetUnit)) {
-//                    super.actionInDiapason(arena, targetUnit);
-//                } else {
-//                    if (this.getAbilityPoints() < 2) {
-//                        //концентрация
-//                        this.concentration();
-//                    } else {
-//                        //пропуск хода
-//                        this.skipAMove();
-//                    }
-//                }
-//            }
-//        }
-//    }
-
     @Override
     public Unit findTarget(Arena arena, Team ourTeam) {
         // ищем ближайшего чужого
@@ -73,6 +33,6 @@ public class Spearman extends UnitAttackingWithWeapons {
 
     @Override
     public void applyAbility(Unit targetUnit) {
-
+        System.out.println("Применяю способности");
     }
 }

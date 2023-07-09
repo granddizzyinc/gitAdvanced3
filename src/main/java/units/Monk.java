@@ -24,29 +24,6 @@ public class Monk extends UnitProtectiveWithoutShild {
         }
     }
 
-//    @Override
-//    public void step(Arena arena) {
-//        Unit targetUnit = findTarget(arena, arena.getUnitTeam(this));
-//
-//        if (targetUnit == null) {
-//            System.out.println("Цель: не найдена");
-//        } else {
-//            System.out.println("Цель: " + targetUnit + " " + targetUnit.getCoordinates());
-//
-//            //если в диапазоне то если соответсвует условию атаки то атакует или действует
-//            if (this.distanceSkill >= this.getCoordinates().calculateDistance(targetUnit.getCoordinates())) {
-//                System.out.println("Цель в диапазоне");
-//
-//                System.out.println("Не знаю что делать");
-//            } else {
-//                System.out.print("Хожу: " + this.getCoordinates());
-//                Coordinates stepCoordinates = arena.getNextStepPosition(this.getCoordinates(), targetUnit.getCoordinates());
-//                this.setCoordinates(stepCoordinates);
-//                System.out.println(" -> " + stepCoordinates);
-//            }
-//        }
-//    }
-
     @Override
     public Unit findTarget(Arena arena, Team ourTeam) {
         // ищем своего с минимальным здоровьем
