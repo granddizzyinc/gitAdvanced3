@@ -28,12 +28,20 @@ public abstract class UnitAttackingWithMagician extends UnitAttacking {
     }
 
     @Override
+    public void skipAMove() {
+        super.skipAMove();
+
+
+    }
+
+    @Override
     public void performAnAttack(Unit unit) {
         if (mana - baseSpell > 0) {
             super.performAnAttack(unit);
             mana -= baseSpell;
         } else {
             System.out.println("mana - baseSpell <= 0");
+            this.skipAMove();
         }
     }
 }

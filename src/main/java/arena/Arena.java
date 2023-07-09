@@ -408,6 +408,11 @@ public class Arena implements ArenaInterface {
         return stepCoordinates;
     }
 
+    /**
+     * Возвращает команду заданного юнита
+     * @param unit
+     * @return
+     */
     public Team getUnitTeam(Unit unit) {
         for (Team tmpTeam : teams) {
             for (Unit tmpUnit : tmpTeam) {

@@ -12,5 +12,9 @@ public interface UnitInterface {
 
     void step(Arena arena);
 
-    public Unit findTarget(Arena arena, Team ourTeam);
+    Unit findTarget(Arena arena, Team ourTeam);
+
+    void actionInDiapason(Arena arena, Unit targetUnit);
+
+    void actionNotInDiapason(Arena arena, Unit targetUnit);
 }

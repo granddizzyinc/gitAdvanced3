@@ -1,20 +1,19 @@
 package units;
 
 import arena.Arena;
-import units.abstractUnits.Equipment;
-import units.abstractUnits.Unit;
-import units.abstractUnits.UnitAttackingWithMagician;
-import units.abstractUnits.UnitsTypes;
+import units.abstractUnits.*;
 
 import java.util.Random;
 
 public class Sorcerer extends UnitAttackingWithMagician {
     int extraActivities = 1;
     int distanceSkill = 8;
+
     public Sorcerer(String name) {
         super(Equipment.runes_and_powders.getHealth(), Equipment.runes_and_powders.getAttack(),
                 Equipment.runes_and_powders.getDefend(), UnitsTypes.Sorcerer, name);
     }
+
     public void performAnAttack(Unit unit) {
 
         if (extraActivities > 0) {
@@ -26,42 +25,52 @@ public class Sorcerer extends UnitAttackingWithMagician {
             System.out.println("extraActivites <= 0");
         }
     }
-    public void tricks(Unit target){
+
+    public void tricks(Unit target) {
         if (getAbilityPoints() == 2) {
             super.useAbility();
-            switch (new Random().nextInt(1,3)) {
+            switch (new Random().nextInt(1, 3)) {
                 case 1 -> target.decreaseSpeed(1);
                 case 2 -> target.decreasePointActivities();
             }
         }
     }
 
+//    @Override
+//    public void step(Arena arena) {
+//        Unit targetUnit = findTarget(arena, arena.getUnitTeam(this));
+//
+//        if (targetUnit == null) {
+//            System.out.println("Цель: не найдена");
+//        } else {
+//            System.out.println("Цель: " + targetUnit + " " + targetUnit.getCoordinates());
+//
+//            //если в диапазоне то если соответсвует условию атаки то атакует или действует
+//            if (super.isInDiapason(targetUnit)) {
+//                super.actionInDiapason(arena, targetUnit);
+//            } else {
+//                super.doMove(arena, targetUnit);
+//
+//                if (super.isInDiapason(targetUnit)) {
+//                    super.actionInDiapason(arena, targetUnit);
+//                } else {
+//                    if (this.getAbilityPoints() < 2) {
+//                        //концентрация
+//                        this.concentration();
+//                    } else {
+//                        //абилити
+//                        this.tricks(targetUnit);
+//                    }
+//                }
+//            }
+//        }
+//    }
+
     @Override
-    public void step(Arena arena) {
-        Unit targetUnit = findTarget(arena, arena.getUnitTeam(this));
-
-        if (targetUnit == null) {
-            System.out.println("Цель: не найдена");
-        } else {
-            System.out.println("Цель: " + targetUnit + " " + targetUnit.getCoordinates());
-            //если в диапазоне то если соответсвует условию атаки то атакует или действует
-            if (this.distanceSkill >= this.getCoordinates().calculateDistance(targetUnit.getCoordinates())) {
-                System.out.println("Цель в диапазоне");
-
-                this.performAnAttack(targetUnit);
-
-                //проверяем убили ли
-                if (targetUnit.getHealth() == 0) {
-                    arena.removeTheCorpse(targetUnit);
-                }
-            } else {
-                System.out.print("Хожу: " + this.getCoordinates());
-                Coordinates stepCoordinates = arena.getNextStepPosition(this.getCoordinates(), targetUnit.getCoordinates());
-                this.setCoordinates(stepCoordinates);
-                System.out.println(" -> " + stepCoordinates);
-            }
-        }
+    public void applyAbility(Unit targetUnit) {
+        this.tricks(targetUnit);
     }
+
 
     @Override
     public Unit findTarget(Arena arena, Team ourTeam) {

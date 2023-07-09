@@ -162,10 +162,28 @@ public abstract class Unit implements UnitInterface {   //implements AutoCloseab
         return "Тип: " + type.toString() + " Имя: " + name + " Здоровье: " + health;
     }
 
-//    @Override
-//    public int step(int speed, Unit target) {
-//        return speed -= 1;
-//    }
+    @Override
+    public void step(Arena arena) {
+        Unit targetUnit = findTarget(arena, arena.getUnitTeam(this));
+
+        if (targetUnit == null) {
+            System.out.println("Цель: не найдена");
+        } else {
+            System.out.println("Цель: " + targetUnit + " " + targetUnit.getCoordinates());
+
+            //если в диапазоне то если соответсвует условию атаки то атакует или действует
+            if (this.isInDiapason(targetUnit)) {
+                this.actionInDiapason(arena, targetUnit);
+            } else {
+                this.doMove(arena, targetUnit);
+                if (this.isInDiapason(targetUnit)) {
+                    this.actionInDiapason(arena, targetUnit);
+                } else {
+                    this.actionNotInDiapason(arena, targetUnit);
+                }
+            }
+        }
+    }
 
     // Все геттеры и сеттеры:
     public int getDefense() {
@@ -204,14 +222,21 @@ public abstract class Unit implements UnitInterface {   //implements AutoCloseab
         return Names.values()[new Random().nextInt(Names.values().length)].toString();
     }
 
-    @Override
-    public void step(Arena arena) {
-//        Unit targetUnit = findTarget(arena, arena.getUnitTeam(this));
-//
-//        if (targetUnit == null) {
-//            System.out.println("Цель: не найдена");
-//        } else {
-//            System.out.println("Цель: " + targetUnit + " " + targetUnit.getCoordinates());
-//        }
+    protected void doMove(Arena arena, Unit targetUnit) {
+        System.out.print("Хожу: " + this.getCoordinates());
+
+        Coordinates stepCoordinates = arena.getNextStepPosition(this.getCoordinates(), targetUnit.getCoordinates());
+        this.setCoordinates(stepCoordinates);
+
+        System.out.println(" -> " + stepCoordinates);
+    }
+
+    protected boolean isInDiapason(Unit targetUnit) {
+        if (this.distanceSkill >= this.getCoordinates().calculateDistance(targetUnit.getCoordinates())) {
+            System.out.println("Цель в диапазоне");
+            return true;
+        }
+
+        return false;
     }
 }
