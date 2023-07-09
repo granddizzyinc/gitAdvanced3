@@ -339,77 +339,143 @@ public class Arena implements ArenaInterface {
     }
 
     public Coordinates getNextStepPosition(Coordinates beginCoordinates, Coordinates endCoordinates) {
-        Coordinates stepCoordinates = new Coordinates(beginCoordinates.x, beginCoordinates.y);
+        Coordinates stepCoordinates = null;
+
+        //если цель перед тобой
+        if (beginCoordinates.calculateDistance(endCoordinates) < 1.5) {
+            return beginCoordinates;
+        }
+
+        // определяем направление движения
+        int direction = -1;
+
         //если по прямой
         if (beginCoordinates.x == endCoordinates.x) {
             if (endCoordinates.y > beginCoordinates.y) {
-                stepCoordinates.y += 1;
+                direction = 0;
             } else {
-                stepCoordinates.y -= 1;
+                direction = 4;
             }
         } else if (beginCoordinates.y == endCoordinates.y) {
             if (endCoordinates.x > beginCoordinates.x) {
-                stepCoordinates.x += 1;
+                direction = 2;
             } else {
-                stepCoordinates.x -= 1;
+                direction = 6;
             }
         } else {
-            //иначе вычисляем угол
+            //вычисляем угол
             double angle = Math.asin(Math.abs(endCoordinates.y - beginCoordinates.y) / beginCoordinates.calculateDistance(endCoordinates)) * 180 / Math.PI;
 
             if (endCoordinates.y > beginCoordinates.y && endCoordinates.x > beginCoordinates.x) {
                 // 1 четверть
 
                 if (angle <= 33) {
-                    stepCoordinates.x += 1;
+                    direction = 0;
                 } else if (angle >= 66) {
-                    stepCoordinates.y += 1;
+                    direction = 2;
                 } else {
-                    stepCoordinates.x += 1;
-                    stepCoordinates.y += 1;
+                    direction = 1;
                 }
             } else if (endCoordinates.y > beginCoordinates.y && endCoordinates.x < beginCoordinates.x) {
                 // 2 четверть
 
                 if (angle <= 33) {
-                    stepCoordinates.x -= 1;
+                    direction = 0;
                 } else if (angle >= 66) {
-                    stepCoordinates.y += 1;
+                    direction = 6;
                 } else {
-                    stepCoordinates.x -= 1;
-                    stepCoordinates.y += 1;
+                    direction = 7;
                 }
             } else if (endCoordinates.y < beginCoordinates.y && endCoordinates.x < beginCoordinates.x) {
                 // 3 четверть
 
                 if (angle <= 33) {
-                    stepCoordinates.x -= 1;
+                    direction = 6;
                 } else if (angle >= 66) {
-                    stepCoordinates.y -= 1;
+                    direction = 4;
                 } else {
-                    stepCoordinates.x -= 1;
-                    stepCoordinates.y -= 1;
+                    direction = 5;
                 }
             } else if (endCoordinates.y < beginCoordinates.y && endCoordinates.x > beginCoordinates.x) {
                 // 4 четверть
 
                 if (angle <= 33) {
-                    stepCoordinates.x += 1;
+                    direction = 2;
                 } else if (angle >= 66) {
-                    stepCoordinates.y -= 1;
+                    direction = 4;
                 } else {
+                    direction = 3;
+                }
+            }
+        }
+
+        boolean checkCoordinates = false;
+        int countTurn = 0;
+
+        while (!checkCoordinates) {
+            stepCoordinates = new Coordinates(beginCoordinates.x, beginCoordinates.y);
+
+            // определяем координаты по напрвлению
+            switch (direction) {
+                case 0 -> stepCoordinates.y += 1;
+                case 1 -> {
+                    stepCoordinates.x += 1;
+                    stepCoordinates.y += 1;
+                }
+                case 2 -> stepCoordinates.x += 1;
+                case 3 -> {
                     stepCoordinates.x += 1;
                     stepCoordinates.y -= 1;
                 }
+                case 4 -> stepCoordinates.y -= 1;
+                case 5 -> {
+                    stepCoordinates.x -= 1;
+                    stepCoordinates.y -= 1;
+                }
+                case 6 -> stepCoordinates.x -= 1;
+                case 7 -> {
+                    stepCoordinates.x -= 1;
+                    stepCoordinates.y += 1;
+                }
             }
 
+            //проверить препятствие
+            checkCoordinates = checkCoordinates(stepCoordinates);
+
+            // меняем направление для обхода препятствия
+            if (!checkCoordinates) {
+                direction += 1;
+                countTurn += 1;
+            }
+
+            // проверяем если ходить некуда
+            if (countTurn > 7) {
+                System.out.print(" Некуда ходить. ");
+                stepCoordinates = beginCoordinates;
+                break;
+            }
         }
 
         return stepCoordinates;
     }
 
+    private boolean checkCoordinates(Coordinates coordinates) {
+
+        // пока проверим всех персонажей с такими координатами
+        for (Team team: this.getTeams()) {
+            for(Unit unit: team.getTeamList()) {
+                if (unit.getCoordinates().equals(coordinates)) {
+                    System.out.print(" Занято. Иду в обход. ");
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
     /**
      * Возвращает команду заданного юнита
+     *
      * @param unit
      * @return
      */

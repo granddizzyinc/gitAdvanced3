@@ -30,8 +30,6 @@ public abstract class UnitAttackingWithMagician extends UnitAttacking {
     @Override
     public void skipAMove() {
         super.skipAMove();
-
-
     }
 
     @Override

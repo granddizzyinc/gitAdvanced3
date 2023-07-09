@@ -17,4 +17,12 @@ public class Coordinates {
     public String toString() {
         return "(" + this.x + "," + this.y + ")";
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof Coordinates) {
+            return (((Coordinates) obj).x == this.x && ((Coordinates) obj).y == this.y);
+        }
+        return false;
+    }
 }

@@ -14,7 +14,7 @@ public interface UnitInterface {
 
     Unit findTarget(Arena arena, Team ourTeam);
 
-    void actionInDiapason(Arena arena, Unit targetUnit);
+    void actionInDiapason(Arena arena, Unit targetUnit, boolean moveMade);
 
-    void actionNotInDiapason(Arena arena, Unit targetUnit);
+    void actionNotInDiapason(Arena arena, Unit targetUnit, boolean moveMade);
 }

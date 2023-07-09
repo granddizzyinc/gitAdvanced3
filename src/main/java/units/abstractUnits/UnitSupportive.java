@@ -50,7 +50,7 @@ public abstract class UnitSupportive extends Unit {
 //        }
 //    }
 
-    public void actionInDiapason(Arena arena, Unit targetUnit) {
+    public void actionInDiapason(Arena arena, Unit targetUnit, boolean moveMade) {
         this.performAnAttack(targetUnit);
 
         //проверяем убили ли
@@ -60,7 +60,7 @@ public abstract class UnitSupportive extends Unit {
     }
 
     @Override
-    public void actionNotInDiapason(Arena arena, Unit targetUnit) {
+    public void actionNotInDiapason(Arena arena, Unit targetUnit, boolean moveMade) {
 
     }
 }

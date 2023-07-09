@@ -16,7 +16,7 @@ public abstract class UnitProtective extends Unit {
     }
 
     public void concentration() {
-        super.skipAMove();
+        //super.skipAMove();
         if (abilityPoints < 3) {
             abilityPoints += 1;
         }
@@ -73,12 +73,12 @@ public abstract class UnitProtective extends Unit {
 //    }
 
     @Override
-    public void actionInDiapason(Arena arena, Unit targetUnit) {
-
+    public void actionInDiapason(Arena arena, Unit targetUnit, boolean moveMade) {
+        System.out.println("Не знаю что делать в диапазоне");
     }
 
     @Override
-    public void actionNotInDiapason(Arena arena, Unit targetUnit) {
-
+    public void actionNotInDiapason(Arena arena, Unit targetUnit, boolean moveMade) {
+        System.out.println("Не знаю что делать вне диапазона");
     }
 }

@@ -27,6 +27,7 @@ public class Sorcerer extends UnitAttackingWithMagician {
     }
 
     public void tricks(Unit target) {
+        System.out.println("Сейчас наколдую");
         if (getAbilityPoints() == 2) {
             super.useAbility();
             switch (new Random().nextInt(1, 3)) {
@@ -68,6 +69,7 @@ public class Sorcerer extends UnitAttackingWithMagician {
 
     @Override
     public void applyAbility(Unit targetUnit) {
+        System.out.println("Применяю способности");
         this.tricks(targetUnit);
     }
 

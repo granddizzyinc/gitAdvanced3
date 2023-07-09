@@ -1,10 +1,7 @@
 package units.abstractUnits;
 
 import arena.Arena;
-import units.Coordinates;
-import units.Names;
-import units.Palladine;
-import units.UnitInterface;
+import units.*;
 
 import java.util.Random;
 
@@ -25,6 +22,8 @@ public abstract class Unit implements UnitInterface {   //implements AutoCloseab
 
     public int distanceSkill = 1;
 
+    protected KindOfBattle kindOfBattle;
+
 
     public Unit(int health, int defense, int attack, UnitsTypes type, String name) {
         this.health = 50 + health;
@@ -38,6 +37,12 @@ public abstract class Unit implements UnitInterface {   //implements AutoCloseab
         done_attack = false;
         this.name = name;
         this.type = type;
+
+        if (this instanceof Crossbowman || this instanceof Sorcerer || this instanceof Sniper || this instanceof Wizard || this instanceof Monk) {
+            this.kindOfBattle = KindOfBattle.distant;
+        } else if (this instanceof Robber || this instanceof Spearman || this instanceof Druid || this instanceof Palladine || this instanceof Peasant) {
+            this.kindOfBattle = KindOfBattle.near;
+        }
     }
 
     public Unit(UnitsTypes type, String name) {
@@ -77,6 +82,7 @@ public abstract class Unit implements UnitInterface {   //implements AutoCloseab
     }
 
     public void skipAMove() {
+        System.out.println("Пропускаю ход");
         pointActivites = 0;
     }
 
@@ -173,13 +179,13 @@ public abstract class Unit implements UnitInterface {   //implements AutoCloseab
 
             //если в диапазоне то если соответсвует условию атаки то атакует или действует
             if (this.isInDiapason(targetUnit)) {
-                this.actionInDiapason(arena, targetUnit);
+                this.actionInDiapason(arena, targetUnit, false);
             } else {
                 this.doMove(arena, targetUnit);
                 if (this.isInDiapason(targetUnit)) {
-                    this.actionInDiapason(arena, targetUnit);
+                    this.actionInDiapason(arena, targetUnit, true);
                 } else {
-                    this.actionNotInDiapason(arena, targetUnit);
+                    this.actionNotInDiapason(arena, targetUnit, true);
                 }
             }
         }
@@ -225,10 +231,13 @@ public abstract class Unit implements UnitInterface {   //implements AutoCloseab
     protected void doMove(Arena arena, Unit targetUnit) {
         System.out.print("Хожу: " + this.getCoordinates());
 
-        Coordinates stepCoordinates = arena.getNextStepPosition(this.getCoordinates(), targetUnit.getCoordinates());
-        this.setCoordinates(stepCoordinates);
+        int speed = 1;
 
-        System.out.println(" -> " + stepCoordinates);
+        for (int i = 1; i <= speed; i++) {
+            Coordinates stepCoordinates = arena.getNextStepPosition(this.getCoordinates(), targetUnit.getCoordinates());
+            this.setCoordinates(stepCoordinates);
+            System.out.println(" -> " + stepCoordinates);
+        }
     }
 
     protected boolean isInDiapason(Unit targetUnit) {
