@@ -14,53 +14,42 @@ public class Robber extends UnitAttackingWithWeapons {
         super(Equipment.knives_and_cloak.getHealth(), Equipment.knives_and_cloak.getAttack(),
                 Equipment.knives_and_cloak.getDefend(), UnitsTypes.Robber, name);
     }
-    public void theft(Unit target){
+    public boolean theft(Unit target){
         if (getAbilityPoints() == 2) {
-            super.useAbility();
+            System.out.println("Ворую.");
+            super.clearPointAbility();
             for (int i = 0; i < 2; i++) {
                 target.decreasePointActivities();
             }
+
+            return true;
         }
+
+        return false;
     }
-    public void jab(Unit target){
+    public boolean jab(Unit target){
         if (getAbilityPoints() == 2){
-            super.useAbility();
+            System.out.println("jab");
+            super.clearPointAbility();
             target.decreasePointActivities();
             target.decreaseHealth(10);
+
+            return true;
         }
-    }
 
-    @Override
-    public void step(Arena arena) {
-        Unit targetUnit = findTarget(arena, arena.getUnitTeam(this));
-
-        if (targetUnit == null) {
-            System.out.println("Цель: не найдена");
-        } else {
-            System.out.println("Цель: " + targetUnit + " " + targetUnit.getCoordinates());
-            //если в диапазоне то если соответсвует условию атаки то атакует или действует
-            if (this.distanceSkill >= this.getCoordinates().calculateDistance(targetUnit.getCoordinates())) {
-                System.out.println("Цель в диапазоне");
-
-                this.performAnAttack(targetUnit);
-
-                //проверяем убили ли
-                if (targetUnit.getHealth() == 0) {
-                    arena.removeTheCorpse(targetUnit);
-                }
-            } else {
-
-                System.out.print("Хожу: " + this.getCoordinates());
-                Coordinates stepCoordinates = arena.getNextStepPosition(this.getCoordinates(), targetUnit.getCoordinates());
-                this.setCoordinates(stepCoordinates);
-                System.out.println(" -> " + stepCoordinates);
-            }
-        }
+        return false;
     }
 
     @Override
     public Unit findTarget(Arena arena, Team ourTeam) {
         // ищем ближайшего чужого
         return arena.findTheNearestTeamUnit(ourTeam, this, true);
+    }
+
+    @Override
+    public boolean applyAbility(Unit targetUnit) {
+        boolean res = theft(targetUnit);
+
+        return res;
     }
 }

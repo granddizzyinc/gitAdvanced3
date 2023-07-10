@@ -30,23 +30,19 @@ public class Arena implements ArenaInterface {
         this.view = view;
     }
 
+    @Override
     public void createTeam(String name, int teamSize) {
         teams.add(new Team(name));
         Team team = teams.get(teams.size() - 1);
         generateTeam(team, teamSize);
-        placeUnits(team);
+        this.placeUnits(team);
     }
-//    public void giveInitiative(ArrayList<units.Team> teammates){
-//        for (int i = 0; i < teams.size(); i++) {
-//            getTeam(i).se
-//        }
-//    }
 
     /**
-     * генерирует команду из случайных юнитов
+     * генерирует команду заданного размера из случайных юнитов
      *
-     * @param team
-     * @param teamSize
+     * @param team команда
+     * @param teamSize размер
      */
     private static void generateTeam(Team team, int teamSize) {
         for (int i = 0; i < teamSize; i++) {
@@ -73,17 +69,11 @@ public class Arena implements ArenaInterface {
      */
     private void placeUnits(Team team) {
         for (Unit unit : team) {
-            unit.setCoordinates(getStartCoordinates(team, unit));
+            unit.setCoordinates(this.getStartCoordinates(team, unit));
         }
     }
 
-    public void returningPointActivities() {
-
-    }
-
-    /**
-     * запускает раунды
-     */
+    @Override
     public void startTheBattle() throws InterruptedException {
         if (teams.size() < 2) {
             view.errorNumberCommands();
@@ -98,6 +88,8 @@ public class Arena implements ArenaInterface {
 
             view.showRaund(round);
 
+            view.showUnits(this.getTeams());
+
             //выбираем команду которая будет ходить
             for (Team team : teams) {
                 // если всех уже замочили
@@ -108,7 +100,7 @@ public class Arena implements ArenaInterface {
 
                 //каждый юнит делает ход в порядке уменьшения инициативы
                 for (Unit unit : team) {
-                    view.showWhoseMove(unit);
+                    view.showWhoseMove(team, unit);
 
                     //восстанавливаем очки активности
                     //одно очко тратит на ходьбу
@@ -256,32 +248,6 @@ public class Arena implements ArenaInterface {
         return coordinates;
     }
 
-
-    @Override
-    public void unit_turning() {
-
-    }
-
-    @Override
-    public void rounding() {
-
-    }
-
-    @Override
-    public void initiative() {
-
-    }
-
-    @Override
-    public void unit_dying() {
-
-    }
-
-    @Override
-    public void target_choice() {
-
-    }
-
     /**
      * Находит ближайшего персонажа с минимальным здоровьем
      *
@@ -339,75 +305,150 @@ public class Arena implements ArenaInterface {
     }
 
     public Coordinates getNextStepPosition(Coordinates beginCoordinates, Coordinates endCoordinates) {
-        Coordinates stepCoordinates = new Coordinates(beginCoordinates.x, beginCoordinates.y);
+        Coordinates stepCoordinates = null;
+
+        //если цель перед тобой
+        if (beginCoordinates.calculateDistance(endCoordinates) < 1.5) {
+            return beginCoordinates;
+        }
+
+        // определяем направление движения
+        int direction = -1;
+
         //если по прямой
         if (beginCoordinates.x == endCoordinates.x) {
             if (endCoordinates.y > beginCoordinates.y) {
-                stepCoordinates.y += 1;
+                direction = 0;
             } else {
-                stepCoordinates.y -= 1;
+                direction = 4;
             }
         } else if (beginCoordinates.y == endCoordinates.y) {
             if (endCoordinates.x > beginCoordinates.x) {
-                stepCoordinates.x += 1;
+                direction = 2;
             } else {
-                stepCoordinates.x -= 1;
+                direction = 6;
             }
         } else {
-            //иначе вычисляем угол
+            //вычисляем угол
             double angle = Math.asin(Math.abs(endCoordinates.y - beginCoordinates.y) / beginCoordinates.calculateDistance(endCoordinates)) * 180 / Math.PI;
 
             if (endCoordinates.y > beginCoordinates.y && endCoordinates.x > beginCoordinates.x) {
                 // 1 четверть
 
                 if (angle <= 33) {
-                    stepCoordinates.x += 1;
+                    direction = 0;
                 } else if (angle >= 66) {
-                    stepCoordinates.y += 1;
+                    direction = 2;
                 } else {
-                    stepCoordinates.x += 1;
-                    stepCoordinates.y += 1;
+                    direction = 1;
                 }
             } else if (endCoordinates.y > beginCoordinates.y && endCoordinates.x < beginCoordinates.x) {
                 // 2 четверть
 
                 if (angle <= 33) {
-                    stepCoordinates.x -= 1;
+                    direction = 0;
                 } else if (angle >= 66) {
-                    stepCoordinates.y += 1;
+                    direction = 6;
                 } else {
-                    stepCoordinates.x -= 1;
-                    stepCoordinates.y += 1;
+                    direction = 7;
                 }
             } else if (endCoordinates.y < beginCoordinates.y && endCoordinates.x < beginCoordinates.x) {
                 // 3 четверть
 
                 if (angle <= 33) {
-                    stepCoordinates.x -= 1;
+                    direction = 6;
                 } else if (angle >= 66) {
-                    stepCoordinates.y -= 1;
+                    direction = 4;
                 } else {
-                    stepCoordinates.x -= 1;
-                    stepCoordinates.y -= 1;
+                    direction = 5;
                 }
             } else if (endCoordinates.y < beginCoordinates.y && endCoordinates.x > beginCoordinates.x) {
                 // 4 четверть
 
                 if (angle <= 33) {
-                    stepCoordinates.x += 1;
+                    direction = 2;
                 } else if (angle >= 66) {
-                    stepCoordinates.y -= 1;
+                    direction = 4;
                 } else {
+                    direction = 3;
+                }
+            }
+        }
+
+        boolean checkCoordinates = false;
+        int countTurn = 0;
+
+        while (!checkCoordinates) {
+            stepCoordinates = new Coordinates(beginCoordinates.x, beginCoordinates.y);
+
+            // определяем координаты по напрвлению
+            switch (direction) {
+                case 0 -> stepCoordinates.y += 1;
+                case 1 -> {
+                    stepCoordinates.x += 1;
+                    stepCoordinates.y += 1;
+                }
+                case 2 -> stepCoordinates.x += 1;
+                case 3 -> {
                     stepCoordinates.x += 1;
                     stepCoordinates.y -= 1;
                 }
+                case 4 -> stepCoordinates.y -= 1;
+                case 5 -> {
+                    stepCoordinates.x -= 1;
+                    stepCoordinates.y -= 1;
+                }
+                case 6 -> stepCoordinates.x -= 1;
+                case 7 -> {
+                    stepCoordinates.x -= 1;
+                    stepCoordinates.y += 1;
+                }
             }
 
+            //проверить препятствие
+            checkCoordinates = checkCoordinates(stepCoordinates);
+
+            // меняем направление для обхода препятствия
+            if (!checkCoordinates) {
+                direction += 1;
+
+                if (direction == 8) {
+                    direction = 0;
+                }
+                countTurn += 1;
+            }
+
+            // проверяем если ходить некуда
+            if (countTurn > 7) {
+                System.out.print(" Некуда ходить. ");
+                stepCoordinates = beginCoordinates;
+                break;
+            }
         }
 
         return stepCoordinates;
     }
 
+    private boolean checkCoordinates(Coordinates coordinates) {
+
+        // пока проверим всех персонажей с такими координатами
+        for (Team team : this.getTeams()) {
+            for (Unit unit : team.getTeamList()) {
+                if (unit.getCoordinates().equals(coordinates)) {
+                    System.out.print(" -> " + coordinates + " Занято. Иду в обход.");
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
+    /**
+     * Возвращает команду заданного юнита
+     *
+     * @param unit
+     * @return
+     */
     public Team getUnitTeam(Unit unit) {
         for (Team tmpTeam : teams) {
             for (Unit tmpUnit : tmpTeam) {
@@ -417,5 +458,17 @@ public class Arena implements ArenaInterface {
             }
         }
         return null;
+    }
+
+    @Override
+    public void doMove(Unit unit, Coordinates coordinates) {
+        System.out.print("Хожу: " + unit.getCoordinates());
+
+        for (int i = 1; i <= unit.getSpeed(); i++) {
+            Coordinates stepCoordinates = this.getNextStepPosition(unit.getCoordinates(), coordinates);
+            unit.setCoordinates(stepCoordinates);
+            System.out.print(" -> " + stepCoordinates);
+        }
+        System.out.println();
     }
 }

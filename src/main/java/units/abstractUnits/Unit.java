@@ -1,10 +1,7 @@
 package units.abstractUnits;
 
 import arena.Arena;
-import units.Coordinates;
-import units.Names;
-import units.Palladine;
-import units.UnitInterface;
+import units.*;
 
 import java.util.Random;
 
@@ -25,6 +22,8 @@ public abstract class Unit implements UnitInterface {   //implements AutoCloseab
 
     public int distanceSkill = 1;
 
+    protected KindOfBattle kindOfBattle;
+
 
     public Unit(int health, int defense, int attack, UnitsTypes type, String name) {
         this.health = 50 + health;
@@ -38,6 +37,12 @@ public abstract class Unit implements UnitInterface {   //implements AutoCloseab
         done_attack = false;
         this.name = name;
         this.type = type;
+
+        if (this instanceof Crossbowman || this instanceof Sorcerer || this instanceof Sniper || this instanceof Wizard || this instanceof Monk) {
+            this.kindOfBattle = KindOfBattle.distant;
+        } else if (this instanceof Robber || this instanceof Spearman || this instanceof Druid || this instanceof Palladine || this instanceof Peasant) {
+            this.kindOfBattle = KindOfBattle.near;
+        }
     }
 
     public Unit(UnitsTypes type, String name) {
@@ -49,7 +54,7 @@ public abstract class Unit implements UnitInterface {   //implements AutoCloseab
      *
      * @param target
      */
-    public void performAnAttack(Unit target) {
+    public boolean performAnAttack(Unit target) {
         //атакуем
         //* Ближники (не дальше 1 клетки)
         //* Дальники (5 клеток - 100% урон, до 7 клеток - 75% урона, до 9 клеток - 50%, 10 и более - не может атаковать)
@@ -63,8 +68,12 @@ public abstract class Unit implements UnitInterface {   //implements AutoCloseab
             } else {
                 System.out.println("Не прокатило");
             }
+
+            return true;
         } else {
             System.out.println("Нет очков активности");
+
+            return false;
         }
     }
 
@@ -76,7 +85,8 @@ public abstract class Unit implements UnitInterface {   //implements AutoCloseab
         return type.toString();
     }
 
-    public void skipAMove() {
+    public void clearPointActivites() {
+        System.out.println("Сброс очков активности");
         pointActivites = 0;
     }
 
@@ -162,10 +172,28 @@ public abstract class Unit implements UnitInterface {   //implements AutoCloseab
         return "Тип: " + type.toString() + " Имя: " + name + " Здоровье: " + health;
     }
 
-//    @Override
-//    public int step(int speed, Unit target) {
-//        return speed -= 1;
-//    }
+    @Override
+    public void step(Arena arena) {
+        Unit targetUnit = findTarget(arena, arena.getUnitTeam(this));
+
+        if (targetUnit == null) {
+            System.out.println("Цель: не найдена");
+        } else {
+            System.out.println("Цель: " + arena.getUnitTeam(targetUnit).name + " " + targetUnit + " " + targetUnit.getCoordinates());
+
+            //если в диапазоне то если соответсвует условию атаки то атакует или действует
+            if (this.isInDiapason(targetUnit)) {
+                this.actionInDiapason(arena, targetUnit, false);
+            } else {
+                arena.doMove(this, targetUnit.getCoordinates());
+                if (this.isInDiapason(targetUnit)) {
+                    this.actionInDiapason(arena, targetUnit, true);
+                } else {
+                    this.actionNotInDiapason(arena, targetUnit, true);
+                }
+            }
+        }
+    }
 
     // Все геттеры и сеттеры:
     public int getDefense() {
@@ -204,14 +232,18 @@ public abstract class Unit implements UnitInterface {   //implements AutoCloseab
         return Names.values()[new Random().nextInt(Names.values().length)].toString();
     }
 
-    @Override
-    public void step(Arena arena) {
-//        Unit targetUnit = findTarget(arena, arena.getUnitTeam(this));
-//
-//        if (targetUnit == null) {
-//            System.out.println("Цель: не найдена");
-//        } else {
-//            System.out.println("Цель: " + targetUnit + " " + targetUnit.getCoordinates());
-//        }
+    /**
+     * Проверяет назодиться ли цель в максимальном диапазоне действий
+     *
+     * @param targetUnit
+     * @return
+     */
+    protected boolean isInDiapason(Unit targetUnit) {
+        if (this.distanceSkill >= this.getCoordinates().calculateDistance(targetUnit.getCoordinates())) {
+            System.out.println("Цель в диапазоне");
+            return true;
+        }
+
+        return false;
     }
 }

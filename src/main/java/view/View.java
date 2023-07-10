@@ -28,8 +28,8 @@ public class View {
         System.out.println("Раунд: " + round);
     }
 
-    public void showWhoseMove(Unit unit){
-        System.out.println("ХОД: " + unit);
+    public void showWhoseMove(Team team, Unit unit){
+        System.out.println("ХОД: " + team.name + " " + unit);
     }
 
     public void showVoid() {
