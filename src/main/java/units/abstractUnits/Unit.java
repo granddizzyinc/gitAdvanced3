@@ -172,10 +172,6 @@ public abstract class Unit implements UnitInterface {   //implements AutoCloseab
         return "Тип: " + type.toString() + " Имя: " + name + " Здоровье: " + health;
     }
 
-    /**
-     * Выполняет ход песонажа в игре
-     * @param arena
-     */
     @Override
     public void step(Arena arena) {
         Unit targetUnit = findTarget(arena, arena.getUnitTeam(this));
@@ -183,7 +179,7 @@ public abstract class Unit implements UnitInterface {   //implements AutoCloseab
         if (targetUnit == null) {
             System.out.println("Цель: не найдена");
         } else {
-            System.out.println("Цель: " + targetUnit + " " + targetUnit.getCoordinates());
+            System.out.println("Цель: " + arena.getUnitTeam(targetUnit).name + " " + targetUnit + " " + targetUnit.getCoordinates());
 
             //если в диапазоне то если соответсвует условию атаки то атакует или действует
             if (this.isInDiapason(targetUnit)) {
@@ -238,6 +234,7 @@ public abstract class Unit implements UnitInterface {   //implements AutoCloseab
 
     /**
      * Проверяет назодиться ли цель в максимальном диапазоне действий
+     *
      * @param targetUnit
      * @return
      */

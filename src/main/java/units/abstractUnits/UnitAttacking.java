@@ -95,6 +95,4 @@ public abstract class UnitAttacking extends Unit {
             }
         }
     }
-
-    public abstract boolean applyAbility(Unit targetUnit);
 }

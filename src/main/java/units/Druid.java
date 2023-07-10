@@ -23,4 +23,9 @@ public class Druid extends UnitSupportiveHealer {
         // ищем ближайшего своего
         return arena.findTheNearestTeamUnit(ourTeam, this, false);
     }
+
+    @Override
+    public boolean applyAbility(Unit targetUnit) {
+        return false;
+    }
 }

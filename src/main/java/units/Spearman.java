@@ -15,12 +15,17 @@ public class Spearman extends UnitAttackingWithWeapons {
         super(Equipment.spear_and_cuirass.getHealth(), Equipment.spear_and_cuirass.getAttack(),
                 Equipment.spear_and_cuirass.getDefend(), UnitsTypes.Spearman,  name);
     }
-    public void stun(Unit target){
+    public boolean stun(Unit target){
         if (getAbilityPoints() == 2 && getPointActivites() == 1) {
+            System.out.println("Оглушаю.");
             super.clearPointAbility();
             super.performAnAttack(target);
             target.clearPointActivites();
+
+            return true;
         }
+
+        return false;
     }
 
     @Override
@@ -31,12 +36,7 @@ public class Spearman extends UnitAttackingWithWeapons {
 
     @Override
     public boolean applyAbility(Unit targetUnit) {
-        System.out.print("Применяю способности: ");
-        boolean res = false;
-        if (!res) {
-            System.out.print("Не получилось");
-        }
-        System.out.println();
+        boolean res = stun(targetUnit);
 
         return res;
     }

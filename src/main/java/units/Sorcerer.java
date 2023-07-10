@@ -32,8 +32,8 @@ public class Sorcerer extends UnitAttackingWithMagician {
     }
 
     public boolean tricks(Unit target) {
-        System.out.print("Коколдую.");
         if (getAbilityPoints() == 2) {
+            System.out.println("Трюки.");
             super.clearPointAbility();
             switch (new Random().nextInt(1, 3)) {
                 case 1 -> target.decreaseSpeed(1);
@@ -48,12 +48,7 @@ public class Sorcerer extends UnitAttackingWithMagician {
 
     @Override
     public boolean applyAbility(Unit targetUnit) {
-        System.out.print("Применяю способности: ");
         boolean res = this.tricks(targetUnit);
-        if (!res) {
-            System.out.print("Не получилось");
-        }
-        System.out.println();
 
         return res;
     }

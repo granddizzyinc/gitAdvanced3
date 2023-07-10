@@ -14,20 +14,30 @@ public class Robber extends UnitAttackingWithWeapons {
         super(Equipment.knives_and_cloak.getHealth(), Equipment.knives_and_cloak.getAttack(),
                 Equipment.knives_and_cloak.getDefend(), UnitsTypes.Robber, name);
     }
-    public void theft(Unit target){
+    public boolean theft(Unit target){
         if (getAbilityPoints() == 2) {
+            System.out.println("Ворую.");
             super.clearPointAbility();
             for (int i = 0; i < 2; i++) {
                 target.decreasePointActivities();
             }
+
+            return true;
         }
+
+        return false;
     }
-    public void jab(Unit target){
+    public boolean jab(Unit target){
         if (getAbilityPoints() == 2){
+            System.out.println("jab");
             super.clearPointAbility();
             target.decreasePointActivities();
             target.decreaseHealth(10);
+
+            return true;
         }
+
+        return false;
     }
 
     @Override
@@ -38,12 +48,7 @@ public class Robber extends UnitAttackingWithWeapons {
 
     @Override
     public boolean applyAbility(Unit targetUnit) {
-        System.out.print("Применяю способности: ");
-        boolean res = false;
-        if (!res) {
-            System.out.print("Не получилось");
-        }
-        System.out.println();
+        boolean res = theft(targetUnit);
 
         return res;
     }

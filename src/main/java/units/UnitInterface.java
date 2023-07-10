@@ -7,10 +7,21 @@ import java.util.ArrayList;
 
 public interface UnitInterface {
 
+    /**
+     * Получает информацию о персонаже
+     * @return
+     */
     String getInfo();
 
+    /**
+     * Устанавливает здоровеье персонажа в 0
+     */
     void die();
 
+    /**
+     * Выполняет ход песонажа в игре
+     * @param arena
+     */
     void step(Arena arena);
 
     /**
@@ -42,4 +53,11 @@ public interface UnitInterface {
      * @param moveMade   сделал ли персонаж перемещение
      */
     void actionNotInDiapason(Arena arena, Unit targetUnit, boolean moveMade);
+
+    /**
+     * Выполняет применение способностей к цели
+     * @param targetUnit
+     * @return
+     */
+    boolean applyAbility(Unit targetUnit);
 }

@@ -30,23 +30,19 @@ public class Arena implements ArenaInterface {
         this.view = view;
     }
 
+    @Override
     public void createTeam(String name, int teamSize) {
         teams.add(new Team(name));
         Team team = teams.get(teams.size() - 1);
         generateTeam(team, teamSize);
-        placeUnits(team);
+        this.placeUnits(team);
     }
-//    public void giveInitiative(ArrayList<units.Team> teammates){
-//        for (int i = 0; i < teams.size(); i++) {
-//            getTeam(i).se
-//        }
-//    }
 
     /**
-     * генерирует команду из случайных юнитов
+     * генерирует команду заданного размера из случайных юнитов
      *
-     * @param team
-     * @param teamSize
+     * @param team команда
+     * @param teamSize размер
      */
     private static void generateTeam(Team team, int teamSize) {
         for (int i = 0; i < teamSize; i++) {
@@ -73,17 +69,11 @@ public class Arena implements ArenaInterface {
      */
     private void placeUnits(Team team) {
         for (Unit unit : team) {
-            unit.setCoordinates(getStartCoordinates(team, unit));
+            unit.setCoordinates(this.getStartCoordinates(team, unit));
         }
     }
 
-    public void returningPointActivities() {
-
-    }
-
-    /**
-     * запускает раунды
-     */
+    @Override
     public void startTheBattle() throws InterruptedException {
         if (teams.size() < 2) {
             view.errorNumberCommands();
@@ -98,6 +88,8 @@ public class Arena implements ArenaInterface {
 
             view.showRaund(round);
 
+            view.showUnits(this.getTeams());
+
             //выбираем команду которая будет ходить
             for (Team team : teams) {
                 // если всех уже замочили
@@ -108,7 +100,7 @@ public class Arena implements ArenaInterface {
 
                 //каждый юнит делает ход в порядке уменьшения инициативы
                 for (Unit unit : team) {
-                    view.showWhoseMove(unit);
+                    view.showWhoseMove(team, unit);
 
                     //восстанавливаем очки активности
                     //одно очко тратит на ходьбу
@@ -254,32 +246,6 @@ public class Arena implements ArenaInterface {
 
 
         return coordinates;
-    }
-
-
-    @Override
-    public void unit_turning() {
-
-    }
-
-    @Override
-    public void rounding() {
-
-    }
-
-    @Override
-    public void initiative() {
-
-    }
-
-    @Override
-    public void unit_dying() {
-
-    }
-
-    @Override
-    public void target_choice() {
-
     }
 
     /**

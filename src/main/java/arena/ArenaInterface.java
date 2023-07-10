@@ -5,18 +5,35 @@ import units.Team;
 import units.abstractUnits.Unit;
 
 public interface ArenaInterface {
-    void unit_turning();
-    void rounding(); // использовать порядок инициативы
-    void initiative();  // инициативу через массив?
-    void unit_dying(); // когда хп = 0 то удалять из списка
-    void target_choice();   //для атакующих и защищающих одновременно?
-
+    /**
+     * Создает команду с заданным именем и размером
+     * @param name
+     * @param teamSize
+     */
     void createTeam(String name, int teamSize);
 
+    /**
+     * Запускает бой
+     * @throws InterruptedException
+     */
     void startTheBattle() throws InterruptedException;
 
+    /**
+     * Находит ближайшего персонажа по условию
+     * @param ourTeam команда того кто ищет
+     * @param unit персонаж который ищет
+     * @param alien свой или чужой
+     * @return
+     */
     Unit findTheNearestTeamUnit(Team ourTeam, Unit unit, boolean alien);
 
+    /**
+     * Находит персонажа с минимальным здоровьем по условиж
+     * @param ourTeam команда того кто ищет
+     * @param unit персонаж который ищет
+     * @param alien свой или чужой
+     * @return
+     */
     Unit findAUnitWithMinimumHealth(Team ourTeam, Unit unit, boolean alien);
 
     /**

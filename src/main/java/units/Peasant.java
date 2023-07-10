@@ -21,5 +21,8 @@ public class Peasant extends UnitSupportiveBasic {
         return arena.findTheNearestTeamUnit(ourTeam, this, true);
     }
 
-//    способности
+    @Override
+    public boolean applyAbility(Unit targetUnit) {
+        return false;
+    }
 }

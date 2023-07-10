@@ -11,8 +11,6 @@ public class Main {
         arena.createTeam("Команда Добра", 10);
         arena.createTeam("Команда Зла", 10);
 
-        view.showUnits(arena.getTeams());
-
         arena.startTheBattle();
     }
 }

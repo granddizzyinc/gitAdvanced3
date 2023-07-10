@@ -17,16 +17,24 @@ public class Monk extends UnitProtectiveWithoutShild {
                 Equipment.kesa_and_beads.getDefend(), UnitsTypes.Monk, name);
     }
 
-    public void defenceCape(Unit target) {
+    public boolean defenceCape(Unit target) {
         if (getAbilityPoints() == 2) {
-            super.useAbility();
+            System.out.println("Мыс обороны");
+            super.clearAbilityPoints();
             super.decreaseDamage(target.getDefense() * 1);   // вот здесь как-то определить тип атаки
+            return true;
         }
+        return false;
     }
 
     @Override
     public Unit findTarget(Arena arena, Team ourTeam) {
         // ищем своего с минимальным здоровьем
         return arena.findAUnitWithMinimumHealth(ourTeam, this, false);
+    }
+
+    @Override
+    public boolean applyAbility(Unit targetUnit) {
+        return defenceCape(targetUnit);
     }
 }
