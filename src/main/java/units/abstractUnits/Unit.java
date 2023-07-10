@@ -172,6 +172,10 @@ public abstract class Unit implements UnitInterface {   //implements AutoCloseab
         return "Тип: " + type.toString() + " Имя: " + name + " Здоровье: " + health;
     }
 
+    /**
+     * Выполняет ход песонажа в игре
+     * @param arena
+     */
     @Override
     public void step(Arena arena) {
         Unit targetUnit = findTarget(arena, arena.getUnitTeam(this));
@@ -185,7 +189,7 @@ public abstract class Unit implements UnitInterface {   //implements AutoCloseab
             if (this.isInDiapason(targetUnit)) {
                 this.actionInDiapason(arena, targetUnit, false);
             } else {
-                this.doMove(arena, targetUnit);
+                arena.doMove(this, targetUnit.getCoordinates());
                 if (this.isInDiapason(targetUnit)) {
                     this.actionInDiapason(arena, targetUnit, true);
                 } else {
@@ -232,18 +236,11 @@ public abstract class Unit implements UnitInterface {   //implements AutoCloseab
         return Names.values()[new Random().nextInt(Names.values().length)].toString();
     }
 
-    protected void doMove(Arena arena, Unit targetUnit) {
-        System.out.print("Хожу: " + this.getCoordinates());
-
-        int speed = 1;
-
-        for (int i = 1; i <= speed; i++) {
-            Coordinates stepCoordinates = arena.getNextStepPosition(this.getCoordinates(), targetUnit.getCoordinates());
-            this.setCoordinates(stepCoordinates);
-            System.out.println(" -> " + stepCoordinates);
-        }
-    }
-
+    /**
+     * Проверяет назодиться ли цель в максимальном диапазоне действий
+     * @param targetUnit
+     * @return
+     */
     protected boolean isInDiapason(Unit targetUnit) {
         if (this.distanceSkill >= this.getCoordinates().calculateDistance(targetUnit.getCoordinates())) {
             System.out.println("Цель в диапазоне");

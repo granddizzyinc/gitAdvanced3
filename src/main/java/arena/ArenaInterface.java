@@ -1,5 +1,6 @@
 package arena;
 
+import units.Coordinates;
 import units.Team;
 import units.abstractUnits.Unit;
 
@@ -18,5 +19,17 @@ public interface ArenaInterface {
 
     Unit findAUnitWithMinimumHealth(Team ourTeam, Unit unit, boolean alien);
 
+    /**
+     * Удаляет труп
+     * @param unit
+     */
     void removeTheCorpse(Unit unit);
+
+    /**
+     * Выполняет перемещение персонажа
+     *
+     * @param unit кого перемещаем
+     * @param coordinates куда перемещаем
+     */
+    void doMove(Unit unit, Coordinates coordinates);
 }

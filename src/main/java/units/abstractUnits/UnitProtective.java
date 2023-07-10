@@ -12,7 +12,7 @@ public abstract class UnitProtective extends Unit {
     }
 
     public UnitProtective(UnitsTypes type, String name) {
-        this(0,0,0,type,name);
+        this(0, 0, 0, type, name);
     }
 
     public void concentration() {

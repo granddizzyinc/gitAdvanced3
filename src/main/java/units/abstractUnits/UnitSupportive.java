@@ -21,6 +21,7 @@ public abstract class UnitSupportive extends Unit {
 
             //проверяем убили ли
             if (targetUnit.getHealth() == 0) {
+                // выносим труп
                 arena.removeTheCorpse(targetUnit);
             }
         }

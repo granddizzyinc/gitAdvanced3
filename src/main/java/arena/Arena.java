@@ -493,4 +493,16 @@ public class Arena implements ArenaInterface {
         }
         return null;
     }
+
+    @Override
+    public void doMove(Unit unit, Coordinates coordinates) {
+        System.out.print("Хожу: " + unit.getCoordinates());
+
+        for (int i = 1; i <= unit.getSpeed(); i++) {
+            Coordinates stepCoordinates = this.getNextStepPosition(unit.getCoordinates(), coordinates);
+            unit.setCoordinates(stepCoordinates);
+            System.out.print(" -> " + stepCoordinates);
+        }
+        System.out.println();
+    }
 }
