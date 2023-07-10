@@ -1,6 +1,7 @@
 package arena.map;
 
 import units.Coordinates;
+import units.abstractUnits.Unit;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -36,5 +37,9 @@ public class Map {
     public void removePit(Pit pit) {
         pitsList.remove(pit);
         matrix[pit.coordinates.x][pit.coordinates.y] = null;
+    }
+
+    public void addUnit(Unit unit) {
+        matrix[unit.getCoordinates().x][unit.getCoordinates().y] = unit;
     }
 }

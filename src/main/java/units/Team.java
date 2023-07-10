@@ -16,7 +16,7 @@ public class Team implements Iterator<Unit>, Iterable<Unit> {
         this.name = name;
     }
 
-    public ArrayList<Unit> getTeamList() {
+    public ArrayList<Unit> getUnits() {
         return teamList;
     }
 
@@ -60,5 +60,9 @@ public class Team implements Iterator<Unit>, Iterable<Unit> {
         };
 
         return it;
+    }
+
+    public boolean contains(Unit unit) {
+        return teamList.contains(unit);
     }
 }

@@ -8,10 +8,7 @@ import view.View;
 import java.util.*;
 
 public class Arena implements ArenaInterface {
-//    private final int sizeX;
-//    private final int sizeY;
     int round;
-    boolean turns;
     private final ArrayList<Team> teams = new ArrayList<>();
     private arena.map.Map map;
 
@@ -26,8 +23,6 @@ public class Arena implements ArenaInterface {
     private View view;
 
     public Arena(Map map, View view) {
-//        this.sizeX = sizeX;
-//        this.sizeY = sizeY;
         this.view = view;
         this.map = map;
     }
@@ -43,7 +38,7 @@ public class Arena implements ArenaInterface {
     /**
      * генерирует команду заданного размера из случайных юнитов
      *
-     * @param team команда
+     * @param team     команда
      * @param teamSize размер
      */
     private static void generateTeam(Team team, int teamSize) {
@@ -64,7 +59,7 @@ public class Arena implements ArenaInterface {
     }
 
     /**
-     * расставляет команду на арене
+     * расставляет команду на карте
      * задает координаты юнитам
      *
      * @param team
@@ -72,6 +67,7 @@ public class Arena implements ArenaInterface {
     private void placeUnits(Team team) {
         for (Unit unit : team) {
             unit.setCoordinates(this.getStartCoordinates(team, unit));
+            map.addUnit(unit);
         }
     }
 
@@ -132,7 +128,7 @@ public class Arena implements ArenaInterface {
     }
 
     /**
-     * проверяет если ли победитель
+     * проверяет количество активных команд
      *
      * @return
      */
@@ -434,7 +430,7 @@ public class Arena implements ArenaInterface {
 
         // пока проверим всех персонажей с такими координатами
         for (Team team : this.getTeams()) {
-            for (Unit unit : team.getTeamList()) {
+            for (Unit unit : team.getUnits()) {
                 if (unit.getCoordinates().equals(coordinates)) {
                     System.out.print(" -> " + coordinates + " Занято. Иду в обход.");
                     return false;
@@ -451,12 +447,8 @@ public class Arena implements ArenaInterface {
      * @return
      */
     public Team getUnitTeam(Unit unit) {
-        for (Team tmpTeam : teams) {
-            for (Unit tmpUnit : tmpTeam) {
-                if (unit.equals(tmpUnit)) {
-                    return tmpTeam;
-                }
-            }
+        for (Team team : teams) {
+            if (team.contains(unit)) return team;
         }
         return null;
     }

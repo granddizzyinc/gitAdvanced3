@@ -197,7 +197,6 @@ public abstract class Unit implements UnitInterface {   //implements AutoCloseab
         } else {
             System.out.println("Цель: " + arena.getUnitTeam(targetUnit).name + " " + targetUnit + " " + targetUnit.getCoordinates());
 
-            //если в диапазоне то если соответсвует условию атаки то атакует или действует
             if (this.isInDiapason(targetUnit)) {
                 this.actionInDiapason(arena, targetUnit, false);
             } else {
