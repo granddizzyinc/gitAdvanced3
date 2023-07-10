@@ -26,6 +26,11 @@ public class Druid extends UnitSupportiveHealer {
 
     @Override
     public boolean applyAbility(Unit targetUnit) {
+        return ability();
+    }
+
+    public boolean ability() {
+
         return false;
     }
 }

@@ -25,8 +25,13 @@ public class Wizard extends UnitAttackingWithMagician {
     }
 
     public boolean applyAbility(Unit targetUnit) {
-        boolean res = false;
+        boolean res = ability();
 
         return res;
+    }
+
+    public boolean ability() {
+
+        return false;
     }
 }

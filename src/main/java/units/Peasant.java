@@ -25,4 +25,9 @@ public class Peasant extends UnitSupportiveBasic {
     public boolean applyAbility(Unit targetUnit) {
         return false;
     }
+
+    public boolean ability() {
+
+        return false;
+    }
 }

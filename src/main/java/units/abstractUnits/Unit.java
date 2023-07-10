@@ -104,6 +104,10 @@ public abstract class Unit implements UnitInterface {   //implements AutoCloseab
 
     public void decreaseAttack(int value) {
         attack -= value;
+
+        if (attack < 0) {
+            attack = 0;
+        }
     }
 
 
@@ -117,6 +121,10 @@ public abstract class Unit implements UnitInterface {   //implements AutoCloseab
 
     public void decreasePointActivities() {
         pointActivites -= 1;
+
+        if (pointActivites < 0) {
+            pointActivites = 0;
+        }
     }
 
     public void addHealth(int value) {
@@ -142,6 +150,10 @@ public abstract class Unit implements UnitInterface {   //implements AutoCloseab
 
     public void decreaseDefence(int value) {
         defense -= value;
+
+        if (defense < 0) {
+            defense = 0;
+        }
     }
 
     public void addSpeed(int value) {
@@ -149,7 +161,11 @@ public abstract class Unit implements UnitInterface {   //implements AutoCloseab
     }
 
     public void decreaseSpeed(int value) {
-        defense -= value;
+        speed -= value;
+
+        if (speed < 0) {
+            speed = 0;
+        }
     }
 
     public String getUnitBaseInfo() {

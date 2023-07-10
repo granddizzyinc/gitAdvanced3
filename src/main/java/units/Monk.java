@@ -17,9 +17,9 @@ public class Monk extends UnitProtectiveWithoutShild {
                 Equipment.kesa_and_beads.getDefend(), UnitsTypes.Monk, name);
     }
 
-    public boolean defenceCape(Unit target) {
+    public boolean mindMonk(Unit target) {
         if (getAbilityPoints() == 2) {
-            System.out.println("Мыс обороны");
+            System.out.println("Мысли монаха");
             super.clearAbilityPoints();
             super.decreaseDamage(target.getDefense() * 1);   // вот здесь как-то определить тип атаки
             return true;
@@ -35,6 +35,6 @@ public class Monk extends UnitProtectiveWithoutShild {
 
     @Override
     public boolean applyAbility(Unit targetUnit) {
-        return defenceCape(targetUnit);
+        return mindMonk(targetUnit);
     }
 }
