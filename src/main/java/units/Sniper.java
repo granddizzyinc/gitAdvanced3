@@ -19,7 +19,7 @@ public class Sniper extends UnitAttackingWithWeapons {
     public void Hit_the_bulls_eye(Unit target){
         if (getAbilityPoints() == 2){
             if (using_Hit_the_bulls_eye == false) {
-                super.useAbility();
+                super.clearPointAbility();
                 target.decreaseHealth(getHealth()/2);
                 using_Hit_the_bulls_eye = true;
             }
@@ -33,9 +33,14 @@ public class Sniper extends UnitAttackingWithWeapons {
     }
 
     @Override
-    public void applyAbility(Unit targetUnit) {
+    public boolean applyAbility(Unit targetUnit) {
         System.out.print("Применяю способности: ");
-        System.out.print("Нет способностей");
+        boolean res = false;
+        if (!res) {
+            System.out.print("Не получилось");
+        }
         System.out.println();
+
+        return res;
     }
 }

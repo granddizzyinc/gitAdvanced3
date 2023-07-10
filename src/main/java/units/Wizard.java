@@ -24,9 +24,14 @@ public class Wizard extends UnitAttackingWithMagician {
         return arena.findAUnitWithMinimumHealth(ourTeam, this, true);
     }
 
-    public void applyAbility(Unit targetUnit) {
+    public boolean applyAbility(Unit targetUnit) {
         System.out.print("Применяю способности: ");
-        System.out.print("Нет способностей");
+        boolean res = false;
+        if (!res) {
+            System.out.print("Не получилось");
+        }
         System.out.println();
+
+        return res;
     }
 }

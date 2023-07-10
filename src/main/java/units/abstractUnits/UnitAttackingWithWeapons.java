@@ -17,23 +17,30 @@ public abstract class UnitAttackingWithWeapons extends UnitAttacking {
     }
 
     @Override
-    public void performAnAttack(Unit unit) {
+    public boolean performAnAttack(Unit unit) {
         if (stamina - baseWeapon > 0) {
-            super.performAnAttack(unit);
-            stamina -= baseWeapon;
-        } else {
-            System.out.println("stamina - baseWeapon <= 0");
+            if (super.performAnAttack(unit)) {
+                stamina -= baseWeapon;
+                return true;
+            }
+//        } else {
+//            System.out.println("stamina - baseWeapon <= 0");
         }
+
+        return false;
     }
 
     @Override
-    public void concentration() {
-        super.concentration();
-        if (stamina + STAMINACONC < 100) {
-            stamina += STAMINACONC;
-        } else {
-            stamina = 100;
+    public boolean concentration() {
+        if (super.concentration()) {
+            if (stamina + STAMINACONC < 100) {
+                stamina += STAMINACONC;
+            } else {
+                stamina = 100;
+            }
         }
+
+        return false;
     }
 
     public int getStamina() {

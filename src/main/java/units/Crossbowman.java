@@ -11,6 +11,7 @@ public class Crossbowman extends UnitAttackingWithWeapons {
     // переопределить очки активности??
     int extraActivities = 1;
     int distanceSkill = 9;
+
     public Crossbowman(String name) {
         super(Equipment.crossbow_and_helmet.getHealth(), Equipment.crossbow_and_helmet.getAttack(),
                 Equipment.crossbow_and_helmet.getDefend(), UnitsTypes.Crossbowman, name);
@@ -18,20 +19,26 @@ public class Crossbowman extends UnitAttackingWithWeapons {
     }
 
     @Override
-    public void performAnAttack(Unit unit) {
+    public boolean performAnAttack(Unit unit) {
 
         if (extraActivities > 0) {
 //            if (getAttack() - getDefense() > 0) {
 //                unit.decreaseHealth(getAttack() - getDefense());
 //            }
-            super.performAnAttack(unit);
-        } else {
-            System.out.println("extraActivites <= 0");
+            if (super.performAnAttack(unit)) {
+                return true;
+            }
+            ;
+//        } else {
+//            System.out.println("extraActivites <= 0");
         }
+
+        return false;
     }
-    public void arrow_to_the_knee(Unit unit){
+
+    public void arrow_to_the_knee(Unit unit) {
         if (getAbilityPoints() == 2) {
-            super.useAbility();
+            super.clearPointAbility();
             decreaseSpeed(1);
         }
     }
@@ -67,8 +74,8 @@ public class Crossbowman extends UnitAttackingWithWeapons {
 //    }
 
     @Override
-    public void applyAbility(Unit targetUnit) {
-
+    public boolean applyAbility(Unit targetUnit) {
+        return false;
     }
 
     @Override

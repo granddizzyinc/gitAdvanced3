@@ -16,7 +16,7 @@ public class Robber extends UnitAttackingWithWeapons {
     }
     public void theft(Unit target){
         if (getAbilityPoints() == 2) {
-            super.useAbility();
+            super.clearPointAbility();
             for (int i = 0; i < 2; i++) {
                 target.decreasePointActivities();
             }
@@ -24,7 +24,7 @@ public class Robber extends UnitAttackingWithWeapons {
     }
     public void jab(Unit target){
         if (getAbilityPoints() == 2){
-            super.useAbility();
+            super.clearPointAbility();
             target.decreasePointActivities();
             target.decreaseHealth(10);
         }
@@ -37,9 +37,14 @@ public class Robber extends UnitAttackingWithWeapons {
     }
 
     @Override
-    public void applyAbility(Unit targetUnit) {
+    public boolean applyAbility(Unit targetUnit) {
         System.out.print("Применяю способности: ");
-        System.out.print("Нет способностей");
+        boolean res = false;
+        if (!res) {
+            System.out.print("Не получилось");
+        }
         System.out.println();
+
+        return res;
     }
 }

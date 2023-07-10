@@ -1,7 +1,6 @@
 package units.abstractUnits;
 
 import arena.Arena;
-import units.*;
 
 public abstract class UnitAttacking extends Unit {
     private float increasingAttack;
@@ -17,19 +16,22 @@ public abstract class UnitAttacking extends Unit {
         this(0, 0, 0, type, name);
     }
 
-    public void concentration() {
+    public boolean concentration() {
         System.out.println("Концентрируюсь");
         //super.skipAMove();
-        if (abilityPoints < 3) {
+        if (abilityPoints < 2) {
             abilityPoints += 1;
+            return true;
         }
+
+        return false;
     }
 
     public int getAbilityPoints() {
         return abilityPoints;
     }
 
-    public void useAbility() {
+    public void clearPointAbility() {
         abilityPoints = 0;
     }
 
@@ -44,43 +46,56 @@ public abstract class UnitAttacking extends Unit {
 
     @Override
     public void actionInDiapason(Arena arena, Unit targetUnit, boolean moveMade) {
-        if (this.getAbilityPoints() == 2) {
-            this.applyAbility(targetUnit);
-        } else if (this.getAbilityPoints() == 1) {
-            this.performAnAttack(targetUnit);
 
-            //проверяем убили ли
-            if (targetUnit.getHealth() == 0) {
-                arena.removeTheCorpse(targetUnit);
-            }
+        if (!this.applyAbility(targetUnit)) {
+            // если не смогли применить спобосность
+            if (this.performAnAttack(targetUnit)) {
+                // если смогли атаковать
 
-            if (this.getPointActivites() > 0 ) {
-                this.concentration();
-            }
-        } else {
-            // пропускаем ход если он еще не сделан
-            if (!moveMade) {
-                this.skipAMove();
+                //проверяем убили ли
+                if (targetUnit.getHealth() == 0) {
+                    // выносим труп
+                    arena.removeTheCorpse(targetUnit);
+                }
+
+                if (!moveMade) {
+                    // если шаг НЕ сделан
+                    this.concentration();
+                }
+            } else {
+                // если не смогли атаковать
+                if (!moveMade) {
+                    // если шаг НЕ сделан
+                    this.clearPointActivites();
+                }
             }
         }
     }
 
     @Override
     public void actionNotInDiapason(Arena arena, Unit targetUnit, boolean moveMade) {
-        if (this.getAbilityPoints() < 2) {
-            //концентрация
-            this.concentration();
-        } else if (this.getAbilityPoints() == 2) {
-            //абилити
-            if (kindOfBattle == KindOfBattle.distant) {
-                this.applyAbility(targetUnit);
-            } else if (kindOfBattle == KindOfBattle.near) {
-                if (!moveMade) {
-                    this.skipAMove();
-                }
+//        if (this.getAbilityPoints() < 2) {
+//            //концентрация
+//            this.concentration();
+//        } else if (this.getAbilityPoints() == 2) {
+//            //абилити
+//            if (kindOfBattle == KindOfBattle.distant) {
+//                this.applyAbility(targetUnit);
+//            } else if (kindOfBattle == KindOfBattle.near) {
+//                if (!moveMade) {
+//                    this.skipAMove();
+//                }
+//            }
+//        }
+
+        if (moveMade) {
+            // если шаг сделан
+            if (!this.concentration()) {
+                // если не смогли сконцентрироваться
+                this.clearPointActivites();
             }
         }
     }
 
-    public abstract void applyAbility(Unit targetUnit);
+    public abstract boolean applyAbility(Unit targetUnit);
 }

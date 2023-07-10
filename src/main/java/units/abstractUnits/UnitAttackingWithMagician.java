@@ -18,28 +18,36 @@ public abstract class UnitAttackingWithMagician extends UnitAttacking {
     }
 
     @Override
-    public void concentration() {
-        super.concentration();
-        if (mana + MANACONC < 100) {
-            mana += MANACONC;
-        } else {
-            mana = 100;
+    public boolean concentration() {
+        if (super.concentration()) {
+            if (mana + MANACONC < 100) {
+                mana += MANACONC;
+            } else {
+                mana = 100;
+            }
         }
+
+        return false;
     }
 
     @Override
-    public void skipAMove() {
-        super.skipAMove();
+    public void clearPointActivites() {
+        super.clearPointActivites();
     }
 
     @Override
-    public void performAnAttack(Unit unit) {
+    public boolean performAnAttack(Unit unit) {
         if (mana - baseSpell > 0) {
-            super.performAnAttack(unit);
-            mana -= baseSpell;
-        } else {
-            System.out.println("mana - baseSpell <= 0");
-            this.skipAMove();
+            if (super.performAnAttack(unit)) {
+                mana -= baseSpell;
+
+                return true;
+            }
+//        } else {
+//            System.out.println("mana - baseSpell <= 0");
+//            this.skipAMove();
         }
+        return false;
     }
 }
+

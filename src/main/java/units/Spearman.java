@@ -6,8 +6,6 @@ import units.abstractUnits.Unit;
 import units.abstractUnits.UnitAttackingWithWeapons;
 import units.abstractUnits.UnitsTypes;
 
-import java.util.ArrayList;
-
 /**
  * Копейщик
  */
@@ -19,9 +17,9 @@ public class Spearman extends UnitAttackingWithWeapons {
     }
     public void stun(Unit target){
         if (getAbilityPoints() == 2 && getPointActivites() == 1) {
-            super.useAbility();
+            super.clearPointAbility();
             super.performAnAttack(target);
-            target.skipAMove();
+            target.clearPointActivites();
         }
     }
 
@@ -32,9 +30,14 @@ public class Spearman extends UnitAttackingWithWeapons {
     }
 
     @Override
-    public void applyAbility(Unit targetUnit) {
+    public boolean applyAbility(Unit targetUnit) {
         System.out.print("Применяю способности: ");
-        System.out.print("Нет способностей");
+        boolean res = false;
+        if (!res) {
+            System.out.print("Не получилось");
+        }
         System.out.println();
+
+        return res;
     }
 }

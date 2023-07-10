@@ -14,34 +14,48 @@ public class Sorcerer extends UnitAttackingWithMagician {
                 Equipment.runes_and_powders.getDefend(), UnitsTypes.Sorcerer, name);
     }
 
-    public void performAnAttack(Unit unit) {
+    public boolean performAnAttack(Unit unit) {
 
         if (extraActivities > 0) {
 //            if (getAttack() - getDefense() > 0) {
 //                unit.decreaseHealth(getAttack() - getDefense());
 //            }
-            super.performAnAttack(unit);
-        } else {
-            System.out.println("extraActivites <= 0");
+
+            if (super.performAnAttack(unit)) {
+                return true;
+            };
+//        } else {
+//            System.out.println("extraActivites <= 0");
         }
+
+        return false;
     }
 
-    public void tricks(Unit target) {
+    public boolean tricks(Unit target) {
         System.out.print("Коколдую.");
         if (getAbilityPoints() == 2) {
-            super.useAbility();
+            super.clearPointAbility();
             switch (new Random().nextInt(1, 3)) {
                 case 1 -> target.decreaseSpeed(1);
                 case 2 -> target.decreasePointActivities();
             }
+
+            return true;
         }
+
+        return false;
     }
 
     @Override
-    public void applyAbility(Unit targetUnit) {
+    public boolean applyAbility(Unit targetUnit) {
         System.out.print("Применяю способности: ");
-        this.tricks(targetUnit);
+        boolean res = this.tricks(targetUnit);
+        if (!res) {
+            System.out.print("Не получилось");
+        }
         System.out.println();
+
+        return res;
     }
 
     @Override

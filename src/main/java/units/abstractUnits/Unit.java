@@ -54,7 +54,7 @@ public abstract class Unit implements UnitInterface {   //implements AutoCloseab
      *
      * @param target
      */
-    public void performAnAttack(Unit target) {
+    public boolean performAnAttack(Unit target) {
         //атакуем
         //* Ближники (не дальше 1 клетки)
         //* Дальники (5 клеток - 100% урон, до 7 клеток - 75% урона, до 9 клеток - 50%, 10 и более - не может атаковать)
@@ -68,8 +68,12 @@ public abstract class Unit implements UnitInterface {   //implements AutoCloseab
             } else {
                 System.out.println("Не прокатило");
             }
+
+            return true;
         } else {
             System.out.println("Нет очков активности");
+
+            return false;
         }
     }
 
@@ -81,8 +85,8 @@ public abstract class Unit implements UnitInterface {   //implements AutoCloseab
         return type.toString();
     }
 
-    public void skipAMove() {
-        System.out.println("Пропускаю ход");
+    public void clearPointActivites() {
+        System.out.println("Сброс очков активности");
         pointActivites = 0;
     }
 

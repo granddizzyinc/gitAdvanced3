@@ -17,11 +17,12 @@ public abstract class UnitSupportive extends Unit {
     }
 
     public void actionInDiapason(Arena arena, Unit targetUnit, boolean moveMade) {
-        this.performAnAttack(targetUnit);
+        if (this.performAnAttack(targetUnit)) {
 
-        //проверяем убили ли
-        if (targetUnit.getHealth() == 0) {
-            arena.removeTheCorpse(targetUnit);
+            //проверяем убили ли
+            if (targetUnit.getHealth() == 0) {
+                arena.removeTheCorpse(targetUnit);
+            }
         }
     }
 
