@@ -36,10 +36,10 @@ public class Wizard extends UnitAttackingWithMagician {
     }
 
     @Override
-    public Unit findTarget(Arena arena, Team ourTeam) {
+    public Unit findTarget(Arena arena) {
 
         // ищем чужого с минимальным здоровьем
-        return arena.findAUnitWithMinimumHealth(ourTeam, this, true);
+        return arena.findAUnitWithMinimumHealth(this, true);
     }
 
     public boolean applyAbility(Unit targetUnit) {

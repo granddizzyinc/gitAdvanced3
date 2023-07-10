@@ -32,9 +32,9 @@ public class Sniper extends UnitAttackingWithWeapons {
     }
 
     @Override
-    public Unit findTarget(Arena arena, Team ourTeam) {
+    public Unit findTarget(Arena arena) {
         // ищем чужого с минимальным здоровьем
-        return arena.findAUnitWithMinimumHealth(ourTeam, this, true);
+        return arena.findAUnitWithMinimumHealth(this, true);
     }
 
     @Override

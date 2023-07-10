@@ -28,9 +28,9 @@ public class Monk extends UnitProtectiveWithoutShild {
     }
 
     @Override
-    public Unit findTarget(Arena arena, Team ourTeam) {
+    public Unit findTarget(Arena arena) {
         // ищем своего с минимальным здоровьем
-        return arena.findAUnitWithMinimumHealth(ourTeam, this, false);
+        return arena.findAUnitWithMinimumHealth(this, false);
     }
 
     @Override

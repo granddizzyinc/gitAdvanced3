@@ -6,6 +6,7 @@ import units.abstractUnits.*;
 import view.View;
 
 import java.util.*;
+import java.util.concurrent.TimeUnit;
 
 public class Arena implements ArenaInterface {
     int round;
@@ -14,10 +15,6 @@ public class Arena implements ArenaInterface {
 
     public ArrayList<Team> getTeams() {
         return teams;
-    }
-
-    public Team getTeam(int index) {
-        return teams.get(index);
     }
 
     private View view;
@@ -66,14 +63,13 @@ public class Arena implements ArenaInterface {
      */
     private void placeUnits(Team team) {
         for (Unit unit : team) {
-            unit.setCoordinates(this.getStartCoordinates(team, unit));
-            map.addUnit(unit);
+            map.addUnit(unit, map.getStartCoordinates(teams.indexOf(team)));
         }
     }
 
     @Override
     public void startTheBattle() throws InterruptedException {
-        if (teams.size() < 2) {
+        if (teams.size() < 2 || teams.size() > 4) {
             view.errorNumberCommands();
             return;
         }
@@ -93,8 +89,8 @@ public class Arena implements ArenaInterface {
                 // если всех уже замочили
                 if (team.getNumberOfUnits() == 0) continue;
 
-                // рандомно задаем инициативу
-                setTheInitiative(team);
+                // задаем инициативу
+                team.setTheInitiative();
 
                 //каждый юнит делает ход в порядке уменьшения инициативы
                 for (Unit unit : team) {
@@ -109,7 +105,7 @@ public class Arena implements ArenaInterface {
                     unit.step(this);
 
                     // пауза для наглядности
-                    //TimeUnit.SECONDS.sleep(1);
+                    TimeUnit.SECONDS.sleep(1);
 
                     view.showVoid();
 
@@ -157,9 +153,11 @@ public class Arena implements ArenaInterface {
         return null;
     }
 
-    public Unit findTheNearestTeamUnit(Team ourTeam, Unit unit, boolean alien) {
+    public Unit findTheNearestTeamUnit(Unit unit, boolean alien) {
         Unit nearestUnit = null;
         double minDistance = this.map.sizeX + this.map.sizeY;
+        Team ourTeam = this.getUnitTeam(unit);
+
         for (Team tmpTeam : teams) {
             if ((alien && tmpTeam.equals(ourTeam)) || (!alien && !tmpTeam.equals(ourTeam))) {
                 continue;
@@ -179,80 +177,17 @@ public class Arena implements ArenaInterface {
         return nearestUnit;
     }
 
-    private Coordinates getStartCoordinates(Team team, Unit unit) {
-        int side = 0;
-
-        //найдем индекс команды и приравняем к стороне
-        for (int i = 0; i < teams.size(); i++) {
-            if (teams.get(i).equals(team)) {
-                side = i;
-                break;
-            }
-        }
-
-        Coordinates coordinates = null;
-
-        if (side == 0) {
-            int y = 0;
-            boolean flag = false;
-            while (!flag) {
-                y = new Random().nextInt(this.map.sizeY);
-                flag = true;
-
-                for (Unit u : team) {
-                    if (u.getCoordinates() == null) continue;
-
-                    if (u.getCoordinates().y == y) {
-                        flag = false;
-                        break;
-                    }
-                }
-            }
-
-            if (unit instanceof UnitAttacking) {
-                coordinates = new Coordinates(0, y);
-            } else if (unit instanceof UnitProtective) {
-                coordinates = new Coordinates(0, y);
-            } else if (unit instanceof UnitSupportive) {
-                coordinates = new Coordinates(0, y);
-            }
-        } else if (side == 1) {
-            int y = 0;
-            boolean flag = false;
-            while (!flag) {
-                y = new Random().nextInt(this.map.sizeY);
-                flag = true;
-
-                for (Unit u : team) {
-                    if (u.getCoordinates() == null) continue;
-
-                    if (u.getCoordinates().y == y) {
-                        flag = false;
-                        break;
-                    }
-                }
-            }
-
-            if (unit instanceof UnitAttacking) {
-                coordinates = new Coordinates(this.map.sizeX, y);
-            } else if (unit instanceof UnitProtective) {
-                coordinates = new Coordinates(this.map.sizeX, y);
-            } else if (unit instanceof UnitSupportive) {
-                coordinates = new Coordinates(this.map.sizeX, y);
-            }
-        }
-
-        return coordinates;
-    }
-
     /**
      * Находит ближайшего персонажа с минимальным здоровьем
      *
      * @return
      */
-    public Unit findAUnitWithMinimumHealth(Team ourTeam, Unit unit, boolean alien) {
+    public Unit findAUnitWithMinimumHealth(Unit unit, boolean alien) {
         Unit minHealthUnit = null;
         int minHealth = 100;
+
+        Team ourTeam = this.getUnitTeam(unit);
+
         for (Team teamTmp : teams) {
             if ((alien && teamTmp.equals(ourTeam)) || (!alien && !teamTmp.equals(ourTeam))) {
                 continue;
@@ -272,31 +207,12 @@ public class Arena implements ArenaInterface {
         return minHealthUnit;
     }
 
-    /**
-     * Перемешивает команду в порядке инициативы
-     *
-     * @param team
-     */
-    private void setTheInitiative(Team team) {
-        ArrayList<Unit> tmp = new ArrayList<>(team.teamList.size());
-
-        while (team.teamList.size() > 0) {
-            int i = new Random().nextInt(team.teamList.size());
-            tmp.add(team.teamList.get(i));
-            team.teamList.remove(i);
-        }
-
-        team.teamList = tmp;
-    }
-
     public void removeTheCorpse(Unit unit) {
         for (Team team : teams) {
-            for (int i = 0; i < team.teamList.size(); i++) {
-                if (team.teamList.get(i).equals(unit)) {
-                    team.teamList.remove(i);
-                    view.reportDeath(team, unit);
-                    break;
-                }
+            if (team.contains(unit)) {
+                team.removeUnit(unit);
+                view.reportDeath(team, unit);
+                break;
             }
         }
     }
@@ -402,10 +318,16 @@ public class Arena implements ArenaInterface {
                 }
             }
 
-            //проверить препятствие
-            checkCoordinates = checkCoordinates(stepCoordinates);
+            if (stepCoordinates.x >= 0 && stepCoordinates.y >= 0 && stepCoordinates.y < map.sizeY && stepCoordinates.x < map.sizeX) {
+                //проверить препятствин
+                checkCoordinates = map.isTheFieldEmpty(stepCoordinates);
 
-            // меняем направление для обхода препятствия
+                if (!checkCoordinates) {
+                    System.out.print(" -> " + stepCoordinates + " Занято. Иду в обход.");
+                }
+            }
+
+            // меняем направление
             if (!checkCoordinates) {
                 direction += 1;
 
@@ -424,20 +346,6 @@ public class Arena implements ArenaInterface {
         }
 
         return stepCoordinates;
-    }
-
-    private boolean checkCoordinates(Coordinates coordinates) {
-
-        // пока проверим всех персонажей с такими координатами
-        for (Team team : this.getTeams()) {
-            for (Unit unit : team.getUnits()) {
-                if (unit.getCoordinates().equals(coordinates)) {
-                    System.out.print(" -> " + coordinates + " Занято. Иду в обход.");
-                    return false;
-                }
-            }
-        }
-        return true;
     }
 
     /**
@@ -459,7 +367,7 @@ public class Arena implements ArenaInterface {
 
         for (int i = 1; i <= unit.getSpeed(); i++) {
             Coordinates stepCoordinates = this.getNextStepPosition(unit.getCoordinates(), coordinates);
-            unit.setCoordinates(stepCoordinates);
+            map.moveUnit(unit, stepCoordinates);
             System.out.print(" -> " + stepCoordinates);
         }
         System.out.println();

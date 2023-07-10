@@ -46,6 +46,6 @@ public class View {
     }
 
     public void errorNumberCommands() {
-        System.out.println("Создайте минимум две команды!");
+        System.out.println("Создайте 2 - 4 команды!");
     }
 }

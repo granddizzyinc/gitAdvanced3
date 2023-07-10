@@ -190,7 +190,7 @@ public abstract class Unit implements UnitInterface {   //implements AutoCloseab
 
     @Override
     public void step(Arena arena) {
-        Unit targetUnit = findTarget(arena, arena.getUnitTeam(this));
+        Unit targetUnit = findTarget(arena);
 
         if (targetUnit == null) {
             System.out.println("Цель: не найдена");

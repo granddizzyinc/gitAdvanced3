@@ -29,10 +29,9 @@ public interface UnitInterface {
      * переопределяется каждому персонажу отдельно
      *
      * @param arena
-     * @param ourTeam
      * @return
      */
-    Unit findTarget(Arena arena, Team ourTeam);
+    Unit findTarget(Arena arena);
 
     /**
      * Выполняет действия песонажа если цель в диапазоне

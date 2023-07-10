@@ -29,9 +29,9 @@ public class Spearman extends UnitAttackingWithWeapons {
     }
 
     @Override
-    public Unit findTarget(Arena arena, Team ourTeam) {
+    public Unit findTarget(Arena arena) {
         // ищем ближайшего чужого
-        return arena.findTheNearestTeamUnit(ourTeam, this, true);
+        return arena.findTheNearestTeamUnit(this, true);
     }
 
     @Override

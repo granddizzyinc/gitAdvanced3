@@ -28,9 +28,9 @@ public class Palladine extends UnitProtectiveWithShield {
     }
 
     @Override
-    public Unit findTarget(Arena arena, Team ourTeam) {
+    public Unit findTarget(Arena arena) {
         // ищем ближайшего своего
-        return arena.findTheNearestTeamUnit(ourTeam, this, false);
+        return arena.findTheNearestTeamUnit(this, false);
     }
 
     @Override
