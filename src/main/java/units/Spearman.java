@@ -33,6 +33,8 @@ public class Spearman extends UnitAttackingWithWeapons {
 
     @Override
     public void applyAbility(Unit targetUnit) {
-        System.out.println("Применяю способности");
+        System.out.print("Применяю способности: ");
+        System.out.print("Нет способностей");
+        System.out.println();
     }
 }

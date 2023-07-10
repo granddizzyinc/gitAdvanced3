@@ -469,7 +469,7 @@ public class Arena implements ArenaInterface {
         for (Team team : this.getTeams()) {
             for (Unit unit : team.getTeamList()) {
                 if (unit.getCoordinates().equals(coordinates)) {
-                    System.out.print(" -> " + coordinates + " Занято. Иду в обход. ");
+                    System.out.print(" -> " + coordinates + " Занято. Иду в обход.");
                     return false;
                 }
             }

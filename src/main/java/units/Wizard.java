@@ -25,6 +25,8 @@ public class Wizard extends UnitAttackingWithMagician {
     }
 
     public void applyAbility(Unit targetUnit) {
-        System.out.println("Применяю способности");
+        System.out.print("Применяю способности: ");
+        System.out.print("Нет способностей");
+        System.out.println();
     }
 }

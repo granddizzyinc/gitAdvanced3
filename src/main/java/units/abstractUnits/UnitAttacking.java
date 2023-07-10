@@ -45,13 +45,17 @@ public abstract class UnitAttacking extends Unit {
     @Override
     public void actionInDiapason(Arena arena, Unit targetUnit, boolean moveMade) {
         if (this.getAbilityPoints() == 2) {
-
+            this.applyAbility(targetUnit);
         } else if (this.getAbilityPoints() == 1) {
             this.performAnAttack(targetUnit);
 
             //проверяем убили ли
             if (targetUnit.getHealth() == 0) {
                 arena.removeTheCorpse(targetUnit);
+            }
+
+            if (this.getPointActivites() > 0 ) {
+                this.concentration();
             }
         } else {
             // пропускаем ход если он еще не сделан
@@ -66,7 +70,7 @@ public abstract class UnitAttacking extends Unit {
         if (this.getAbilityPoints() < 2) {
             //концентрация
             this.concentration();
-        } else {
+        } else if (this.getAbilityPoints() == 2) {
             //абилити
             if (kindOfBattle == KindOfBattle.distant) {
                 this.applyAbility(targetUnit);
