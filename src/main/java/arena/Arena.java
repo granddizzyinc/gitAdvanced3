@@ -1,18 +1,19 @@
 package arena;
 
+import arena.map.Map;
 import units.*;
 import units.abstractUnits.*;
 import view.View;
 
 import java.util.*;
-import java.util.concurrent.TimeUnit;
 
 public class Arena implements ArenaInterface {
-    private final int sizeX;
-    private final int sizeY;
+//    private final int sizeX;
+//    private final int sizeY;
     int round;
     boolean turns;
     private final ArrayList<Team> teams = new ArrayList<>();
+    private arena.map.Map map;
 
     public ArrayList<Team> getTeams() {
         return teams;
@@ -24,10 +25,11 @@ public class Arena implements ArenaInterface {
 
     private View view;
 
-    public Arena(int sizeX, int sizeY, View view) {
-        this.sizeX = sizeX;
-        this.sizeY = sizeY;
+    public Arena(Map map, View view) {
+//        this.sizeX = sizeX;
+//        this.sizeY = sizeY;
         this.view = view;
+        this.map = map;
     }
 
     @Override
@@ -161,7 +163,7 @@ public class Arena implements ArenaInterface {
 
     public Unit findTheNearestTeamUnit(Team ourTeam, Unit unit, boolean alien) {
         Unit nearestUnit = null;
-        double minDistance = this.sizeX + this.sizeY;
+        double minDistance = this.map.sizeX + this.map.sizeY;
         for (Team tmpTeam : teams) {
             if ((alien && tmpTeam.equals(ourTeam)) || (!alien && !tmpTeam.equals(ourTeam))) {
                 continue;
@@ -198,7 +200,7 @@ public class Arena implements ArenaInterface {
             int y = 0;
             boolean flag = false;
             while (!flag) {
-                y = new Random().nextInt(this.sizeY);
+                y = new Random().nextInt(this.map.sizeY);
                 flag = true;
 
                 for (Unit u : team) {
@@ -222,7 +224,7 @@ public class Arena implements ArenaInterface {
             int y = 0;
             boolean flag = false;
             while (!flag) {
-                y = new Random().nextInt(this.sizeY);
+                y = new Random().nextInt(this.map.sizeY);
                 flag = true;
 
                 for (Unit u : team) {
@@ -236,14 +238,13 @@ public class Arena implements ArenaInterface {
             }
 
             if (unit instanceof UnitAttacking) {
-                coordinates = new Coordinates(this.sizeX, y);
+                coordinates = new Coordinates(this.map.sizeX, y);
             } else if (unit instanceof UnitProtective) {
-                coordinates = new Coordinates(this.sizeX, y);
+                coordinates = new Coordinates(this.map.sizeX, y);
             } else if (unit instanceof UnitSupportive) {
-                coordinates = new Coordinates(this.sizeX, y);
+                coordinates = new Coordinates(this.map.sizeX, y);
             }
         }
-
 
         return coordinates;
     }

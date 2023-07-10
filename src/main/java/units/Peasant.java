@@ -23,11 +23,13 @@ public class Peasant extends UnitSupportiveBasic {
 
     @Override
     public boolean applyAbility(Unit targetUnit) {
-        return false;
+        return pokeWithAPitchfork(targetUnit);
     }
 
-    public boolean ability() {
-
+    public boolean pokeWithAPitchfork(Unit targetUnit) {
+//        if (getA) {
+//
+//        }
         return false;
     }
 }

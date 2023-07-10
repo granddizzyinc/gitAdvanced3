@@ -17,16 +17,22 @@ public class Wizard extends UnitAttackingWithMagician {
         super(Equipment.mantle_and_wand.getHealth(), Equipment.mantle_and_wand.getAttack(),
                 Equipment.mantle_and_wand.getDefend(), UnitsTypes.Wizard, name);
     }
-    public void lightning_storm(Unit target1, Unit target2, Unit target3){
+
+    public boolean lightning_storm(Unit target1, Unit target2, Unit target3) {
         if (getAbilityPoints() == 2) {
             if (using_lightning_storm == false) {
-                super.useAbility();
+                System.out.println("Шторм молний");
+                super.clearPointAbility();
                 target1.decreaseHealth(getHealth() / 2);
-                target2.decreaseHealth(getHealth() / 3);
-                target3.decreaseHealth(getHealth() / 4);
+                //target2.decreaseHealth(getHealth() / 3);
+                //target3.decreaseHealth(getHealth() / 4);
                 using_lightning_storm = true;
+
+                return true;
             }
         }
+
+        return false;
     }
 
     @Override
@@ -37,13 +43,8 @@ public class Wizard extends UnitAttackingWithMagician {
     }
 
     public boolean applyAbility(Unit targetUnit) {
-        boolean res = ability();
+        boolean res = lightning_storm(targetUnit, targetUnit, targetUnit);
 
         return res;
-    }
-
-    public boolean ability() {
-
-        return false;
     }
 }
