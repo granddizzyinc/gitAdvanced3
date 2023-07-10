@@ -31,11 +31,6 @@ public abstract class UnitAttackingWithMagician extends UnitAttacking {
     }
 
     @Override
-    public void clearPointActivites() {
-        super.clearPointActivites();
-    }
-
-    @Override
     public boolean performAnAttack(Unit unit) {
         if (mana - baseSpell > 0) {
             if (super.performAnAttack(unit)) {

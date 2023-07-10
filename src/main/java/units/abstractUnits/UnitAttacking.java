@@ -6,7 +6,6 @@ public abstract class UnitAttacking extends Unit {
     private float increasingAttack;
     private int abilityPoints;
 
-
     public UnitAttacking(int health, int defense, int attack, UnitsTypes type, String name) {
         super(health, defense, attack, type, name);
         this.abilityPoints = 0;
