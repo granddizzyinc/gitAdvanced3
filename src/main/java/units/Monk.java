@@ -17,7 +17,7 @@ public class Monk extends UnitProtectiveWithoutShild {
                 Equipment.kesa_and_beads.getDefend(), UnitsTypes.Monk, name);
     }
 
-    public void defenceCape(Unit target) {
+    public void mindMonk(Unit target) {
         if (getAbilityPoints() == 2) {
             super.useAbility();
             super.decreaseDamage(target.getDefense() * 1);   // вот здесь как-то определить тип атаки
