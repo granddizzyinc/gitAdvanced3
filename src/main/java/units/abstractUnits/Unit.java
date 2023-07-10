@@ -153,7 +153,7 @@ public abstract class Unit implements UnitInterface {   //implements AutoCloseab
     }
 
     public String getUnitBaseInfo() {
-        return "Тип: " + type.toString() + " Имя: " + name + " Здоровье: " + health + " Атака: " + attack;
+        return "Тип: " + type.toString() + " Имя: " + name + " Здоровье: " + health + " Атака: " + attack + " Защита: " + defense;
 
     }
 

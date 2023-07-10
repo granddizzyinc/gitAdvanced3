@@ -111,7 +111,7 @@ public class Arena implements ArenaInterface {
                     unit.step(this);
 
                     // пауза для наглядности
-                    TimeUnit.SECONDS.sleep(1);
+                    //TimeUnit.SECONDS.sleep(1);
 
                     view.showVoid();
 
