@@ -6,6 +6,8 @@ public class Main {
     public static void main(String[] args) throws InterruptedException {
         View view = new View();
         Map map = new Map(15, 15);
+
+        //контроллер
         Arena arena = new Arena(map, view);
 
         arena.createTeam("Команда Добра", 10);

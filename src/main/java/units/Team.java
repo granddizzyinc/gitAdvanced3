@@ -75,18 +75,18 @@ public class Team implements Iterator<Unit>, Iterable<Unit> {
         teamList.remove(unit);
     }
 
-    /**
-     * Выстраивает команду в порядке инициативы
-     */
-    public void setTheInitiative() {
-        ArrayList<Unit> tmp = new ArrayList<>(this.teamList.size());
-
-        while (this.getSize() > 0) {
-            int i = new Random().nextInt(this.getSize());
-            tmp.add(this.getUnits().get(i));
-            this.getUnits().remove(i);
-        }
-
-        this.teamList = tmp;
-    }
+//    /**
+//     * Выстраивает команду в порядке инициативы
+//     */
+//    public void setTheInitiative() {
+//        ArrayList<Unit> tmp = new ArrayList<>(this.teamList.size());
+//
+//        while (this.getSize() > 0) {
+//            int i = new Random().nextInt(this.getSize());
+//            tmp.add(this.getUnits().get(i));
+//            this.getUnits().remove(i);
+//        }
+//
+//        this.teamList = tmp;
+//    }
 }

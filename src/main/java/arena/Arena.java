@@ -17,6 +17,8 @@ public class Arena implements ArenaInterface {
         return teams;
     }
 
+    private ArrayList<Unit> initiative;
+
     private View view;
 
     public Arena(Map map, View view) {
@@ -85,36 +87,37 @@ public class Arena implements ArenaInterface {
             view.showUnits(this.getTeams());
 
             //выбираем команду которая будет ходить
-            for (Team team : teams) {
-                // если всех уже замочили
-                if (team.getNumberOfUnits() == 0) continue;
+//            for (Team team : teams) {
+//                // если всех уже замочили
+//                if (team.getNumberOfUnits() == 0) continue;
+//
+//                // задаем инициативу
+//                team.setTheInitiative();
 
-                // задаем инициативу
-                team.setTheInitiative();
+            this.setInitiative();
+            //каждый юнит делает ход в порядке уменьшения инициативы
+            for (Unit unit : initiative) {
+                view.showWhoseMove(this.getUnitTeam(unit), unit);
 
-                //каждый юнит делает ход в порядке уменьшения инициативы
-                for (Unit unit : team) {
-                    view.showWhoseMove(team, unit);
+                //восстанавливаем очки активности
+                //одно очко тратит на ходьбу
+                //второе очко тратит на действие
+                unit.setPointActivites(2);
 
-                    //восстанавливаем очки активности
-                    //одно очко тратит на ходьбу
-                    //второе очко тратит на действие
-                    unit.setPointActivites(2);
+                // персонаж делает ход в игре
+                unit.step(this);
 
-                    // персонаж делает ход в игре
-                    unit.step(this);
+                // пауза для наглядности
+                TimeUnit.SECONDS.sleep(1);
 
-                    // пауза для наглядности
-                    TimeUnit.SECONDS.sleep(1);
-
-                    view.showVoid();
+                view.showVoid();
 
 ////                        Ближники: копейщик (у него исключение в 2 клетки), разбойник, друид, паладин, крестьянин
 ////                        Дальники: Арбалетчик, монах, снайпер, чародей (ему уменьшить дальности на 1 клетку), волшебник
 
-                }
             }
         }
+//        }
 
         // проверяем победителя
         Team winner = getWinner();
@@ -371,5 +374,18 @@ public class Arena implements ArenaInterface {
             System.out.print(" -> " + stepCoordinates);
         }
         System.out.println();
+    }
+
+    public void setInitiative() {
+        this.initiative = new ArrayList<>();
+
+        for (Team team: teams) {
+            for (Unit unit : team) {
+                this.initiative.add(unit);
+            }
+        }
+
+        Collections.shuffle(initiative);
+
     }
 }
