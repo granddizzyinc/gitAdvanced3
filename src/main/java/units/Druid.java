@@ -6,8 +6,6 @@ import units.abstractUnits.Unit;
 import units.abstractUnits.UnitSupportiveHealer;
 import units.abstractUnits.UnitsTypes;
 
-import java.util.ArrayList;
-
 /**
  * Друид
  */
@@ -32,5 +30,10 @@ public class Druid extends UnitSupportiveHealer {
     public boolean ability() {
 
         return false;
+    }
+
+    @Override
+    public void restoringParameters() {
+        super.restoringParameters(Unit.baseAtack + Equipment.frogfoot_and_bearskin.getAttack(), Unit.baseDefence + Equipment.frogfoot_and_bearskin.getDefend());
     }
 }
