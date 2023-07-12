@@ -51,6 +51,7 @@ public class Team implements Iterator<Unit>, Iterable<Unit> {
         Iterator<Unit> it = new Iterator<Unit>() {
 
             private int index = -1;
+
             @Override
             public boolean hasNext() {
                 index++;
@@ -92,4 +93,11 @@ public class Team implements Iterator<Unit>, Iterable<Unit> {
 //
 //        this.teamList = tmp;
 //    }
+
+    public Unit getUnit(int index) {
+        if (index <= teamList.size() - 1)
+            return teamList.get(index);
+
+        return null;
+    }
 }

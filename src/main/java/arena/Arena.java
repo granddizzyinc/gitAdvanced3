@@ -86,7 +86,7 @@ public class Arena implements ArenaInterface {
         while (checkTheNeedForTheNextRound()) {
             round += 1;
 
-            view.view(teams, round);
+            view.view(round, teams);
 
             //log.showRaund(round);
 
@@ -225,6 +225,7 @@ public class Arena implements ArenaInterface {
     public void removeTheCorpse(Unit unit) {
         for (Team team : teams) {
             if (team.contains(unit)) {
+                map.clearField(unit.getCoordinates().x, unit.getCoordinates().y);
                 team.removeUnit(unit);
                 log.reportDeath(team, unit);
                 break;

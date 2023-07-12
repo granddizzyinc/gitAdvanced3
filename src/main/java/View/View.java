@@ -11,13 +11,13 @@ import java.util.Collections;
 import arena.map.Map;
 
 public class View {
-    private Map map = null;
+    private Map map;
 
     //    private static int step = 1;
-    private static final int[] l = {0};
-    private static final String top10 = formatDiv("a") + String.join("", Collections.nCopies(9, formatDiv("-b"))) + formatDiv("-c");
-    private static final String midl10 = formatDiv("d") + String.join("", Collections.nCopies(9, formatDiv("-e"))) + formatDiv("-f");
-    private static final String bottom10 = formatDiv("g") + String.join("", Collections.nCopies(9, formatDiv("-h"))) + formatDiv("-i");
+//    private static final int[] l = {0};
+//    private static final String top10 = formatDiv("a") + String.join("", Collections.nCopies(9, formatDiv("-b"))) + formatDiv("-c");
+//    private static final String midl10 = formatDiv("d") + String.join("", Collections.nCopies(9, formatDiv("-e"))) + formatDiv("-f");
+//    private static final String bottom10 = formatDiv("g") + String.join("", Collections.nCopies(9, formatDiv("-h"))) + formatDiv("-i");
 
     public View(Map map) {
         this.map = map;
@@ -84,34 +84,37 @@ public class View {
             sym = "   ";
 
         if (field instanceof Unit) {
-            if (((Unit) field).getTeam().color.equals("RED"))
-                out = "|" + (AnsiColors.ANSI_RED + sym + AnsiColors.ANSI_RESET);
-            else if (((Unit) field).getTeam().color.equals("BLUE"))
-                out = "|" + (AnsiColors.ANSI_BLUE + sym + AnsiColors.ANSI_RESET);
-            else if (((Unit) field).getTeam().color.equals("GREEN"))
-                out = "|" + (AnsiColors.ANSI_GREEN + sym + AnsiColors.ANSI_RESET);
-            else if (((Unit) field).getTeam().color.equals("WHITE"))
-                out = "|" + (AnsiColors.ANSI_WHITE + sym + AnsiColors.ANSI_RESET);
-
+            out = "|" + (getAnsiColor(((Unit) field).getTeam().color) + sym + AnsiColors.ANSI_RESET);
+        } else {
+            out = "|" + sym;
         }
 
         return out;
     }
 
-    public void view(ArrayList<Team> teams, Integer step) {
+    public void view(Integer step, ArrayList<Team> teams) {
         System.out.print(AnsiColors.ANSI_YELLOW + "Step " + step + AnsiColors.ANSI_RESET);
-
-//            step++;
-        teams.forEach((v) -> l[0] = Math.max(l[0], v.getSize()));
-        System.out.print("_".repeat(l[0] * 2));
+        //teams.forEach((v) -> l[0] = Math.max(l[0], v.getSize()));
+        //System.out.print("_".repeat(l[0] * 2));
         System.out.println();
 
         //вывод верха таблицы
         System.out.print(formatDiv("a") + formatDiv("-") + String.join("", Collections.nCopies(map.sizeX - 1, formatDiv("-") + formatDiv("-b") + formatDiv("-"))) + formatDiv("-") + formatDiv("-c") + "    ");
+
+        for (Team team : teams) {
+            //System.out.print(AnsiColors.ANSI_GREEN + ":\tGreen side" + AnsiColors.ANSI_RESET);
+            //for (int i = 0; i < l[0] - 9; i++)
+            //    System.out.println(" ".repeat(l[0] - 9));
+            System.out.print(getAnsiColor(team.color) + team.name + AnsiColors.ANSI_RESET);
+            tabSetter(team.name.length(), 70);
+        }
+        System.out.println();
         //System.out.print(AnsiColors.ANSI_GREEN + ":\tGreen side" + AnsiColors.ANSI_RESET);
-        for (int i = 0; i < l[0] - 9; i++)
-            System.out.println(" ".repeat(l[0] - 9));
+        //for (int i = 0; i < l[0] - 9; i++)
+        //    System.out.println(" ".repeat(l[0] - 9));
 //        System.out.println(AnsiColors.ANSI_BLUE + "Blue side" + AnsiColors.ANSI_RESET);
+
+
         for (int i = 0; i < map.sizeX; i++) {
             System.out.print(getChar(i, 0));
         }
@@ -129,10 +132,18 @@ public class View {
             for (int j = 0; j < map.sizeX; j++) {
                 System.out.print(getChar(j, i));
             }
-            System.out.println("|    ");
-//                System.out.print(Main.team1.get(i-1).getInfo());
-//                tabSetter(Main.team1.get(i-1).getInfo().length(), l[0]);
-//                System.out.println(Main.team2.get(i-1).getInfo());
+            System.out.print("|    ");
+
+            for (Team team : teams) {
+                Unit u = team.getUnit(i - 1);
+                if (u != null) {
+                    System.out.print(getAnsiColor(team.color) + u.getInfo() + AnsiColors.ANSI_RESET);
+                    tabSetter(u.getInfo().length(), 70);
+                } else {
+                    tabSetter(0, 70);
+                }
+            }
+            System.out.println();
 
             //вывод серидины таблицы
             System.out.println(formatDiv("d") + formatDiv("-") + String.join("", Collections.nCopies(map.sizeX - 1, formatDiv("-") + formatDiv("-e") + formatDiv("-"))) + formatDiv("-") + formatDiv("-f"));
@@ -147,5 +158,15 @@ public class View {
 //            System.out.println(Main.team2.get(9).getInfo());
         //вывод низа таблицы
         System.out.println(formatDiv("g") + formatDiv("-") + String.join("", Collections.nCopies(map.sizeX - 1, formatDiv("-") + formatDiv("-h") + formatDiv("-"))) + formatDiv("-") + formatDiv("-i"));
+    }
+
+    private String getAnsiColor(String color) {
+        return switch (color) {
+            case "RED" -> AnsiColors.ANSI_RED;
+            case "BLUE" -> AnsiColors.ANSI_BLUE;
+            case "GREEN" -> AnsiColors.ANSI_GREEN;
+            case "WHITE" -> AnsiColors.ANSI_WHITE;
+            default -> null;
+        };
     }
 }

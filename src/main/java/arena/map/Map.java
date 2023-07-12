@@ -87,4 +87,8 @@ public class Map {
     public Object getField(int x, int y) {
         return matrix[x][y];
     }
+
+    public void clearField(int x, int y) {
+        matrix[x][y] = null;
+    }
 }
