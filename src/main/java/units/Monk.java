@@ -19,7 +19,7 @@ public class Monk extends UnitProtectiveWithoutShild {
 
     public boolean mindMonk(Unit target) {
         if (getAbilityPoints() == 2) {
-            System.out.println("Мысли монаха");
+//            System.out.println("Мысли монаха");
             super.clearAbilityPoints();
             super.decreaseDamage(target.getDefense() * 1);   // вот здесь как-то определить тип атаки
             return true;

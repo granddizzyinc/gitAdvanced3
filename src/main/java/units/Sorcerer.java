@@ -33,7 +33,7 @@ public class Sorcerer extends UnitAttackingWithMagician {
 
     public boolean tricks(Unit target) {
         if (getAbilityPoints() == 2) {
-            System.out.println("Трюки.");
+//            System.out.println("Трюки.");
             super.clearPointAbility();
             switch (new Random().nextInt(1, 3)) {
                 case 1 -> target.decreaseSpeed(1);

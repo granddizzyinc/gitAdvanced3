@@ -21,7 +21,7 @@ public class Wizard extends UnitAttackingWithMagician {
     public boolean lightning_storm(Unit target1, Unit target2, Unit target3) {
         if (getAbilityPoints() == 2) {
             if (using_lightning_storm == false) {
-                System.out.println("Шторм молний");
+//                System.out.println("Шторм молний");
                 super.clearPointAbility();
                 target1.decreaseHealth(getHealth() / 2);
                 //target2.decreaseHealth(getHealth() / 3);

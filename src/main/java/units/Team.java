@@ -10,11 +10,13 @@ import java.util.Random;
 
 public class Team implements Iterator<Unit>, Iterable<Unit> {
     public final String name;
+    public final String color;
 
     private ArrayList<Unit> teamList = new ArrayList<>();
 
-    public Team(String name) {
+    public Team(String name, String color) {
         this.name = name;
+        this.color = color;
     }
 
     public ArrayList<Unit> getUnits() {
@@ -23,6 +25,7 @@ public class Team implements Iterator<Unit>, Iterable<Unit> {
 
     public void addUnit(Unit unit) {
         teamList.add(unit);
+        unit.setTeam(this);
     }
 
     public int getNumberOfUnits() {

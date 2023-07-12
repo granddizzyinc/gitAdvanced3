@@ -16,7 +16,7 @@ public class Robber extends UnitAttackingWithWeapons {
     }
     public boolean theft(Unit target){
         if (getAbilityPoints() == 2) {
-            System.out.println("Ворую.");
+//            System.out.println("Ворую.");
             super.clearPointAbility();
             for (int i = 0; i < 2; i++) {
                 target.decreasePointActivities();
@@ -29,7 +29,7 @@ public class Robber extends UnitAttackingWithWeapons {
     }
     public boolean jab(Unit target){
         if (getAbilityPoints() == 2){
-            System.out.println("jab");
+//            System.out.println("jab");
             super.clearPointAbility();
             target.decreasePointActivities();
             target.decreaseHealth(10);

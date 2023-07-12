@@ -42,7 +42,7 @@ public class Crossbowman extends UnitAttackingWithWeapons {
 
     public boolean arrow_to_the_knee(Unit unit) {
         if (getAbilityPoints() == 2) {
-            System.out.println("Стрела в колено");
+//            System.out.println("Стрела в колено");
             super.clearPointAbility();
             decreaseSpeed(1);
 

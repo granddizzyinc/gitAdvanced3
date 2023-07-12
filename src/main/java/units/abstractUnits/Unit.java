@@ -27,6 +27,8 @@ public abstract class Unit implements UnitInterface {   //implements AutoCloseab
     public final static int baseAtack = 5;
     public final static int baseDefence = 2;
 
+    private Team team;
+
 
     public Unit(int health, int defense, int attack, UnitsTypes type, String name) {
         this.health = 50 + health;
@@ -62,19 +64,19 @@ public abstract class Unit implements UnitInterface {   //implements AutoCloseab
         //* Ближники (не дальше 1 клетки)
         //* Дальники (5 клеток - 100% урон, до 7 клеток - 75% урона, до 9 клеток - 50%, 10 и более - не может атаковать)
 
-        System.out.println("Атакую: " + target);
+//        System.out.println("Атакую: " + target);
 
         if (getPointActivites() > 0) {
             if (this.attack - target.getDefense() > 0) {
                 target.decreaseHealth(this.attack - target.getDefense());
                 decreasePointActivities();
             } else {
-                System.out.println("Не прокатило");
+//                System.out.println("Не прокатило");
             }
 
             return true;
         } else {
-            System.out.println("Нет очков активности");
+//            System.out.println("Нет очков активности");
 
             return false;
         }
@@ -89,7 +91,7 @@ public abstract class Unit implements UnitInterface {   //implements AutoCloseab
     }
 
     public void clearPointActivites() {
-        System.out.println("Сброс очков активности");
+//        System.out.println("Сброс очков активности");
         pointActivites = 0;
     }
 
@@ -196,9 +198,9 @@ public abstract class Unit implements UnitInterface {   //implements AutoCloseab
         Unit targetUnit = findTarget(arena);
 
         if (targetUnit == null) {
-            System.out.println("Цель: не найдена");
+//            System.out.println("Цель: не найдена");
         } else {
-            System.out.println("Цель: " + arena.getUnitTeam(targetUnit).name + " " + targetUnit + " " + targetUnit.getCoordinates());
+//            System.out.println("Цель: " + arena.getUnitTeam(targetUnit).name + " " + targetUnit + " " + targetUnit.getCoordinates());
 
             if (this.isInDiapason(targetUnit)) {
                 this.actionInDiapason(arena, targetUnit, false);
@@ -258,7 +260,7 @@ public abstract class Unit implements UnitInterface {   //implements AutoCloseab
      */
     protected boolean isInDiapason(Unit targetUnit) {
         if (this.distanceSkill >= this.getCoordinates().calculateDistance(targetUnit.getCoordinates())) {
-            System.out.println("Цель в диапазоне");
+            //System.out.println("Цель в диапазоне");
             return true;
         }
 
@@ -268,5 +270,13 @@ public abstract class Unit implements UnitInterface {   //implements AutoCloseab
     public void restoringParameters(int attack, int defense) {
         this.attack = attack;
         this.defense = defense;
+    }
+
+    public Team getTeam() {
+        return team;
+    }
+
+    public void setTeam(Team team) {
+        this.team = team;
     }
 }

@@ -17,7 +17,7 @@ public class Spearman extends UnitAttackingWithWeapons {
     }
     public boolean stun(Unit target){
         if (getAbilityPoints() == 2 && getPointActivites() == 1) {
-            System.out.println("Оглушаю.");
+//            System.out.println("Оглушаю.");
             super.clearPointAbility();
             super.performAnAttack(target);
             target.clearPointActivites();

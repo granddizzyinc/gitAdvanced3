@@ -83,4 +83,8 @@ public class Map {
 
         return coordinates;
     }
+
+    public Object getField(int x, int y) {
+        return matrix[x][y];
+    }
 }

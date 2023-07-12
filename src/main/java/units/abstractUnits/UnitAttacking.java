@@ -16,7 +16,8 @@ public abstract class UnitAttacking extends Unit {
     }
 
     public boolean concentration() {
-        System.out.println("Концентрируюсь");
+//        System.out.println("Концентрируюсь");
+
         //super.skipAMove();
         if (abilityPoints < 2) {
             abilityPoints += 1;

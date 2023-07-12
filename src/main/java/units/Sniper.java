@@ -19,7 +19,7 @@ public class Sniper extends UnitAttackingWithWeapons {
     public boolean hitTheBullsEye(Unit target){
         if (getAbilityPoints() == 2){
             if (using_Hit_the_bulls_eye == false) {
-                System.out.println("Попал в Бычий глаз.");
+//                System.out.println("Попал в яблочко.");
                 super.clearPointAbility();
                 target.decreaseHealth(getHealth()/2);
                 using_Hit_the_bulls_eye = true;

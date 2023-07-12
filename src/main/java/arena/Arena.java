@@ -1,9 +1,10 @@
 package arena;
 
+import View.View;
 import arena.map.Map;
 import units.*;
 import units.abstractUnits.*;
-import view.View;
+import Log.Log;
 
 import java.util.*;
 import java.util.concurrent.TimeUnit;
@@ -19,16 +20,19 @@ public class Arena implements ArenaInterface {
 
     private ArrayList<Unit> initiative = new ArrayList<>();
 
+    private Log log;
+
     private View view;
 
-    public Arena(Map map, View view) {
+    public Arena(Map map, View view, Log log) {
+        this.log = log;
         this.view = view;
         this.map = map;
     }
 
     @Override
-    public void createTeam(String name, int teamSize) {
-        teams.add(new Team(name));
+    public void createTeam(String name, int teamSize, String color) {
+        teams.add(new Team(name, color));
         Team team = teams.get(teams.size() - 1);
         generateTeam(team, teamSize);
         this.placeUnits(team);
@@ -72,19 +76,21 @@ public class Arena implements ArenaInterface {
     @Override
     public void startTheBattle() throws InterruptedException {
         if (teams.size() < 2 || teams.size() > 4) {
-            view.errorNumberCommands();
+            log.errorNumberCommands();
             return;
         }
 
-        view.showStartBattle();
+        //log.showStartBattle();
 
         //если нужен следующий раунд то запускаем
         while (checkTheNeedForTheNextRound()) {
             round += 1;
 
-            view.showRaund(round);
+            view.view(teams, round);
 
-            view.showUnits(this.getTeams());
+            //log.showRaund(round);
+
+            //log.showUnits(this.getTeams());
 
             //выбираем команду которая будет ходить
 //            for (Team team : teams) {
@@ -99,7 +105,7 @@ public class Arena implements ArenaInterface {
             for (Unit unit : initiative) {
                 if (unit.getHealth() == 0) continue;
 
-                view.showWhoseMove(this.getUnitTeam(unit), unit);
+                log.showWhoseMove(this.getUnitTeam(unit), unit);
 
                 //восстанавливаем очки активности
                 //одно очко тратит на ходьбу
@@ -109,10 +115,9 @@ public class Arena implements ArenaInterface {
                 // персонаж делает ход в игре
                 unit.step(this);
 
-                // пауза для наглядности
-                TimeUnit.SECONDS.sleep(1);
 
-                view.showVoid();
+
+                log.showVoid();
 
 ////                        Ближники: копейщик (у него исключение в 2 клетки), разбойник, друид, паладин, крестьянин
 ////                        Дальники: Арбалетчик, монах, снайпер, чародей (ему уменьшить дальности на 1 клетку), волшебник
@@ -120,13 +125,16 @@ public class Arena implements ArenaInterface {
             }
 
             this.restoringParameters();
+
+            // пауза для наглядности
+            TimeUnit.SECONDS.sleep(1);
         }
 //        }
 
         // проверяем победителя
         Team winner = getWinner();
         if (winner != null) {
-            view.reportWinner(winner);
+            log.reportWinner(winner);
         }
     }
 
@@ -218,7 +226,7 @@ public class Arena implements ArenaInterface {
         for (Team team : teams) {
             if (team.contains(unit)) {
                 team.removeUnit(unit);
-                view.reportDeath(team, unit);
+                log.reportDeath(team, unit);
                 break;
             }
         }
@@ -330,7 +338,7 @@ public class Arena implements ArenaInterface {
                 checkCoordinates = map.isTheFieldEmpty(stepCoordinates);
 
                 if (!checkCoordinates) {
-                    System.out.print(" -> " + stepCoordinates + " Занято. Иду в обход.");
+//                    System.out.print(" -> " + stepCoordinates + " Занято. Иду в обход.");
                 }
             }
 
@@ -346,7 +354,7 @@ public class Arena implements ArenaInterface {
 
             // проверяем если ходить некуда
             if (countTurn > 7) {
-                System.out.print(" Некуда ходить. ");
+//                System.out.print(" Некуда ходить. ");
                 stepCoordinates = beginCoordinates;
                 break;
             }
@@ -370,14 +378,14 @@ public class Arena implements ArenaInterface {
 
     @Override
     public void doMove(Unit unit, Coordinates coordinates) {
-        System.out.print("Хожу: " + unit.getCoordinates());
+//        System.out.print("Хожу: " + unit.getCoordinates());
 
         for (int i = 1; i <= unit.getSpeed(); i++) {
             Coordinates stepCoordinates = this.getNextStepPosition(unit.getCoordinates(), coordinates);
             map.moveUnit(unit, stepCoordinates);
-            System.out.print(" -> " + stepCoordinates);
+//            System.out.print(" -> " + stepCoordinates);
         }
-        System.out.println();
+//        System.out.println();
     }
 
     public void setInitiative() {
@@ -417,3 +425,5 @@ public class Arena implements ArenaInterface {
         }
     }
 }
+
+enum Colors {GREEN, BLUE, RED, WHITE}
