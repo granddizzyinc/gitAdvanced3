@@ -2,6 +2,7 @@ package View;
 
 //import Game.Units.Hero;
 
+import arena.ArenaMessage;
 import units.*;
 import units.abstractUnits.Unit;
 
@@ -92,7 +93,11 @@ public class View {
         return out;
     }
 
-    public void view(Integer step, ArrayList<Team> teams, ArrayList<String> arenaMessages) {
+    public void view(Integer step, ArrayList<Team> teams, ArrayList<ArenaMessage> arenaMessages) {
+        for (int i = 0; i < 50; i++) {
+            System.out.println();
+        }
+
         System.out.print(AnsiColors.ANSI_YELLOW + "Step " + step + AnsiColors.ANSI_RESET);
         //teams.forEach((v) -> l[0] = Math.max(l[0], v.getSize()));
         //System.out.print("_".repeat(l[0] * 2));
@@ -159,8 +164,11 @@ public class View {
         //вывод низа таблицы
         System.out.println(formatDiv("g") + formatDiv("-") + String.join("", Collections.nCopies(map.sizeX - 1, formatDiv("-") + formatDiv("-h") + formatDiv("-"))) + formatDiv("-") + formatDiv("-i"));
 
-        for (String msg: arenaMessages) {
-            System.out.println(msg);
+        for (ArenaMessage msg: arenaMessages) {
+            if (msg.unit != null) System.out.print(getAnsiColor(msg.unit.getTeam().color) +  msg.unit.getType() + " " + msg.unit.getName() + AnsiColors.ANSI_RESET);
+            if (msg.message != null) System.out.print(msg.message);
+            if (msg.target != null) System.out.print(getAnsiColor(msg.target.getTeam().color) + msg.target.getType() + " " + msg.target.getName() + AnsiColors.ANSI_RESET);
+            System.out.println();
         }
         arenaMessages.clear();
     }
