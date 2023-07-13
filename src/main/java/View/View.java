@@ -92,7 +92,7 @@ public class View {
         return out;
     }
 
-    public void view(Integer step, ArrayList<Team> teams) {
+    public void view(Integer step, ArrayList<Team> teams, ArrayList<String> arenaMessages) {
         System.out.print(AnsiColors.ANSI_YELLOW + "Step " + step + AnsiColors.ANSI_RESET);
         //teams.forEach((v) -> l[0] = Math.max(l[0], v.getSize()));
         //System.out.print("_".repeat(l[0] * 2));
@@ -158,6 +158,11 @@ public class View {
 //            System.out.println(Main.team2.get(9).getInfo());
         //вывод низа таблицы
         System.out.println(formatDiv("g") + formatDiv("-") + String.join("", Collections.nCopies(map.sizeX - 1, formatDiv("-") + formatDiv("-h") + formatDiv("-"))) + formatDiv("-") + formatDiv("-i"));
+
+        for (String msg: arenaMessages) {
+            System.out.println(msg);
+        }
+        arenaMessages.clear();
     }
 
     private String getAnsiColor(String color) {

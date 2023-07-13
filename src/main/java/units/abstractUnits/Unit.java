@@ -134,6 +134,10 @@ public abstract class Unit implements UnitInterface {   //implements AutoCloseab
 
     public void addHealth(int value) {
         health += value;
+
+        if (health > 100) {
+            health = 100;
+        }
     }
 
     public void decreaseHealth(int value) {
@@ -199,8 +203,9 @@ public abstract class Unit implements UnitInterface {   //implements AutoCloseab
 
         if (targetUnit == null) {
 //            System.out.println("Цель: не найдена");
+            arena.addArenaMessage(this.name + " " + "Цель не найдена");
         } else {
-//            System.out.println("Цель: " + arena.getUnitTeam(targetUnit).name + " " + targetUnit + " " + targetUnit.getCoordinates());
+            System.out.println(this.name + " " + "Цель: " + targetUnit.team.name + " " + targetUnit + " " + targetUnit.getCoordinates());
 
             if (this.isInDiapason(targetUnit)) {
                 this.actionInDiapason(arena, targetUnit, false);

@@ -24,6 +24,8 @@ public class Arena implements ArenaInterface {
 
     private View view;
 
+    private ArrayList<String> arenaMesagges = new ArrayList<>();
+
     public Arena(Map map, View view, Log log) {
         this.log = log;
         this.view = view;
@@ -80,25 +82,11 @@ public class Arena implements ArenaInterface {
             return;
         }
 
-        //log.showStartBattle();
-
         //если нужен следующий раунд то запускаем
         while (checkTheNeedForTheNextRound()) {
             round += 1;
 
-            view.view(round, teams);
-
-            //log.showRaund(round);
-
-            //log.showUnits(this.getTeams());
-
-            //выбираем команду которая будет ходить
-//            for (Team team : teams) {
-//                // если всех уже замочили
-//                if (team.getNumberOfUnits() == 0) continue;
-//
-//                // задаем инициативу
-//                team.setTheInitiative();
+            view.view(round, teams, arenaMesagges);
 
             this.setInitiative();
             //каждый юнит делает ход в порядке уменьшения инициативы
@@ -114,14 +102,6 @@ public class Arena implements ArenaInterface {
 
                 // персонаж делает ход в игре
                 unit.step(this);
-
-
-
-                log.showVoid();
-
-////                        Ближники: копейщик (у него исключение в 2 клетки), разбойник, друид, паладин, крестьянин
-////                        Дальники: Арбалетчик, монах, снайпер, чародей (ему уменьшить дальности на 1 клетку), волшебник
-
             }
 
             this.restoringParameters();
@@ -129,7 +109,6 @@ public class Arena implements ArenaInterface {
             // пауза для наглядности
             TimeUnit.SECONDS.sleep(1);
         }
-//        }
 
         // проверяем победителя
         Team winner = getWinner();
@@ -425,6 +404,8 @@ public class Arena implements ArenaInterface {
                 ((Wizard) unit).restoringParameters();
         }
     }
-}
 
-enum Colors {GREEN, BLUE, RED, WHITE}
+    public void addArenaMessage(String message) {
+        arenaMesagges.add(message);
+    }
+}
