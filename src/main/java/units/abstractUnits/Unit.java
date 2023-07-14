@@ -106,7 +106,7 @@ public abstract class Unit implements UnitInterface {   //implements AutoCloseab
     public int getAttack() {
         int calculatedAttack = attack;
         for (SuperimposedAction act : superimposedActions) {
-            calculatedAttack += act.attackChangeNumber;
+            calculatedAttack += act.attackChangeValue;
         }
 
         if (calculatedAttack < 0) calculatedAttack = 0;
@@ -190,8 +190,7 @@ public abstract class Unit implements UnitInterface {   //implements AutoCloseab
     }
 
     public String getUnitBaseInfo() {
-        return "" + type.toString() + ": " + name + " Здоровье: " + this.getHealth() + " Атака: " + this.getAttack() + " Защита: " + this.getDefense();
-
+        return "" + type.toString() + " " + name + " Ж:" + this.getHealth() + " А:" + this.getAttack() + " З:" + this.getDefense() + " С:" + this.getSpeed();
     }
 
     @Override
@@ -206,7 +205,7 @@ public abstract class Unit implements UnitInterface {   //implements AutoCloseab
 
 
     public String getShortInfo() {
-        return "Тип: " + type.toString() + " Имя: " + name + " Здоровье: " + this.getHealth();
+        return this.type.toString() + " " + this.name;
     }
 
     @Override
@@ -235,13 +234,13 @@ public abstract class Unit implements UnitInterface {   //implements AutoCloseab
     public int getDefense() {
         int calculatedDefense = defense;
         for (SuperimposedAction act : superimposedActions) {
-            calculatedDefense += act.defendChangeNumber;
+            calculatedDefense += act.defendChangeValue;
         }
 
         if (calculatedDefense < 0 ) calculatedDefense = 0;
         else if (calculatedDefense > 100) calculatedDefense = 100;
 
-        return Math.max(calculatedDefense, 0);
+        return calculatedDefense;
     }
 
     public void setAttack(int value) {
@@ -261,7 +260,15 @@ public abstract class Unit implements UnitInterface {   //implements AutoCloseab
     }
 
     public int getSpeed() {
-        return speed;
+        int calculatedSpeed = speed;
+        for (SuperimposedAction act : superimposedActions) {
+            calculatedSpeed += act.speedChangeValue;
+        }
+
+        if (calculatedSpeed < 0 ) calculatedSpeed = 0;
+        else if (calculatedSpeed > 100) calculatedSpeed = 100;
+
+        return calculatedSpeed;
     }
 
     public int getHealth() {
@@ -283,18 +290,39 @@ public abstract class Unit implements UnitInterface {   //implements AutoCloseab
      * @return
      */
     protected boolean isInDiapason(Unit targetUnit) {
-        if (this.distanceSkill >= this.getCoordinates().calculateDistance(targetUnit.getCoordinates())) {
-            //System.out.println("Цель в диапазоне");
+        int unitDistanceSkill = distanceSkill;
+        if (targetUnit instanceof Crossbowman)
+            unitDistanceSkill = ((Crossbowman) targetUnit).distanceSkill;
+        else if (targetUnit instanceof Druid)
+            unitDistanceSkill = ((Druid) targetUnit).distanceSkill;
+        else if (targetUnit instanceof Monk)
+            unitDistanceSkill = ((Monk) targetUnit).distanceSkill;
+        else if (targetUnit instanceof Palladine)
+            unitDistanceSkill = ((Palladine) targetUnit).distanceSkill;
+        else if (targetUnit instanceof Peasant)
+            unitDistanceSkill = ((Peasant) targetUnit).distanceSkill;
+        else if (targetUnit instanceof Robber)
+            unitDistanceSkill = ((Robber) targetUnit).distanceSkill;
+        else if (targetUnit instanceof Sniper)
+            unitDistanceSkill = ((Sniper) targetUnit).distanceSkill;
+        else if (targetUnit instanceof Sorcerer)
+            unitDistanceSkill = ((Sorcerer) targetUnit).distanceSkill;
+        else if (targetUnit instanceof Spearman)
+            unitDistanceSkill = ((Spearman) targetUnit).distanceSkill;
+        else if (targetUnit instanceof Wizard)
+            unitDistanceSkill = ((Wizard) targetUnit).distanceSkill;
+
+        if (unitDistanceSkill >= this.getCoordinates().calculateDistance(targetUnit.getCoordinates())) {
             return true;
         }
 
         return false;
     }
 
-    public void restoringParameters(int attack, int defense) {
-        this.attack = attack;
-        this.defense = defense;
-    }
+//    public void restoringParameters(int attack, int defense) {
+//        this.attack = attack;
+//        this.defense = defense;
+//    }
 
     /**
      * Возвращает команду персонажа

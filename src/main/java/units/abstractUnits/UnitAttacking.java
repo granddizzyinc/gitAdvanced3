@@ -70,7 +70,7 @@ public abstract class UnitAttacking extends Unit {
                     this.clearPointActivites();
                     arena.addArenaMessage(this, null, " пропустил ход");
                 } else {
-                    arena.addArenaMessage(this, null, " переместился");
+                    arena.addArenaMessage(this, targetUnit, " переместился к ");
                 }
             }
         } else {
@@ -101,7 +101,7 @@ public abstract class UnitAttacking extends Unit {
             if (!this.concentration()) {
                 // если не смогли сконцентрироваться
                 this.clearPointActivites();
-                arena.addArenaMessage(this, null, " переместился");
+                arena.addArenaMessage(this, targetUnit, " переместился к ");
             } else {
                 arena.addArenaMessage(this, null, " сконцентрировался ");
             }

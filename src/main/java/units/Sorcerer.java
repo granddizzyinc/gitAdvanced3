@@ -7,7 +7,7 @@ import java.util.Random;
 
 public class Sorcerer extends UnitAttackingWithMagician {
     int extraActivities = 1;
-    int distanceSkill = 8;
+    public final int distanceSkill = 8;
 
     public Sorcerer(String name) {
         super(Equipment.runes_and_powders.getHealth(), Equipment.runes_and_powders.getAttack(),
@@ -60,8 +60,8 @@ public class Sorcerer extends UnitAttackingWithMagician {
         return arena.findAUnitWithMinimumHealth(this, true);
     }
 
-    @Override
-    public void restoringParameters() {
-        super.restoringParameters(Unit.baseAtack + Equipment.runes_and_powders.getAttack(), Unit.baseDefence + Equipment.runes_and_powders.getDefend());
-    }
+//    @Override
+//    public void restoringParameters() {
+//        super.restoringParameters(Unit.baseAtack + Equipment.runes_and_powders.getAttack(), Unit.baseDefence + Equipment.runes_and_powders.getDefend());
+//    }
 }

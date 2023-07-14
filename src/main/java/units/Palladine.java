@@ -39,8 +39,8 @@ public class Palladine extends UnitProtectiveWithShield {
         return defenceCape(targetUnit);
     }
 
-    @Override
-    public void restoringParameters() {
-        super.restoringParameters(Unit.baseAtack + Equipment.shield_and_sword.getAttack(), Unit.baseDefence + Equipment.shield_and_sword.getDefend());
-    }
+//    @Override
+//    public void restoringParameters() {
+//        super.restoringParameters(Unit.baseAtack + Equipment.shield_and_sword.getAttack(), Unit.baseDefence + Equipment.shield_and_sword.getDefend());
+//    }
 }

@@ -10,7 +10,7 @@ import units.abstractUnits.UnitsTypes;
  * Снайпер
  */
 public class Sniper extends UnitAttackingWithWeapons {
-    int distanceSkill = 9;
+    public final int distanceSkill = 9;
     private boolean using_Hit_the_bulls_eye = false;
     public Sniper(String name) {
         super(Equipment.bow_and_arrows.getHealth(), Equipment.bow_and_arrows.getAttack(),
@@ -44,8 +44,8 @@ public class Sniper extends UnitAttackingWithWeapons {
         return res;
     }
 
-    @Override
-    public void restoringParameters() {
-        super.restoringParameters(Unit.baseAtack + Equipment.bow_and_arrows.getAttack(), Unit.baseDefence + Equipment.bow_and_arrows.getDefend());
-    }
+//    @Override
+//    public void restoringParameters() {
+//        super.restoringParameters(Unit.baseAtack + Equipment.bow_and_arrows.getAttack(), Unit.baseDefence + Equipment.bow_and_arrows.getDefend());
+//    }
 }

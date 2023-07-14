@@ -27,8 +27,8 @@ public class Druid extends UnitSupportiveHealer {
         return super.smallHeal(targetUnit);
     }
 
-    @Override
-    public void restoringParameters() {
-        super.restoringParameters(Unit.baseAtack + Equipment.frogfoot_and_bearskin.getAttack(), Unit.baseDefence + Equipment.frogfoot_and_bearskin.getDefend());
-    }
+//    @Override
+//    public void restoringParameters() {
+//        super.restoringParameters(Unit.baseAtack + Equipment.frogfoot_and_bearskin.getAttack(), Unit.baseDefence + Equipment.frogfoot_and_bearskin.getDefend());
+//    }
 }

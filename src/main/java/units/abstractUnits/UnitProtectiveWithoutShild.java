@@ -5,5 +5,5 @@ public abstract class UnitProtectiveWithoutShild extends UnitProtective {
         super(health, defense, attack, type, name);
     }
 
-    public abstract void restoringParameters();
+    //public abstract void restoringParameters();
 }

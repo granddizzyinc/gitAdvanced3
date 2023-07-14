@@ -77,6 +77,8 @@ public class View {
             System.out.println();
         }
 
+        int maxLengthInfo = 55;
+
         System.out.print(AnsiColors.ANSI_YELLOW + "Step " + step + AnsiColors.ANSI_RESET);
         System.out.println();
 
@@ -85,7 +87,7 @@ public class View {
 
         for (Team team : teams) {
             System.out.print(getAnsiColor(team.color) + team.name + AnsiColors.ANSI_RESET);
-            tabSetter(team.name.length(), 70);
+            tabSetter(team.name.length(), maxLengthInfo);
         }
         System.out.println();
 
@@ -108,9 +110,9 @@ public class View {
                 Unit u = team.getUnit(i - 1);
                 if (u != null) {
                     System.out.print(getAnsiColor(team.color) + u.getInfo() + AnsiColors.ANSI_RESET);
-                    tabSetter(u.getInfo().length(), 70);
+                    tabSetter(u.getInfo().length(), maxLengthInfo);
                 } else {
-                    tabSetter(0, 70);
+                    tabSetter(0, maxLengthInfo);
                 }
             }
             System.out.println();

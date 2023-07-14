@@ -33,8 +33,8 @@ public class Peasant extends UnitSupportiveBasic {
         return false;
     }
 
-    @Override
-    public void restoringParameters() {
-        super.restoringParameters(Unit.baseAtack + Equipment.pitchfork_and_robe.getAttack(), Unit.baseDefence + Equipment.pitchfork_and_robe.getDefend());
-    }
+//    @Override
+//    public void restoringParameters() {
+//        super.restoringParameters(Unit.baseAtack + Equipment.pitchfork_and_robe.getAttack(), Unit.baseDefence + Equipment.pitchfork_and_robe.getDefend());
+//    }
 }

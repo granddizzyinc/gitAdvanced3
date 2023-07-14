@@ -10,7 +10,7 @@ import units.abstractUnits.UnitsTypes;
  * Копейщик
  */
 public class Spearman extends UnitAttackingWithWeapons {
-    int distanceSkill = 2;
+    public final int distanceSkill = 2;
     public Spearman(String name) {
         super(Equipment.spear_and_cuirass.getHealth(), Equipment.spear_and_cuirass.getAttack(),
                 Equipment.spear_and_cuirass.getDefend(), UnitsTypes.Spearman,  name);
@@ -41,8 +41,8 @@ public class Spearman extends UnitAttackingWithWeapons {
         return res;
     }
 
-    @Override
-    public void restoringParameters() {
-        super.restoringParameters(Unit.baseAtack + Equipment.spear_and_cuirass.getAttack(), Unit.baseDefence + Equipment.spear_and_cuirass.getDefend());
-    }
+//    @Override
+//    public void restoringParameters() {
+//        super.restoringParameters(Unit.baseAtack + Equipment.spear_and_cuirass.getAttack(), Unit.baseDefence + Equipment.spear_and_cuirass.getDefend());
+//    }
 }

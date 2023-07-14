@@ -92,13 +92,10 @@ public class Arena implements ArenaInterface {
             round += 1;
 
 
-
             this.setInitiative();
             //каждый юнит делает ход в порядке уменьшения инициативы
             for (Unit unit : initiative) {
                 if (unit.getHealth() == 0) continue;
-
-                //log.showWhoseMove(this.getUnitTeam(unit), unit);
 
                 //восстанавливаем очки активности
                 //одно очко тратит на ходьбу
@@ -157,21 +154,24 @@ public class Arena implements ArenaInterface {
 
     public Unit findTheNearestTeamUnit(Unit unit, boolean alien) {
         Unit nearestUnit = null;
-        double minDistance = this.map.sizeX + this.map.sizeY;
+        double minDistance = Math.sqrt(this.map.sizeX*this.map.sizeX + this.map.sizeY*this.map.sizeY) + 1;
 
         for (Team tmpTeam : teams) {
             if ((alien && tmpTeam.equals(unit.getTeam())) || (!alien && !tmpTeam.equals(unit.getTeam()))) {
                 continue;
             }
 
-            for (Unit tmpUnit : tmpTeam) {
+            for (Unit target : tmpTeam) {
                 //главное в любом расследовании не выйти на самого себя
-                if (tmpUnit.equals(unit)) continue;
+                if (target.equals(unit)) continue;
 
-                double distance = unit.getCoordinates().calculateDistance(tmpUnit.getCoordinates());
+                double distance = unit.getCoordinates().calculateDistance(target.getCoordinates());
                 if (distance < minDistance) {
-                    minDistance = distance;
-                    nearestUnit = tmpUnit;
+                    // если ищем свого или проверяем сможем ли атаковать
+                    if (!alien || unit.getAttack() - target.getDefense() > 0) {
+                        minDistance = distance;
+                        nearestUnit = target;
+                    }
                 }
             }
         }
@@ -185,20 +185,23 @@ public class Arena implements ArenaInterface {
      */
     public Unit findAUnitWithMinimumHealth(Unit unit, boolean alien) {
         Unit minHealthUnit = null;
-        int minHealth = 100;
+        int minHealth = 101;
 
-        for (Team teamTmp : teams) {
-            if ((alien && teamTmp.equals(unit.getTeam())) || (!alien && !teamTmp.equals(unit.getTeam()))) {
+        for (Team targetTeam : teams) {
+            if ((alien && targetTeam.equals(unit.getTeam())) || (!alien && !targetTeam.equals(unit.getTeam()))) {
                 continue;
             }
 
-            for (Unit unit_tmp : teamTmp) {
+            for (Unit target : targetTeam) {
                 //главное в любом расследовании не выйти на самого себя
-                if (unit_tmp.equals(unit)) continue;
+                if (target.equals(unit)) continue;
 
-                if (unit_tmp.getHealth() < minHealth) {
-                    minHealth = unit_tmp.getHealth();
-                    minHealthUnit = unit_tmp;
+                if (target.getHealth() < minHealth) {
+                    // если ищем свого или проверяем сможем ли атаковать
+                    if (!alien || unit.getAttack() - target.getDefense() > 0) {
+                        minHealth = target.getHealth();
+                        minHealthUnit = target;
+                    }
                 }
             }
         }
@@ -385,43 +388,48 @@ public class Arena implements ArenaInterface {
         Collections.shuffle(initiative);
     }
 
-    private void restoringParameters() {
-        for (Unit unit : initiative) {
-            if (unit instanceof Crossbowman)
-                ((Crossbowman) unit).restoringParameters();
-            else if (unit instanceof Druid)
-                ((Druid) unit).restoringParameters();
-            else if (unit instanceof Monk)
-                ((Monk) unit).restoringParameters();
-            else if (unit instanceof Palladine)
-                ((Palladine) unit).restoringParameters();
-            else if (unit instanceof Peasant)
-                ((Peasant) unit).restoringParameters();
-            else if (unit instanceof Robber)
-                ((Robber) unit).restoringParameters();
-            else if (unit instanceof Sniper)
-                ((Sniper) unit).restoringParameters();
-            else if (unit instanceof Sorcerer)
-                ((Sorcerer) unit).restoringParameters();
-            else if (unit instanceof Spearman)
-                ((Spearman) unit).restoringParameters();
-            else if (unit instanceof Wizard)
-                ((Wizard) unit).restoringParameters();
-        }
-    }
+//    private void restoringParameters() {
+//        for (Unit unit : initiative) {
+//            if (unit instanceof Crossbowman)
+//                ((Crossbowman) unit).restoringParameters();
+//            else if (unit instanceof Druid)
+//                ((Druid) unit).restoringParameters();
+//            else if (unit instanceof Monk)
+//                ((Monk) unit).restoringParameters();
+//            else if (unit instanceof Palladine)
+//                ((Palladine) unit).restoringParameters();
+//            else if (unit instanceof Peasant)
+//                ((Peasant) unit).restoringParameters();
+//            else if (unit instanceof Robber)
+//                ((Robber) unit).restoringParameters();
+//            else if (unit instanceof Sniper)
+//                ((Sniper) unit).restoringParameters();
+//            else if (unit instanceof Sorcerer)
+//                ((Sorcerer) unit).restoringParameters();
+//            else if (unit instanceof Spearman)
+//                ((Spearman) unit).restoringParameters();
+//            else if (unit instanceof Wizard)
+//                ((Wizard) unit).restoringParameters();
+//        }
+//    }
 
     public void addArenaMessage(Unit unit, Unit target, String message) {
         arenaMesagges.add(new ArenaMessage(unit, target, message));
     }
 
     private void analyzeSuperimposedActions() {
-        for (Unit unit: initiative) {
-            for (SuperimposedAction act: unit.getSuperimposedActions()) {
+        ArrayList<SuperimposedAction> tmp = new ArrayList<>();
+        for (Unit unit : initiative) {
+            for (SuperimposedAction act : unit.getSuperimposedActions()) {
                 if (act.getStartRaund() == 0) act.setStartRaund(round);
                 else if (round - act.getStartRaund() > act.period) {
-                    unit.removeSuperimposedAction(act);
+                    tmp.add(act);
                 }
             }
+            for (SuperimposedAction act: tmp) {
+                unit.removeSuperimposedAction(act);
+            }
+            tmp.clear();
         }
     }
 }

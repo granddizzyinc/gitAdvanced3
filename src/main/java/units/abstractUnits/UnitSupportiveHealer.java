@@ -20,10 +20,9 @@ public abstract class UnitSupportiveHealer extends UnitSupportive {
      * @param unit
      */
     public boolean smallHeal(Unit unit) {
-//        System.out.println("Маленкое исцеление");
-        unit.addHealth(baseSpellHeal);
+        //unit.addHealth(baseSpellHeal);
         return true;
     }
 
-    public abstract void restoringParameters();
+//    public abstract void restoringParameters();
 }

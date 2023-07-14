@@ -11,7 +11,7 @@ import units.abstractUnits.UnitsTypes;
  */
 public class Wizard extends UnitAttackingWithMagician {
     private boolean using_lightning_storm;
-    int distanceSkill = 9;
+    public final int distanceSkill = 9;
 
     public Wizard(String name) {
         super(Equipment.mantle_and_wand.getHealth(), Equipment.mantle_and_wand.getAttack(),
@@ -48,8 +48,8 @@ public class Wizard extends UnitAttackingWithMagician {
         return res;
     }
 
-    @Override
-    public void restoringParameters() {
-        super.restoringParameters(Unit.baseAtack + Equipment.mantle_and_wand.getAttack(), Unit.baseDefence + Equipment.mantle_and_wand.getDefend());
-    }
+//    @Override
+//    public void restoringParameters() {
+//        super.restoringParameters(Unit.baseAtack + Equipment.mantle_and_wand.getAttack(), Unit.baseDefence + Equipment.mantle_and_wand.getDefend());
+//    }
 }

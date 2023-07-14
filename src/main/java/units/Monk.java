@@ -10,7 +10,7 @@ import units.abstractUnits.UnitsTypes;
  * Монах
  */
 public class Monk extends UnitProtectiveWithoutShild {
-    int distanceSkill = 9;
+    public final int distanceSkill = 9;
 
     public Monk(String name) {
         super(Equipment.kesa_and_beads.getHealth(), Equipment.kesa_and_beads.getAttack(),
@@ -44,8 +44,8 @@ public class Monk extends UnitProtectiveWithoutShild {
         return mindMonk(targetUnit);
     }
 
-    @Override
-    public void restoringParameters() {
-        super.restoringParameters(Unit.baseAtack + Equipment.kesa_and_beads.getAttack(), Unit.baseDefence + Equipment.kesa_and_beads.getDefend());
-    }
+//    @Override
+//    public void restoringParameters() {
+//        super.restoringParameters(Unit.baseAtack + Equipment.kesa_and_beads.getAttack(), Unit.baseDefence + Equipment.kesa_and_beads.getDefend());
+//    }
 }

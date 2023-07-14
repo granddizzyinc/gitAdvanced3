@@ -18,9 +18,9 @@ public abstract class UnitAttackingWithWeapons extends UnitAttacking {
 
     @Override
     public boolean performAnAttack(Unit unit) {
-        if (stamina - baseWeapon > 0) {
+        if (this.stamina - this.baseWeapon > 0) {
             if (super.performAnAttack(unit)) {
-                stamina -= baseWeapon;
+                this.stamina -= this.baseWeapon;
                 return true;
             }
 //        } else {
@@ -33,10 +33,10 @@ public abstract class UnitAttackingWithWeapons extends UnitAttacking {
     @Override
     public boolean concentration() {
         if (super.concentration()) {
-            if (stamina + STAMINACONC < 100) {
-                stamina += STAMINACONC;
+            if (this.stamina + STAMINACONC < 100) {
+                this.stamina += STAMINACONC;
             } else {
-                stamina = 100;
+                this.stamina = 100;
             }
         }
 
@@ -44,16 +44,22 @@ public abstract class UnitAttackingWithWeapons extends UnitAttacking {
     }
 
     public int getStamina() {
-        return stamina;
+        return this.stamina;
     }
 
     public void addStamina(int value) {
-        stamina += value;
+        this.stamina += value;
     }
 
     public void decreaseStamina(int value) {
-        stamina -= value;
+        this.stamina -= value;
     }
 
-    public abstract void restoringParameters();
+    //public abstract void restoringParameters();
+
+
+    @Override
+    public String toString() {
+        return super.toString() + " В:" + this.stamina;
+    }
 }
