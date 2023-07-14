@@ -31,7 +31,7 @@ public abstract class Unit implements UnitInterface {   //implements AutoCloseab
     private Team team;
 
     private ArrayList<SuperimposedAction> superimposedActions = new ArrayList<>();
-;
+    ;
 
     public Unit(int health, int defense, int attack, UnitsTypes type, String name) {
         this.health = 50 + health;
@@ -105,11 +105,15 @@ public abstract class Unit implements UnitInterface {   //implements AutoCloseab
 
     public int getAttack() {
         int calculatedAttack = attack;
-        for (SuperimposedAction act: superimposedActions) {
+        for (SuperimposedAction act : superimposedActions) {
             calculatedAttack += act.attackChangeNumber;
         }
+
+        if (calculatedAttack < 0) calculatedAttack = 0;
+        else if (calculatedAttack > 100) calculatedAttack = 100;
+
         return calculatedAttack;
-    }
+}
 
     public void increaseAttack(int value) {
         attack += value;
@@ -212,7 +216,7 @@ public abstract class Unit implements UnitInterface {   //implements AutoCloseab
         //arena.addArenaMessage(null, this,  "ход ");
 
         if (targetUnit == null) {
-            arena.addArenaMessage(this, null,  " Цель не найдена ");
+            arena.addArenaMessage(this, null, " Цель не найдена ");
         } else {
             if (this.isInDiapason(targetUnit)) {
                 this.actionInDiapason(arena, targetUnit, false);
@@ -230,10 +234,14 @@ public abstract class Unit implements UnitInterface {   //implements AutoCloseab
     // Все геттеры и сеттеры:
     public int getDefense() {
         int calculatedDefense = defense;
-        for (SuperimposedAction act: superimposedActions) {
+        for (SuperimposedAction act : superimposedActions) {
             calculatedDefense += act.defendChangeNumber;
         }
-        return calculatedDefense;
+
+        if (calculatedDefense < 0 ) calculatedDefense = 0;
+        else if (calculatedDefense > 100) calculatedDefense = 100;
+
+        return Math.max(calculatedDefense, 0);
     }
 
     public void setAttack(int value) {
@@ -290,6 +298,7 @@ public abstract class Unit implements UnitInterface {   //implements AutoCloseab
 
     /**
      * Возвращает команду персонажа
+     *
      * @return
      */
     public Team getTeam() {
@@ -302,6 +311,7 @@ public abstract class Unit implements UnitInterface {   //implements AutoCloseab
 
     /**
      * Добавляет наложенное временное воздействие
+     *
      * @param name
      * @param period
      * @param attackChangeNumber
@@ -314,6 +324,7 @@ public abstract class Unit implements UnitInterface {   //implements AutoCloseab
 
     /**
      * Получает список временных воздействий
+     *
      * @return
      */
     public ArrayList<SuperimposedAction> getSuperimposedActions() {
@@ -322,6 +333,7 @@ public abstract class Unit implements UnitInterface {   //implements AutoCloseab
 
     /**
      * Удаляет наложенное временное воздействие
+     *
      * @param act
      */
     public void removeSuperimposedAction(SuperimposedAction act) {
