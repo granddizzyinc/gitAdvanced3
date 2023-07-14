@@ -5,13 +5,10 @@ import units.abstractUnits.Unit;
 
 import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.Random;
-
 
 public class Team implements Iterator<Unit>, Iterable<Unit> {
     public final String name;
     public final String color;
-
     private ArrayList<Unit> teamList = new ArrayList<>();
 
     public Team(String name, String color) {
@@ -79,24 +76,8 @@ public class Team implements Iterator<Unit>, Iterable<Unit> {
         teamList.remove(unit);
     }
 
-//    /**
-//     * Выстраивает команду в порядке инициативы
-//     */
-//    public void setTheInitiative() {
-//        ArrayList<Unit> tmp = new ArrayList<>(this.teamList.size());
-//
-//        while (this.getSize() > 0) {
-//            int i = new Random().nextInt(this.getSize());
-//            tmp.add(this.getUnits().get(i));
-//            this.getUnits().remove(i);
-//        }
-//
-//        this.teamList = tmp;
-//    }
-
     public Unit getUnit(int index) {
-        if (index <= teamList.size() - 1)
-            return teamList.get(index);
+        if (index <= teamList.size() - 1) return teamList.get(index);
 
         return null;
     }
