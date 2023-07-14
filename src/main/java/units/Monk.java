@@ -17,11 +17,17 @@ public class Monk extends UnitProtectiveWithoutShild {
                 Equipment.kesa_and_beads.getDefend(), UnitsTypes.Monk, name);
     }
 
+    /**
+     * Мысли монаха
+     * @param target
+     * @return
+     */
     public boolean mindMonk(Unit target) {
         if (getAbilityPoints() == 2) {
-//            System.out.println("Мысли монаха");
             super.clearAbilityPoints();
-            super.decreaseDamage(target.getDefense() * 1);   // вот здесь как-то определить тип атаки
+            //super.decreaseDamage(target.getDefense() * 1);   // вот здесь как-то определить тип атаки
+
+            target.addSuperimposedAction("Мысли монаха", 2,0, target.getDefense(), 0);
             return true;
         }
         return false;

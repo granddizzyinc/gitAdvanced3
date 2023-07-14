@@ -21,7 +21,7 @@ public abstract class UnitSupportive extends Unit {
             // если не смогли применить спобосность
             if (this.performAnAttack(targetUnit)) {
                 // если смогли атаковать
-                arena.addArenaMessage(this, targetUnit,  " атака на ");
+                arena.addArenaMessage(this, targetUnit, " атака на ");
 
                 //проверяем убили ли
                 if (targetUnit.getHealth() == 0) {
@@ -38,6 +38,9 @@ public abstract class UnitSupportive extends Unit {
                 if (!moveMade) {
                     // если шаг НЕ сделан
                     this.clearPointActivites();
+                    arena.addArenaMessage(this, null, " пропустил ход");
+                } else {
+                    arena.addArenaMessage(this, null, " переместился");
                 }
             }
         } else {
@@ -50,9 +53,12 @@ public abstract class UnitSupportive extends Unit {
         if (moveMade) {
             // если шаг сделан
             //if (!this.concentration()) {
-                // если не смогли сконцентрироваться
-                this.clearPointActivites();
+            // если не смогли сконцентрироваться
+            this.clearPointActivites();
+            arena.addArenaMessage(this, null, " переместился");
             //}
+        } else {
+            arena.addArenaMessage(this, null, " пропустил ход");
         }
     }
 }

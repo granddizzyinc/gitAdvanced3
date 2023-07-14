@@ -59,14 +59,17 @@ public abstract class UnitProtective extends Unit {
 //                    this.concentration();
 //                }
 //            } else {
-                // если не смогли атаковать
-                if (!moveMade) {
-                    // если шаг НЕ сделан
-                    this.clearPointActivites();
-               }
+            // если не смогли атаковать
+            if (!moveMade) {
+                // если шаг НЕ сделан
+                this.clearPointActivites();
+                arena.addArenaMessage(this, null, " пропустил ход");
+            } else {
+                arena.addArenaMessage(this, null, " переместился");
+            }
 //            }
         } else {
-            arena.addArenaMessage(this, targetUnit,  " способности на ");
+            arena.addArenaMessage(this, targetUnit, " способности на ");
         }
     }
 
@@ -77,7 +80,12 @@ public abstract class UnitProtective extends Unit {
             if (!this.concentration()) {
                 // если не смогли сконцентрироваться
                 this.clearPointActivites();
+                arena.addArenaMessage(this, null, " переместился");
+            } else {
+                arena.addArenaMessage(this, null, " сконцентрировался");
             }
+        } else {
+            arena.addArenaMessage(this, null,  " пропустил ход");
         }
     }
 }

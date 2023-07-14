@@ -78,22 +78,27 @@ public class Arena implements ArenaInterface {
     @Override
     public void startTheBattle() throws InterruptedException {
         if (teams.size() < 2 || teams.size() > 4) {
-            log.errorNumberCommands();
+            log.addLogMessage("Не верное количество команд.");
             return;
         }
+
+        view.view(round, teams, arenaMesagges);
+
+        // пауза для наглядности
+        TimeUnit.SECONDS.sleep(1);
 
         //если нужен следующий раунд то запускаем
         while (checkTheNeedForTheNextRound()) {
             round += 1;
 
-            view.view(round, teams, arenaMesagges);
+
 
             this.setInitiative();
             //каждый юнит делает ход в порядке уменьшения инициативы
             for (Unit unit : initiative) {
                 if (unit.getHealth() == 0) continue;
 
-                log.showWhoseMove(this.getUnitTeam(unit), unit);
+                //log.showWhoseMove(this.getUnitTeam(unit), unit);
 
                 //восстанавливаем очки активности
                 //одно очко тратит на ходьбу
@@ -104,7 +109,10 @@ public class Arena implements ArenaInterface {
                 unit.step(this);
             }
 
-            this.restoringParameters();
+            //this.restoringParameters();
+            this.analyzeSuperimposedActions();
+
+            view.view(round, teams, arenaMesagges);
 
             // пауза для наглядности
             TimeUnit.SECONDS.sleep(1);
@@ -113,7 +121,7 @@ public class Arena implements ArenaInterface {
         // проверяем победителя
         Team winner = getWinner();
         if (winner != null) {
-            log.reportWinner(winner);
+            this.addArenaMessage(null, null, "Победила команда" + winner);
         }
     }
 
@@ -203,7 +211,7 @@ public class Arena implements ArenaInterface {
             if (team.contains(unit)) {
                 map.clearField(unit.getCoordinates().x, unit.getCoordinates().y);
                 team.removeUnit(unit);
-                log.reportDeath(team, unit);
+                this.addArenaMessage(unit, null, " убит");
                 break;
             }
         }
@@ -404,5 +412,16 @@ public class Arena implements ArenaInterface {
 
     public void addArenaMessage(Unit unit, Unit target, String message) {
         arenaMesagges.add(new ArenaMessage(unit, target, message));
+    }
+
+    private void analyzeSuperimposedActions() {
+        for (Unit unit: initiative) {
+            for (SuperimposedAction act: unit.getSuperimposedActions()) {
+                if (act.getStartRaund() == 0) act.setStartRaund(round);
+                else if (round - act.getStartRaund() > act.period) {
+                    unit.removeSuperimposedAction(act);
+                }
+            }
+        }
     }
 }

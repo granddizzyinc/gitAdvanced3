@@ -16,8 +16,6 @@ public abstract class UnitAttacking extends Unit {
     }
 
     public boolean concentration() {
-//        System.out.println("Концентрируюсь");
-
         //super.skipAMove();
         if (abilityPoints < 2) {
             abilityPoints += 1;
@@ -51,7 +49,7 @@ public abstract class UnitAttacking extends Unit {
             // если не смогли применить спобосность
             if (this.performAnAttack(targetUnit)) {
                 // если смогли атаковать
-                arena.addArenaMessage(this, targetUnit,  " атака на ");
+                arena.addArenaMessage(this, targetUnit, " атака на ");
 
                 //проверяем убили ли
                 if (targetUnit.getHealth() == 0) {
@@ -61,18 +59,25 @@ public abstract class UnitAttacking extends Unit {
 
                 if (!moveMade) {
                     // если шаг НЕ сделан
-                    this.concentration();
+                    if (this.concentration()) {
+                        arena.addArenaMessage(this, null, " сконцентрировался.");
+                    }
                 }
             } else {
                 // если не смогли атаковать
                 if (!moveMade) {
                     // если шаг НЕ сделан
                     this.clearPointActivites();
+                    arena.addArenaMessage(this, null, " пропустил ход");
+                } else {
+                    arena.addArenaMessage(this, null, " переместился");
                 }
             }
         } else {
-            arena.addArenaMessage(this, targetUnit,  " способности на ");
+            arena.addArenaMessage(this, targetUnit, " способности на ");
         }
+
+//        arena.addArenaMessage(this, null,  " действие в диапазоне");
     }
 
     @Override
@@ -96,9 +101,14 @@ public abstract class UnitAttacking extends Unit {
             if (!this.concentration()) {
                 // если не смогли сконцентрироваться
                 this.clearPointActivites();
+                arena.addArenaMessage(this, null, " переместился");
             } else {
-                arena.addArenaMessage(this, null ,  " сконцентрировался ");
+                arena.addArenaMessage(this, null, " сконцентрировался ");
             }
+        } else {
+            arena.addArenaMessage(this, null,  " пропустил ход");
         }
+
+//        arena.addArenaMessage(this, null,  " действие вне диапазона");
     }
 }

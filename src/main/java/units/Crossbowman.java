@@ -40,11 +40,12 @@ public class Crossbowman extends UnitAttackingWithWeapons {
         super.restoringParameters(Unit.baseAtack + Equipment.crossbow_and_helmet.getAttack(), Unit.baseDefence + Equipment.crossbow_and_helmet.getDefend());
     }
 
-    public boolean arrow_to_the_knee(Unit unit) {
+    public boolean arrow_to_the_knee(Unit target) {
         if (getAbilityPoints() == 2) {
 //            System.out.println("Стрела в колено");
             super.clearPointAbility();
-            decreaseSpeed(1);
+            //decreaseSpeed(1);
+            target.addSuperimposedAction("Стрела в колено", 2, 0, 0, -1);
 
             return true;
         }

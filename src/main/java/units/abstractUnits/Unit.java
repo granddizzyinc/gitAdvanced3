@@ -3,6 +3,7 @@ package units.abstractUnits;
 import arena.Arena;
 import units.*;
 
+import java.util.ArrayList;
 import java.util.Random;
 
 public abstract class Unit implements UnitInterface {   //implements AutoCloseable  попробовать?
@@ -29,6 +30,8 @@ public abstract class Unit implements UnitInterface {   //implements AutoCloseab
 
     private Team team;
 
+    private ArrayList<SuperimposedAction> superimposedActions = new ArrayList<>();
+;
 
     public Unit(int health, int defense, int attack, UnitsTypes type, String name) {
         this.health = 50 + health;
@@ -68,8 +71,8 @@ public abstract class Unit implements UnitInterface {   //implements AutoCloseab
 
 
         if (getPointActivites() > 0) {
-            if (this.attack - target.getDefense() > 0) {
-                target.decreaseHealth(this.attack - target.getDefense());
+            if (this.getAttack() - target.getDefense() > 0) {
+                target.decreaseHealth(this.getAttack() - target.getDefense());
                 decreasePointActivities();
             } else {
 //                System.out.println("Не прокатило");
@@ -101,7 +104,11 @@ public abstract class Unit implements UnitInterface {   //implements AutoCloseab
     }
 
     public int getAttack() {
-        return attack;
+        int calculatedAttack = attack;
+        for (SuperimposedAction act: superimposedActions) {
+            calculatedAttack += act.attackChangeNumber;
+        }
+        return calculatedAttack;
     }
 
     public void increaseAttack(int value) {
@@ -179,7 +186,7 @@ public abstract class Unit implements UnitInterface {   //implements AutoCloseab
     }
 
     public String getUnitBaseInfo() {
-        return "" + type.toString() + ": " + name + " Здоровье: " + health + " Атака: " + attack + " Защита: " + defense;
+        return "" + type.toString() + ": " + name + " Здоровье: " + this.getHealth() + " Атака: " + this.getAttack() + " Защита: " + this.getDefense();
 
     }
 
@@ -195,18 +202,18 @@ public abstract class Unit implements UnitInterface {   //implements AutoCloseab
 
 
     public String getShortInfo() {
-        return "Тип: " + type.toString() + " Имя: " + name + " Здоровье: " + health;
+        return "Тип: " + type.toString() + " Имя: " + name + " Здоровье: " + this.getHealth();
     }
 
     @Override
     public void step(Arena arena) {
         Unit targetUnit = this.findTarget(arena);
 
+        //arena.addArenaMessage(null, this,  "ход ");
+
         if (targetUnit == null) {
             arena.addArenaMessage(this, null,  " Цель не найдена ");
         } else {
-            //arena.addArenaMessage(this, targetUnit,  " цель ");
-
             if (this.isInDiapason(targetUnit)) {
                 this.actionInDiapason(arena, targetUnit, false);
             } else {
@@ -222,7 +229,11 @@ public abstract class Unit implements UnitInterface {   //implements AutoCloseab
 
     // Все геттеры и сеттеры:
     public int getDefense() {
-        return defense;
+        int calculatedDefense = defense;
+        for (SuperimposedAction act: superimposedActions) {
+            calculatedDefense += act.defendChangeNumber;
+        }
+        return calculatedDefense;
     }
 
     public void setAttack(int value) {
@@ -277,11 +288,43 @@ public abstract class Unit implements UnitInterface {   //implements AutoCloseab
         this.defense = defense;
     }
 
+    /**
+     * Возвращает команду персонажа
+     * @return
+     */
     public Team getTeam() {
         return team;
     }
 
     public void setTeam(Team team) {
         this.team = team;
+    }
+
+    /**
+     * Добавляет наложенное временное воздействие
+     * @param name
+     * @param period
+     * @param attackChangeNumber
+     * @param defendChangeNumber
+     * @param speedChangeNumber
+     */
+    public void addSuperimposedAction(String name, int period, int attackChangeNumber, int defendChangeNumber, int speedChangeNumber) {
+        this.superimposedActions.add(new SuperimposedAction(name, period, attackChangeNumber, defendChangeNumber, speedChangeNumber));
+    }
+
+    /**
+     * Получает список временных воздействий
+     * @return
+     */
+    public ArrayList<SuperimposedAction> getSuperimposedActions() {
+        return superimposedActions;
+    }
+
+    /**
+     * Удаляет наложенное временное воздействие
+     * @param act
+     */
+    public void removeSuperimposedAction(SuperimposedAction act) {
+        superimposedActions.remove(act);
     }
 }
