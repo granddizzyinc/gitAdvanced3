@@ -68,11 +68,6 @@ public class Monk extends UnitProtectiveWithoutShild {
         return false;
     }
 
-//    @Override
-//    public void restoringParameters() {
-//        super.restoringParameters(Unit.baseAtack + Equipment.kesa_and_beads.getAttack(), Unit.baseDefence + Equipment.kesa_and_beads.getDefend());
-//    }
-
     @Override
     public boolean isInDiapason(Unit targetUnit) {
         return this.distanceSkill >= this.getCoordinates().calculateDistance(targetUnit.getCoordinates());

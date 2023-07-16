@@ -45,8 +45,6 @@ public abstract class UnitAttackingWithMagician extends UnitAttacking {
         return false;
     }
 
-    //public abstract void restoringParameters();
-
     @Override
     public String toString() {
         return super.toString() + " М:" + this.mana;

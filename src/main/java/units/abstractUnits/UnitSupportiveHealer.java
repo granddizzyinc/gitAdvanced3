@@ -5,6 +5,7 @@ import java.util.Random;
 public abstract class UnitSupportiveHealer extends UnitSupportive {
 
     private int baseSpellHeal;
+
     public UnitSupportiveHealer(UnitsTypes type, String name) {
         this(0,0,0,type, name);
     }
@@ -23,6 +24,4 @@ public abstract class UnitSupportiveHealer extends UnitSupportive {
         unit.addHealth(baseSpellHeal);
         return true;
     }
-
-//    public abstract void restoringParameters();
 }

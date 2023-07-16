@@ -55,11 +55,6 @@ public class Peasant extends UnitSupportiveBasic {
         return true;
     }
 
-//    @Override
-//    public void restoringParameters() {
-//        super.restoringParameters(Unit.baseAtack + Equipment.pitchfork_and_robe.getAttack(), Unit.baseDefence + Equipment.pitchfork_and_robe.getDefend());
-//    }
-
     @Override
     public boolean isInDiapason(Unit targetUnit) {
         return this.distanceSkill >= this.getCoordinates().calculateDistance(targetUnit.getCoordinates());

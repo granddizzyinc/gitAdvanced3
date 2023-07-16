@@ -276,47 +276,6 @@ public abstract class Unit implements UnitInterface {   //implements AutoCloseab
         return Names.values()[new Random().nextInt(Names.values().length)].toString();
     }
 
-//    /**
-//     * Проверяет назодиться ли цель в максимальном диапазоне действий
-//     *
-//     * @param targetUnit
-//     * @return
-//     */
-//    public boolean isInDiapason(Unit targetUnit) {
-//        int unitDistanceSkill = distanceSkill;
-//        if (targetUnit instanceof Crossbowman)
-//            unitDistanceSkill = ((Crossbowman) targetUnit).distanceSkill;
-//        else if (targetUnit instanceof Druid)
-//            unitDistanceSkill = ((Druid) targetUnit).distanceSkill;
-//        else if (targetUnit instanceof Monk)
-//            unitDistanceSkill = ((Monk) targetUnit).distanceSkill;
-//        else if (targetUnit instanceof Palladine)
-//            unitDistanceSkill = ((Palladine) targetUnit).distanceSkill;
-//        else if (targetUnit instanceof Peasant)
-//            unitDistanceSkill = ((Peasant) targetUnit).distanceSkill;
-//        else if (targetUnit instanceof Robber)
-//            unitDistanceSkill = ((Robber) targetUnit).distanceSkill;
-//        else if (targetUnit instanceof Sniper)
-//            unitDistanceSkill = ((Sniper) targetUnit).distanceSkill;
-//        else if (targetUnit instanceof Sorcerer)
-//            unitDistanceSkill = ((Sorcerer) targetUnit).distanceSkill;
-//        else if (targetUnit instanceof Spearman)
-//            unitDistanceSkill = ((Spearman) targetUnit).distanceSkill;
-//        else if (targetUnit instanceof Wizard)
-//            unitDistanceSkill = ((Wizard) targetUnit).distanceSkill;
-//
-//        if (unitDistanceSkill >= this.getCoordinates().calculateDistance(targetUnit.getCoordinates())) {
-//            return true;
-//        }
-//
-//        return false;
-//    }
-
-//    public void restoringParameters(int attack, int defense) {
-//        this.attack = attack;
-//        this.defense = defense;
-//    }
-
     /**
      * Возвращает команду персонажа
      *

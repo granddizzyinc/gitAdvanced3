@@ -55,9 +55,6 @@ public abstract class UnitAttackingWithWeapons extends UnitAttacking {
         this.stamina -= value;
     }
 
-    //public abstract void restoringParameters();
-
-
     @Override
     public String toString() {
         return super.toString() + " В:" + this.stamina;

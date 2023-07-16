@@ -44,11 +44,6 @@ public class Sniper extends UnitAttackingWithWeapons {
         return res;
     }
 
-//    @Override
-//    public void restoringParameters() {
-//        super.restoringParameters(Unit.baseAtack + Equipment.bow_and_arrows.getAttack(), Unit.baseDefence + Equipment.bow_and_arrows.getDefend());
-//    }
-
     @Override
     public boolean isInDiapason(Unit targetUnit) {
         return this.distanceSkill >= this.getCoordinates().calculateDistance(targetUnit.getCoordinates());

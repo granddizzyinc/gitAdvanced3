@@ -105,7 +105,6 @@ public class Arena implements ArenaInterface {
                 unit.step(this);
             }
 
-            //this.restoringParameters();
             this.analyzeSuperimposedActions();
 
             view.view(round, teams, arenaMesagges);
@@ -117,7 +116,7 @@ public class Arena implements ArenaInterface {
         // определяем победителя
         Team winner = getWinner();
         if (winner != null) {
-            this.addArenaMessage(null, null, "Победила команда" + winner);
+            this.addArenaMessage(null, null, "Победила команда: " + winner);
             view.view(round, teams, arenaMesagges);
         }
     }
@@ -383,31 +382,6 @@ public class Arena implements ArenaInterface {
 
         Collections.shuffle(initiative);
     }
-
-//    private void restoringParameters() {
-//        for (Unit unit : initiative) {
-//            if (unit instanceof Crossbowman)
-//                ((Crossbowman) unit).restoringParameters();
-//            else if (unit instanceof Druid)
-//                ((Druid) unit).restoringParameters();
-//            else if (unit instanceof Monk)
-//                ((Monk) unit).restoringParameters();
-//            else if (unit instanceof Palladine)
-//                ((Palladine) unit).restoringParameters();
-//            else if (unit instanceof Peasant)
-//                ((Peasant) unit).restoringParameters();
-//            else if (unit instanceof Robber)
-//                ((Robber) unit).restoringParameters();
-//            else if (unit instanceof Sniper)
-//                ((Sniper) unit).restoringParameters();
-//            else if (unit instanceof Sorcerer)
-//                ((Sorcerer) unit).restoringParameters();
-//            else if (unit instanceof Spearman)
-//                ((Spearman) unit).restoringParameters();
-//            else if (unit instanceof Wizard)
-//                ((Wizard) unit).restoringParameters();
-//        }
-//    }
 
     public void addArenaMessage(Unit unit, Unit target, String message) {
         arenaMesagges.add(new ArenaMessage(unit, target, message));

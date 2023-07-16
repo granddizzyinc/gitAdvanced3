@@ -61,11 +61,6 @@ public class Palladine extends UnitProtectiveWithShield {
         return false;
     }
 
-//    @Override
-//    public void restoringParameters() {
-//        super.restoringParameters(Unit.baseAtack + Equipment.shield_and_sword.getAttack(), Unit.baseDefence + Equipment.shield_and_sword.getDefend());
-//    }
-
     @Override
     public boolean isInDiapason(Unit targetUnit) {
         return this.distanceSkill >= this.getCoordinates().calculateDistance(targetUnit.getCoordinates());
