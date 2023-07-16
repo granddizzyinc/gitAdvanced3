@@ -42,7 +42,9 @@ public abstract class UnitProtective extends Unit implements UnitProtectiveInter
 
     @Override
     public void actionInDiapason(Arena arena, Unit targetUnit, boolean moveMade) {
-        if (!this.applyAbility(targetUnit, arena)) {
+        if (!targetUnit.getTeam().equals(this.getTeam()) || !this.applyAbility(targetUnit, arena)) {
+            // если это чужой
+            // или
             // если не смогли применить спобосность
 
             if (this.performAnAttack(targetUnit)) {
@@ -87,6 +89,45 @@ public abstract class UnitProtective extends Unit implements UnitProtectiveInter
         } else {
             arena.addArenaMessage(this, null, " пропустил ход");
             this.skipAMove();
+        }
+    }
+
+    @Override
+    public void step(Arena arena, Map map) {
+        // ищем своего
+        Unit targetUnit1 = this.findTarget(arena);
+
+        // ищем чужого
+        Unit targetUnit2 = this.findTarget2(arena);
+
+        Unit targetUnit = null;
+
+        // вибираем цель
+        if (targetUnit1 == null) targetUnit = targetUnit2;
+        else if (targetUnit2 == null) targetUnit = targetUnit1;
+        else {
+            // выбираем кто ближе
+            if (this.getCoordinates().calculateDistance(targetUnit1.getCoordinates()) > this.getCoordinates().calculateDistance(targetUnit2.getCoordinates())) {
+                targetUnit = targetUnit1;
+            } else {
+                targetUnit = targetUnit2;
+            }
+        }
+
+        if (targetUnit == null) {
+            arena.addArenaMessage(this, null, " Цель не найдена ");
+        } else {
+            if (this.isInDiapason(targetUnit)) {
+                this.actionInDiapason(arena, targetUnit, false);
+            } else {
+                this.decreasePointActivities();
+                arena.doMove(this, targetUnit.getCoordinates());
+                if (this.isInDiapason(targetUnit)) {
+                    this.actionInDiapason(arena, targetUnit, true);
+                } else {
+                    this.actionNotInDiapason(arena, targetUnit, true);
+                }
+            }
         }
     }
 }

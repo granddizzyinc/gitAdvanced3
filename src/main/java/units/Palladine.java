@@ -45,6 +45,7 @@ public class Palladine extends UnitProtectiveWithShield {
     }
 
     public Unit findTarget2(Arena arena) {
+        // ищем чужого
         return arena.findTheNearestTeamUnit(this, true);
     }
 

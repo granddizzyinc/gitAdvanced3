@@ -26,7 +26,7 @@ public abstract class Unit implements UnitInterface {   //implements AutoCloseab
 
     protected KindOfBattle kindOfBattle;
 
-    public final static int baseAtack = 10;
+    public final static int baseAtack = 5;
     public final static int baseDefence = 2;
 
     private Team team;
