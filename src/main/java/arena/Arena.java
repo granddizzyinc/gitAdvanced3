@@ -2,6 +2,7 @@ package arena;
 
 import View.View;
 import arena.map.Map;
+import arena.map.Pit;
 import units.*;
 import units.abstractUnits.*;
 import Log.Log;
@@ -102,10 +103,11 @@ public class Arena implements ArenaInterface {
                 unit.setPointActivites(2);
 
                 // персонаж делает ход в игре
-                unit.step(this);
+                unit.step(this, this.map);
             }
 
             this.analyzeSuperimposedActions();
+            this.map.analyzePits(round);
 
             view.view(round, teams, arenaMesagges);
 
@@ -153,7 +155,7 @@ public class Arena implements ArenaInterface {
 
     public Unit findTheNearestTeamUnit(Unit unit, boolean alien) {
         Unit nearestUnit = null;
-        double minDistance = Math.sqrt(this.map.sizeX*this.map.sizeX + this.map.sizeY*this.map.sizeY) + 1;
+        double minDistance = Math.sqrt(this.map.sizeX * this.map.sizeX + this.map.sizeY * this.map.sizeY) + 1;
 
         for (Team targetTeam : teams) {
             if ((alien && targetTeam.equals(unit.getTeam())) || (!alien && !targetTeam.equals(unit.getTeam()))) {
@@ -169,9 +171,9 @@ public class Arena implements ArenaInterface {
                     // если ищем свого или проверяем сможем ли атаковать
                     //if (!alien || unit.getAttack() - targetUnit.getDefense() > 0) {
                     //if (!alien) {
-                        minDistance = distance;
-                        nearestUnit = targetUnit;
-                   //}
+                    minDistance = distance;
+                    nearestUnit = targetUnit;
+                    //}
                 }
             }
         }
@@ -199,8 +201,8 @@ public class Arena implements ArenaInterface {
                 if (target.getHealth() < minHealth) {
                     // если ищем свого или проверяем сможем ли атаковать
                     //if (!alien || unit.getAttack() - target.getDefense() > 0) {
-                        minHealth = target.getHealth();
-                        minHealthUnit = target;
+                    minHealth = target.getHealth();
+                    minHealthUnit = target;
                 }
             }
         }
@@ -321,7 +323,7 @@ public class Arena implements ArenaInterface {
             }
 
             if (stepCoordinates.x >= 0 && stepCoordinates.y >= 0 && stepCoordinates.y < map.sizeY && stepCoordinates.x < map.sizeX) {
-                //проверить препятствин
+                //проверить препятствие
                 checkCoordinates = map.isTheFieldEmpty(stepCoordinates);
 
                 if (!checkCoordinates) {
@@ -351,18 +353,10 @@ public class Arena implements ArenaInterface {
     }
 
     /**
-     * Возвращает команду заданного юнита
-     *
-     * @param unit
-     * @return
+     * выполняет перемещение персонажа в заданное направление
+     * @param unit кого перемещаем
+     * @param coordinates координаты направления
      */
-    public Team getUnitTeam(Unit unit) {
-        for (Team team : teams) {
-            if (team.contains(unit)) return team;
-        }
-        return null;
-    }
-
     @Override
     public void doMove(Unit unit, Coordinates coordinates) {
         for (int i = 1; i <= unit.getSpeed(); i++) {
@@ -396,10 +390,14 @@ public class Arena implements ArenaInterface {
                     tmp.add(act);
                 }
             }
-            for (SuperimposedAction act: tmp) {
+            for (SuperimposedAction act : tmp) {
                 unit.removeSuperimposedAction(act);
             }
             tmp.clear();
         }
+    }
+
+    public Map getMap() {
+        return map;
     }
 }

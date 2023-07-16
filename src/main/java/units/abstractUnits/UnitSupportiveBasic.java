@@ -1,5 +1,8 @@
 package units.abstractUnits;
 
+import arena.Arena;
+import arena.map.Map;
+
 public abstract class UnitSupportiveBasic extends UnitSupportive {
 
     public UnitSupportiveBasic(UnitsTypes type, String name) {

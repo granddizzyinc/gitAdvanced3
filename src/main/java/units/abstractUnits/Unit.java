@@ -5,6 +5,7 @@ import units.*;
 
 import java.util.ArrayList;
 import java.util.Random;
+import arena.map.Map;
 
 public abstract class Unit implements UnitInterface {   //implements AutoCloseable  попробовать?
     private final String name;
@@ -201,7 +202,7 @@ public abstract class Unit implements UnitInterface {   //implements AutoCloseab
     }
 
     @Override
-    public void step(Arena arena) {
+    public void step(Arena arena, Map map) {
         Unit targetUnit = this.findTarget(arena);
 
         //arena.addArenaMessage(null, this,  "ход ");

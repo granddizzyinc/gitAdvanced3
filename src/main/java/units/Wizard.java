@@ -42,7 +42,7 @@ public class Wizard extends UnitAttackingWithMagician {
         return arena.findAUnitWithMinimumHealth(this, true);
     }
 
-    public boolean applyAbility(Unit targetUnit) {
+    public boolean applyAbility(Unit targetUnit, Arena arena) {
         boolean res = lightning_storm(targetUnit, targetUnit, targetUnit);
 
         return res;

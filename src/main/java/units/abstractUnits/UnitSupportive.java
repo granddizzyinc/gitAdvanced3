@@ -1,6 +1,7 @@
 package units.abstractUnits;
 
 import arena.Arena;
+import units.Coordinates;
 
 public abstract class UnitSupportive extends Unit {
 
@@ -17,21 +18,29 @@ public abstract class UnitSupportive extends Unit {
     }
 
     public void actionInDiapason(Arena arena, Unit targetUnit, boolean moveMade) {
-        if (!this.applyAbility(targetUnit)) {
+        if (!this.applyAbility(targetUnit, arena)) {
             // всегда применяет
 
         } else {
             arena.addArenaMessage(this, targetUnit, " способности на ");
 
             // убежать
-            //arena.doMove();
+            Coordinates directionCoordinatesToRun = new Coordinates(this.getCoordinates().x, this.getCoordinates().y);
+
+            if (targetUnit.getCoordinates().x > directionCoordinatesToRun.x) directionCoordinatesToRun.x -= 10;
+            else if (targetUnit.getCoordinates().x < directionCoordinatesToRun.x) directionCoordinatesToRun.x += 10;
+            if (targetUnit.getCoordinates().y > directionCoordinatesToRun.y) directionCoordinatesToRun.y -= 10;
+            else if (targetUnit.getCoordinates().y < directionCoordinatesToRun.y) directionCoordinatesToRun.y += 10;
+
+            arena.doMove(this, directionCoordinatesToRun);
+            arena.addArenaMessage(this, null, " убежал");
         }
     }
 
     @Override
     public void actionNotInDiapason(Arena arena, Unit targetUnit, boolean moveMade) {
         if (moveMade) {
-            // если шаг сделаня
+            // если шаг сделан
             arena.addArenaMessage(this, targetUnit, " подошел к ");
         } else {
             arena.addArenaMessage(this, null, " пропустил ход");

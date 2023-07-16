@@ -49,7 +49,7 @@ public class Palladine extends UnitProtectiveWithShield {
     }
 
     @Override
-    public boolean applyAbility(Unit targetUnit) {
+    public boolean applyAbility(Unit targetUnit, Arena arena) {
         switch (new Random().nextInt(2)) {
             case 0 -> {
                 return defenceCape(targetUnit);

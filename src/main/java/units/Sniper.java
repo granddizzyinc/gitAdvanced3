@@ -38,7 +38,7 @@ public class Sniper extends UnitAttackingWithWeapons {
     }
 
     @Override
-    public boolean applyAbility(Unit targetUnit) {
+    public boolean applyAbility(Unit targetUnit, Arena arena) {
         boolean res = hitTheBullsEye(targetUnit);
 
         return res;

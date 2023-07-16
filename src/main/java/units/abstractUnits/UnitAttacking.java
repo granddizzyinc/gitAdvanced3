@@ -1,6 +1,7 @@
 package units.abstractUnits;
 
 import arena.Arena;
+import arena.map.Map;
 
 public abstract class UnitAttacking extends Unit {
     private float increasingAttack;
@@ -45,7 +46,7 @@ public abstract class UnitAttacking extends Unit {
     @Override
     public void actionInDiapason(Arena arena, Unit targetUnit, boolean moveMade) {
 
-        if (!this.applyAbility(targetUnit)) {
+        if (!this.applyAbility(targetUnit, arena)) {
             // если не смогли применить спобосность
             if (this.performAnAttack(targetUnit)) {
                 // если смогли атаковать

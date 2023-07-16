@@ -35,7 +35,7 @@ public class Spearman extends UnitAttackingWithWeapons {
     }
 
     @Override
-    public boolean applyAbility(Unit targetUnit) {
+    public boolean applyAbility(Unit targetUnit, Arena arena) {
         boolean res = stun(targetUnit);
 
         return res;

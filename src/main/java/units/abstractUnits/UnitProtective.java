@@ -1,6 +1,7 @@
 package units.abstractUnits;
 
 import arena.Arena;
+import arena.map.Map;
 
 public abstract class UnitProtective extends Unit implements UnitProtectiveInterface {
     private float increasingDefence;
@@ -41,7 +42,7 @@ public abstract class UnitProtective extends Unit implements UnitProtectiveInter
 
     @Override
     public void actionInDiapason(Arena arena, Unit targetUnit, boolean moveMade) {
-        if (!this.applyAbility(targetUnit)) {
+        if (!this.applyAbility(targetUnit, arena)) {
             // если не смогли применить спобосность
 
             if (this.performAnAttack(targetUnit)) {
@@ -86,29 +87,6 @@ public abstract class UnitProtective extends Unit implements UnitProtectiveInter
         } else {
             arena.addArenaMessage(this, null, " пропустил ход");
             this.skipAMove();
-        }
-    }
-
-    @Override
-    public void step(Arena arena) {
-        Unit targetUnit = this.findTarget(arena);
-
-        //arena.addArenaMessage(null, this,  "ход ");
-
-        if (targetUnit == null) {
-            arena.addArenaMessage(this, null, " Цель не найдена ");
-        } else {
-            if (this.isInDiapason(targetUnit)) {
-                this.actionInDiapason(arena, targetUnit, false);
-            } else {
-                this.decreasePointActivities();
-                arena.doMove(this, targetUnit.getCoordinates());
-                if (this.isInDiapason(targetUnit)) {
-                    this.actionInDiapason(arena, targetUnit, true);
-                } else {
-                    this.actionNotInDiapason(arena, targetUnit, true);
-                }
-            }
         }
     }
 }

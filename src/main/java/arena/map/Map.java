@@ -1,6 +1,7 @@
 package arena.map;
 
 import units.Coordinates;
+import units.SuperimposedAction;
 import units.abstractUnits.Unit;
 
 import java.util.ArrayList;
@@ -45,8 +46,12 @@ public class Map {
     }
 
     public void moveUnit(Unit unit, Coordinates coordinates) {
-        matrix[unit.getCoordinates().x][unit.getCoordinates().y] = null;
-        matrix[coordinates.x][coordinates.y] = unit;
+        if (this.matrix[unit.getCoordinates().x][unit.getCoordinates().y] instanceof Pit) {
+            int a = 0;
+        } else {
+            this.matrix[unit.getCoordinates().x][unit.getCoordinates().y] = null;
+        }
+        this.matrix[coordinates.x][coordinates.y] = unit;
         unit.setCoordinates(coordinates);
     }
 
@@ -84,5 +89,21 @@ public class Map {
 
     public void clearField(int x, int y) {
         matrix[x][y] = null;
+    }
+
+    public void analyzePits(int raund) {
+        ArrayList<Pit> tmp = new ArrayList<>();
+
+        for (Pit pit : pitsList) {
+            if (pit.startRaund == 0) pit.startRaund = raund;
+            else if (raund - pit.startRaund > pit.period) {
+                tmp.add(pit);
+            }
+        }
+
+        for (Pit pit : tmp) {
+            this.removePit(pit);
+        }
+        tmp.clear();
     }
 }

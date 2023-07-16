@@ -48,7 +48,7 @@ public class Crossbowman extends UnitAttackingWithWeapons {
     }
 
     @Override
-    public boolean applyAbility(Unit targetUnit) {
+    public boolean applyAbility(Unit targetUnit, Arena arena) {
         return arrowToTheKnee(targetUnit);
     }
 

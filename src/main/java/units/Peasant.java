@@ -1,12 +1,15 @@
 package units;
 
 import arena.Arena;
+import arena.map.Pit;
 import units.abstractUnits.Equipment;
 import units.abstractUnits.Unit;
 import units.abstractUnits.UnitSupportiveBasic;
 import units.abstractUnits.UnitsTypes;
 
 import java.util.Random;
+
+import arena.map.Map;
 
 /**
  * Крестьянин
@@ -24,13 +27,13 @@ public class Peasant extends UnitSupportiveBasic {
     }
 
     @Override
-    public boolean applyAbility(Unit targetUnit) {
+    public boolean applyAbility(Unit targetUnit, Arena arena) {
         switch (new Random().nextInt(3)) {
             case 0 -> {
                 return pokeWithAPitchfork(targetUnit);
             }
             case 1 -> {
-                return digAPit(targetUnit);
+        return digAPit(arena);
             }
             case 2 -> {
                 return kickInTheLegs(targetUnit);
@@ -42,16 +45,17 @@ public class Peasant extends UnitSupportiveBasic {
     public boolean pokeWithAPitchfork(Unit targetUnit) {
         //тычек вилами
         this.performAnAttack(targetUnit);
-
         return true;
     }
 
-    public boolean digAPit(Unit targetUnit) {
-        return false;
+    public boolean digAPit(Arena arena) {
+        arena.getMap().addPit(new Pit(this.getCoordinates(), 10));
+        arena.addArenaMessage(this, null, " вырыл ямку");
+        return true;
     }
 
     public boolean kickInTheLegs(Unit targetUnit) {
-        targetUnit.addSuperimposedAction("Удар по ногам", 3, 0,0,-1);
+        targetUnit.addSuperimposedAction("Удар по ногам", 3, 0, 0, -1);
         return true;
     }
 

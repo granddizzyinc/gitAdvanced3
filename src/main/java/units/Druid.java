@@ -23,7 +23,7 @@ public class Druid extends UnitSupportiveHealer {
     }
 
     @Override
-    public boolean applyAbility(Unit targetUnit) {
+    public boolean applyAbility(Unit targetUnit, Arena arena) {
         return super.smallHeal(targetUnit);
     }
 

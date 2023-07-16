@@ -2,6 +2,7 @@ package units;
 
 import arena.Arena;
 import units.abstractUnits.Unit;
+import arena.map.Map;
 
 import java.util.ArrayList;
 
@@ -22,7 +23,7 @@ public interface UnitInterface {
      * Выполняет ход песонажа в игре
      * @param arena
      */
-    void step(Arena arena);
+    void step(Arena arena, Map map);
 
     /**
      * Находит цель
@@ -58,7 +59,7 @@ public interface UnitInterface {
      * @param targetUnit
      * @return
      */
-    boolean applyAbility(Unit targetUnit);
+    boolean applyAbility(Unit targetUnit, Arena arena);
 
     boolean isInDiapason(Unit targetUnit);
 

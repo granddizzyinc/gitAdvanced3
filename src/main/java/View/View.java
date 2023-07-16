@@ -1,6 +1,7 @@
 package View;
 
 import arena.ArenaMessage;
+import arena.map.Pit;
 import units.*;
 import units.abstractUnits.Unit;
 
@@ -44,6 +45,8 @@ public class View {
 
         if (field instanceof Unit) {
             sym = ((Unit) field).getCharacterRepresentation();
+        } else if (field instanceof Pit) {
+            sym = " O ";
         }
 
         if (field instanceof Unit) {

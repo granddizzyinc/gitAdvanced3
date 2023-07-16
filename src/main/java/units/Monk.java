@@ -56,7 +56,7 @@ public class Monk extends UnitProtectiveWithoutShild {
     }
 
     @Override
-    public boolean applyAbility(Unit targetUnit) {
+    public boolean applyAbility(Unit targetUnit, Arena arena) {
         switch (new Random().nextInt(2)) {
             case 0 -> {
                 return mindMonk(targetUnit);

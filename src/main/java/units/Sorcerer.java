@@ -47,7 +47,7 @@ public class Sorcerer extends UnitAttackingWithMagician {
     }
 
     @Override
-    public boolean applyAbility(Unit targetUnit) {
+    public boolean applyAbility(Unit targetUnit, Arena arena) {
         boolean res = this.tricks(targetUnit);
 
         return res;

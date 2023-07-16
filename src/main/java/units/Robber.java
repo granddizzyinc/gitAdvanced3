@@ -47,7 +47,7 @@ public class Robber extends UnitAttackingWithWeapons {
     }
 
     @Override
-    public boolean applyAbility(Unit targetUnit) {
+    public boolean applyAbility(Unit targetUnit, Arena arena) {
         boolean res = theft(targetUnit);
 
         return res;
