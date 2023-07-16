@@ -64,4 +64,14 @@ public class Sorcerer extends UnitAttackingWithMagician {
 //    public void restoringParameters() {
 //        super.restoringParameters(Unit.baseAtack + Equipment.runes_and_powders.getAttack(), Unit.baseDefence + Equipment.runes_and_powders.getDefend());
 //    }
+
+    @Override
+    public boolean isInDiapason(Unit targetUnit) {
+        return this.distanceSkill >= this.getCoordinates().calculateDistance(targetUnit.getCoordinates());
+    }
+
+    @Override
+    public String getCharacterRepresentation() {
+        return "Srr";
+    }
 }

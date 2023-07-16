@@ -62,4 +62,14 @@ public class Crossbowman extends UnitAttackingWithWeapons {
         // ищем чужого с минимальным здоровьем
         return arena.findAUnitWithMinimumHealth(this, true);
     }
+
+    @Override
+    public boolean isInDiapason(Unit targetUnit) {
+        return this.distanceSkill >= this.getCoordinates().calculateDistance(targetUnit.getCoordinates());
+    }
+
+    @Override
+    public String getCharacterRepresentation() {
+        return "Crb";
+    }
 }

@@ -52,4 +52,14 @@ public class Wizard extends UnitAttackingWithMagician {
 //    public void restoringParameters() {
 //        super.restoringParameters(Unit.baseAtack + Equipment.mantle_and_wand.getAttack(), Unit.baseDefence + Equipment.mantle_and_wand.getDefend());
 //    }
+
+    @Override
+    public boolean isInDiapason(Unit targetUnit) {
+        return this.distanceSkill >= this.getCoordinates().calculateDistance(targetUnit.getCoordinates());
+    }
+
+    @Override
+    public String getCharacterRepresentation() {
+        return "Wzd";
+    }
 }

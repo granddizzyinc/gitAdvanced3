@@ -62,4 +62,10 @@ public abstract class UnitAttackingWithWeapons extends UnitAttacking {
     public String toString() {
         return super.toString() + " В:" + this.stamina;
     }
+
+    @Override
+    public void skipAMove() {
+        super.skipAMove();
+        stamina += STAMINACONC * 2;
+    }
 }

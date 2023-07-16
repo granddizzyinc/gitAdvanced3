@@ -19,10 +19,10 @@ public abstract class UnitAttacking extends Unit {
         //super.skipAMove();
         if (abilityPoints < 2) {
             abilityPoints += 1;
-            return true;
         }
+        this.addSuperimposedAction("Концентрация", 1, this.getAttack() / 4, 0,0);
 
-        return false;
+        return true;
     }
 
     public int getAbilityPoints() {
@@ -66,49 +66,31 @@ public abstract class UnitAttacking extends Unit {
             } else {
                 // если не смогли атаковать
                 if (!moveMade) {
-                    // если шаг НЕ сделан
-                    this.clearPointActivites();
                     arena.addArenaMessage(this, null, " пропустил ход");
+                    this.skipAMove();
                 } else {
-                    arena.addArenaMessage(this, targetUnit, " переместился к ");
+                    arena.addArenaMessage(this, targetUnit, " подошел к ");
                 }
             }
         } else {
             arena.addArenaMessage(this, targetUnit, " способности на ");
         }
-
-//        arena.addArenaMessage(this, null,  " действие в диапазоне");
     }
 
     @Override
     public void actionNotInDiapason(Arena arena, Unit targetUnit, boolean moveMade) {
-//        if (this.getAbilityPoints() < 2) {
-//            //концентрация
-//            this.concentration();
-//        } else if (this.getAbilityPoints() == 2) {
-//            //абилити
-//            if (kindOfBattle == KindOfBattle.distant) {
-//                this.applyAbility(targetUnit);
-//            } else if (kindOfBattle == KindOfBattle.near) {
-//                if (!moveMade) {
-//                    this.skipAMove();
-//                }
-//            }
-//        }
-
         if (moveMade) {
             // если шаг сделан
-            if (!this.concentration()) {
-                // если не смогли сконцентрироваться
-                this.clearPointActivites();
-                arena.addArenaMessage(this, targetUnit, " переместился к ");
-            } else {
+            arena.addArenaMessage(this, targetUnit, " подошел к ");
+
+            if (this.concentration()) {
                 arena.addArenaMessage(this, null, " сконцентрировался ");
             }
         } else {
             arena.addArenaMessage(this, null,  " пропустил ход");
+            this.skipAMove();
         }
-
-//        arena.addArenaMessage(this, null,  " действие вне диапазона");
     }
+
+
 }

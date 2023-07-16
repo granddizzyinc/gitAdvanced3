@@ -91,7 +91,6 @@ public class Arena implements ArenaInterface {
         while (checkTheNeedForTheNextRound()) {
             round += 1;
 
-
             this.setInitiative();
             //каждый юнит делает ход в порядке уменьшения инициативы
             for (Unit unit : initiative) {
@@ -112,13 +111,14 @@ public class Arena implements ArenaInterface {
             view.view(round, teams, arenaMesagges);
 
             // пауза для наглядности
-            TimeUnit.SECONDS.sleep(1);
+            TimeUnit.SECONDS.sleep(3);
         }
 
-        // проверяем победителя
+        // определяем победителя
         Team winner = getWinner();
         if (winner != null) {
             this.addArenaMessage(null, null, "Победила команда" + winner);
+            view.view(round, teams, arenaMesagges);
         }
     }
 
@@ -156,22 +156,23 @@ public class Arena implements ArenaInterface {
         Unit nearestUnit = null;
         double minDistance = Math.sqrt(this.map.sizeX*this.map.sizeX + this.map.sizeY*this.map.sizeY) + 1;
 
-        for (Team tmpTeam : teams) {
-            if ((alien && tmpTeam.equals(unit.getTeam())) || (!alien && !tmpTeam.equals(unit.getTeam()))) {
+        for (Team targetTeam : teams) {
+            if ((alien && targetTeam.equals(unit.getTeam())) || (!alien && !targetTeam.equals(unit.getTeam()))) {
                 continue;
             }
 
-            for (Unit target : tmpTeam) {
+            for (Unit targetUnit : targetTeam) {
                 //главное в любом расследовании не выйти на самого себя
-                if (target.equals(unit)) continue;
+                if (targetUnit.equals(unit)) continue;
 
-                double distance = unit.getCoordinates().calculateDistance(target.getCoordinates());
+                double distance = unit.getCoordinates().calculateDistance(targetUnit.getCoordinates());
                 if (distance < minDistance) {
                     // если ищем свого или проверяем сможем ли атаковать
-                    if (!alien || unit.getAttack() - target.getDefense() > 0) {
+                    //if (!alien || unit.getAttack() - targetUnit.getDefense() > 0) {
+                    //if (!alien) {
                         minDistance = distance;
-                        nearestUnit = target;
-                    }
+                        nearestUnit = targetUnit;
+                   //}
                 }
             }
         }
@@ -198,10 +199,9 @@ public class Arena implements ArenaInterface {
 
                 if (target.getHealth() < minHealth) {
                     // если ищем свого или проверяем сможем ли атаковать
-                    if (!alien || unit.getAttack() - target.getDefense() > 0) {
+                    //if (!alien || unit.getAttack() - target.getDefense() > 0) {
                         minHealth = target.getHealth();
                         minHealthUnit = target;
-                    }
                 }
             }
         }
@@ -366,14 +366,10 @@ public class Arena implements ArenaInterface {
 
     @Override
     public void doMove(Unit unit, Coordinates coordinates) {
-//        System.out.print("Хожу: " + unit.getCoordinates());
-
         for (int i = 1; i <= unit.getSpeed(); i++) {
             Coordinates stepCoordinates = this.getNextStepPosition(unit.getCoordinates(), coordinates);
             map.moveUnit(unit, stepCoordinates);
-//            System.out.print(" -> " + stepCoordinates);
         }
-//        System.out.println();
     }
 
     public void setInitiative() {

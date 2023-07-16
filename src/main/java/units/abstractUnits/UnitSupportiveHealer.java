@@ -20,7 +20,7 @@ public abstract class UnitSupportiveHealer extends UnitSupportive {
      * @param unit
      */
     public boolean smallHeal(Unit unit) {
-        //unit.addHealth(baseSpellHeal);
+        unit.addHealth(baseSpellHeal);
         return true;
     }
 

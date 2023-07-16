@@ -16,7 +16,7 @@ public class Spearman extends UnitAttackingWithWeapons {
                 Equipment.spear_and_cuirass.getDefend(), UnitsTypes.Spearman,  name);
     }
     public boolean stun(Unit target){
-        if (getAbilityPoints() == 2 && getPointActivites() == 1) {
+        if (this.getAbilityPoints() == 2 && this.getPointActivites() == 1) {
 //            System.out.println("Оглушаю.");
             super.clearPointAbility();
             super.performAnAttack(target);
@@ -45,4 +45,14 @@ public class Spearman extends UnitAttackingWithWeapons {
 //    public void restoringParameters() {
 //        super.restoringParameters(Unit.baseAtack + Equipment.spear_and_cuirass.getAttack(), Unit.baseDefence + Equipment.spear_and_cuirass.getDefend());
 //    }
+
+    @Override
+    public boolean isInDiapason(Unit targetUnit) {
+        return this.distanceSkill >= this.getCoordinates().calculateDistance(targetUnit.getCoordinates());
+    }
+
+    @Override
+    public String getCharacterRepresentation() {
+        return "Spn";
+    }
 }

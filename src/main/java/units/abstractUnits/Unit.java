@@ -25,13 +25,12 @@ public abstract class Unit implements UnitInterface {   //implements AutoCloseab
 
     protected KindOfBattle kindOfBattle;
 
-    public final static int baseAtack = 5;
+    public final static int baseAtack = 10;
     public final static int baseDefence = 2;
 
     private Team team;
 
     private ArrayList<SuperimposedAction> superimposedActions = new ArrayList<>();
-    ;
 
     public Unit(int health, int defense, int attack, UnitsTypes type, String name) {
         this.health = 50 + health;
@@ -67,21 +66,16 @@ public abstract class Unit implements UnitInterface {   //implements AutoCloseab
         //* Ближники (не дальше 1 клетки)
         //* Дальники (5 клеток - 100% урон, до 7 клеток - 75% урона, до 9 клеток - 50%, 10 и более - не может атаковать)
 
-//        System.out.println("Атакую: " + target);
+        // нельзя атаковать своего
+        if (target.team.equals(this.team)) return false;
 
-
-        if (getPointActivites() > 0) {
+        if (this.getPointActivites() > 0) {
             if (this.getAttack() - target.getDefense() > 0) {
                 target.decreaseHealth(this.getAttack() - target.getDefense());
-                decreasePointActivities();
-            } else {
-//                System.out.println("Не прокатило");
+                this.decreasePointActivities();
             }
-
             return true;
         } else {
-//            System.out.println("Нет очков активности");
-
             return false;
         }
     }
@@ -113,7 +107,7 @@ public abstract class Unit implements UnitInterface {   //implements AutoCloseab
         else if (calculatedAttack > 100) calculatedAttack = 100;
 
         return calculatedAttack;
-}
+    }
 
     public void increaseAttack(int value) {
         attack += value;
@@ -126,7 +120,6 @@ public abstract class Unit implements UnitInterface {   //implements AutoCloseab
             attack = 0;
         }
     }
-
 
     public void setPointActivites(int value) {
         pointActivites = value;
@@ -160,7 +153,6 @@ public abstract class Unit implements UnitInterface {   //implements AutoCloseab
         }
     }
 
-    // реализовать смерть посредством удаления юнита из списка на "арене"
     public void die() {
         health = 0;
     }
@@ -220,6 +212,7 @@ public abstract class Unit implements UnitInterface {   //implements AutoCloseab
             if (this.isInDiapason(targetUnit)) {
                 this.actionInDiapason(arena, targetUnit, false);
             } else {
+                this.decreasePointActivities();
                 arena.doMove(this, targetUnit.getCoordinates());
                 if (this.isInDiapason(targetUnit)) {
                     this.actionInDiapason(arena, targetUnit, true);
@@ -237,7 +230,7 @@ public abstract class Unit implements UnitInterface {   //implements AutoCloseab
             calculatedDefense += act.defendChangeValue;
         }
 
-        if (calculatedDefense < 0 ) calculatedDefense = 0;
+        if (calculatedDefense < 0) calculatedDefense = 0;
         else if (calculatedDefense > 100) calculatedDefense = 100;
 
         return calculatedDefense;
@@ -265,7 +258,7 @@ public abstract class Unit implements UnitInterface {   //implements AutoCloseab
             calculatedSpeed += act.speedChangeValue;
         }
 
-        if (calculatedSpeed < 0 ) calculatedSpeed = 0;
+        if (calculatedSpeed < 0) calculatedSpeed = 0;
         else if (calculatedSpeed > 100) calculatedSpeed = 100;
 
         return calculatedSpeed;
@@ -283,41 +276,41 @@ public abstract class Unit implements UnitInterface {   //implements AutoCloseab
         return Names.values()[new Random().nextInt(Names.values().length)].toString();
     }
 
-    /**
-     * Проверяет назодиться ли цель в максимальном диапазоне действий
-     *
-     * @param targetUnit
-     * @return
-     */
-    protected boolean isInDiapason(Unit targetUnit) {
-        int unitDistanceSkill = distanceSkill;
-        if (targetUnit instanceof Crossbowman)
-            unitDistanceSkill = ((Crossbowman) targetUnit).distanceSkill;
-        else if (targetUnit instanceof Druid)
-            unitDistanceSkill = ((Druid) targetUnit).distanceSkill;
-        else if (targetUnit instanceof Monk)
-            unitDistanceSkill = ((Monk) targetUnit).distanceSkill;
-        else if (targetUnit instanceof Palladine)
-            unitDistanceSkill = ((Palladine) targetUnit).distanceSkill;
-        else if (targetUnit instanceof Peasant)
-            unitDistanceSkill = ((Peasant) targetUnit).distanceSkill;
-        else if (targetUnit instanceof Robber)
-            unitDistanceSkill = ((Robber) targetUnit).distanceSkill;
-        else if (targetUnit instanceof Sniper)
-            unitDistanceSkill = ((Sniper) targetUnit).distanceSkill;
-        else if (targetUnit instanceof Sorcerer)
-            unitDistanceSkill = ((Sorcerer) targetUnit).distanceSkill;
-        else if (targetUnit instanceof Spearman)
-            unitDistanceSkill = ((Spearman) targetUnit).distanceSkill;
-        else if (targetUnit instanceof Wizard)
-            unitDistanceSkill = ((Wizard) targetUnit).distanceSkill;
-
-        if (unitDistanceSkill >= this.getCoordinates().calculateDistance(targetUnit.getCoordinates())) {
-            return true;
-        }
-
-        return false;
-    }
+//    /**
+//     * Проверяет назодиться ли цель в максимальном диапазоне действий
+//     *
+//     * @param targetUnit
+//     * @return
+//     */
+//    public boolean isInDiapason(Unit targetUnit) {
+//        int unitDistanceSkill = distanceSkill;
+//        if (targetUnit instanceof Crossbowman)
+//            unitDistanceSkill = ((Crossbowman) targetUnit).distanceSkill;
+//        else if (targetUnit instanceof Druid)
+//            unitDistanceSkill = ((Druid) targetUnit).distanceSkill;
+//        else if (targetUnit instanceof Monk)
+//            unitDistanceSkill = ((Monk) targetUnit).distanceSkill;
+//        else if (targetUnit instanceof Palladine)
+//            unitDistanceSkill = ((Palladine) targetUnit).distanceSkill;
+//        else if (targetUnit instanceof Peasant)
+//            unitDistanceSkill = ((Peasant) targetUnit).distanceSkill;
+//        else if (targetUnit instanceof Robber)
+//            unitDistanceSkill = ((Robber) targetUnit).distanceSkill;
+//        else if (targetUnit instanceof Sniper)
+//            unitDistanceSkill = ((Sniper) targetUnit).distanceSkill;
+//        else if (targetUnit instanceof Sorcerer)
+//            unitDistanceSkill = ((Sorcerer) targetUnit).distanceSkill;
+//        else if (targetUnit instanceof Spearman)
+//            unitDistanceSkill = ((Spearman) targetUnit).distanceSkill;
+//        else if (targetUnit instanceof Wizard)
+//            unitDistanceSkill = ((Wizard) targetUnit).distanceSkill;
+//
+//        if (unitDistanceSkill >= this.getCoordinates().calculateDistance(targetUnit.getCoordinates())) {
+//            return true;
+//        }
+//
+//        return false;
+//    }
 
 //    public void restoringParameters(int attack, int defense) {
 //        this.attack = attack;
@@ -342,12 +335,12 @@ public abstract class Unit implements UnitInterface {   //implements AutoCloseab
      *
      * @param name
      * @param period
-     * @param attackChangeNumber
-     * @param defendChangeNumber
-     * @param speedChangeNumber
+     * @param attackChangeValue
+     * @param defendChangeValue
+     * @param speedChangeValue
      */
-    public void addSuperimposedAction(String name, int period, int attackChangeNumber, int defendChangeNumber, int speedChangeNumber) {
-        this.superimposedActions.add(new SuperimposedAction(name, period, attackChangeNumber, defendChangeNumber, speedChangeNumber));
+    public void addSuperimposedAction(String name, int period, int attackChangeValue, int defendChangeValue, int speedChangeValue) {
+        this.superimposedActions.add(new SuperimposedAction(name, period, attackChangeValue, defendChangeValue, speedChangeValue));
     }
 
     /**
@@ -366,5 +359,9 @@ public abstract class Unit implements UnitInterface {   //implements AutoCloseab
      */
     public void removeSuperimposedAction(SuperimposedAction act) {
         superimposedActions.remove(act);
+    }
+
+    public void skipAMove() {
+        this.clearPointActivites();
     }
 }

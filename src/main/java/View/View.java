@@ -42,26 +42,9 @@ public class View {
 
         String sym = "   ";
 
-        if (field instanceof Crossbowman)
-            sym = "Crb";
-        else if (field instanceof Druid)
-            sym = "Drd";
-        else if (field instanceof Monk)
-            sym = "Mnk";
-        else if (field instanceof Palladine)
-            sym = "Pln";
-        else if (field instanceof Peasant)
-            sym = "Pst";
-        else if (field instanceof Robber)
-            sym = "Rbr";
-        else if (field instanceof Sniper)
-            sym = "Snr";
-        else if (field instanceof Sorcerer)
-            sym = "Srr";
-        else if (field instanceof Spearman)
-            sym = "Spn";
-        else if (field instanceof Wizard)
-            sym = "Wzd";
+        if (field instanceof Unit) {
+            sym = ((Unit) field).getCharacterRepresentation();
+        }
 
         if (field instanceof Unit) {
             out = "|" + (getAnsiColor(((Unit) field).getTeam().color) + sym + AnsiColors.ANSI_RESET);
@@ -144,7 +127,9 @@ public class View {
             case "RED" -> AnsiColors.ANSI_RED;
             case "BLUE" -> AnsiColors.ANSI_BLUE;
             case "GREEN" -> AnsiColors.ANSI_GREEN;
-            case "WHITE" -> AnsiColors.ANSI_WHITE;
+            case "CYAN" -> AnsiColors.ANSI_CYAN;
+            case "PURPLE" -> AnsiColors.ANSI_PURPLE;
+            case "YELLOW" -> AnsiColors.ANSI_YELLOW;
             default -> null;
         };
     }
