@@ -6,8 +6,6 @@ import units.abstractUnits.Unit;
 import units.abstractUnits.UnitProtectiveWithShield;
 import units.abstractUnits.UnitsTypes;
 
-import java.util.Random;
-
 /**
  * Палладин
  */
@@ -20,18 +18,9 @@ public class Palladine extends UnitProtectiveWithShield {
 
     public boolean defenceCape(Unit target) {
         if (getAbilityPoints() == 2) {
+//            System.out.println("Плащ защиты");
             super.clearAbilityPoints();
-            target.addSuperimposedAction("Плащ защитника", 1, 0, target.getDefense(), 0);
-            return true;
-        }
-
-        return false;
-    }
-
-    public boolean heavenlyShield(Unit target) {
-        if (getAbilityPoints() == 2) {
-            super.clearAbilityPoints();
-            target.addSuperimposedAction("Небесный щит", 1, 0, 100, 0);
+            super.decreaseDamage(target.getDefense() * 1);   // вот здесь как-то определить тип атаки
             return true;
         }
 
@@ -44,31 +33,13 @@ public class Palladine extends UnitProtectiveWithShield {
         return arena.findTheNearestTeamUnit(this, false);
     }
 
-    public Unit findTarget2(Arena arena) {
-        // ищем чужого
-        return arena.findTheNearestTeamUnit(this, true);
+    @Override
+    public boolean applyAbility(Unit targetUnit) {
+        return defenceCape(targetUnit);
     }
 
     @Override
-    public boolean applyAbility(Unit targetUnit, Arena arena) {
-        switch (new Random().nextInt(2)) {
-            case 0 -> {
-                return defenceCape(targetUnit);
-            }
-            case 1 -> {
-                return heavenlyShield(targetUnit);
-            }
-        }
-        return false;
-    }
-
-    @Override
-    public boolean isInDiapason(Unit targetUnit) {
-        return this.distanceSkill >= this.getCoordinates().calculateDistance(targetUnit.getCoordinates());
-    }
-
-    @Override
-    public String getCharacterRepresentation() {
-        return "Pld";
+    public void restoringParameters() {
+        super.restoringParameters(Unit.baseAtack + Equipment.shield_and_sword.getAttack(), Unit.baseDefence + Equipment.shield_and_sword.getDefend());
     }
 }

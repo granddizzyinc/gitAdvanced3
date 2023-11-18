@@ -66,6 +66,7 @@ public abstract class Unit implements UnitInterface {   //implements AutoCloseab
 
 //        System.out.println("Атакую: " + target);
 
+
         if (getPointActivites() > 0) {
             if (this.attack - target.getDefense() > 0) {
                 target.decreaseHealth(this.attack - target.getDefense());
@@ -199,13 +200,12 @@ public abstract class Unit implements UnitInterface {   //implements AutoCloseab
 
     @Override
     public void step(Arena arena) {
-        Unit targetUnit = findTarget(arena);
+        Unit targetUnit = this.findTarget(arena);
 
         if (targetUnit == null) {
-//            System.out.println("Цель: не найдена");
-            arena.addArenaMessage(this.name + " " + "Цель не найдена");
+            arena.addArenaMessage(this, null,  " Цель не найдена ");
         } else {
-            System.out.println(this.name + " " + "Цель: " + targetUnit.team.name + " " + targetUnit + " " + targetUnit.getCoordinates());
+            //arena.addArenaMessage(this, targetUnit,  " цель ");
 
             if (this.isInDiapason(targetUnit)) {
                 this.actionInDiapason(arena, targetUnit, false);

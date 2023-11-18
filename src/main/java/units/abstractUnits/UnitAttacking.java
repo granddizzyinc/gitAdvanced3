@@ -51,6 +51,7 @@ public abstract class UnitAttacking extends Unit {
             // если не смогли применить спобосность
             if (this.performAnAttack(targetUnit)) {
                 // если смогли атаковать
+                arena.addArenaMessage(this, targetUnit,  " атака на ");
 
                 //проверяем убили ли
                 if (targetUnit.getHealth() == 0) {
@@ -69,6 +70,8 @@ public abstract class UnitAttacking extends Unit {
                     this.clearPointActivites();
                 }
             }
+        } else {
+            arena.addArenaMessage(this, targetUnit,  " способности на ");
         }
     }
 
@@ -93,6 +96,8 @@ public abstract class UnitAttacking extends Unit {
             if (!this.concentration()) {
                 // если не смогли сконцентрироваться
                 this.clearPointActivites();
+            } else {
+                arena.addArenaMessage(this, null ,  " сконцентрировался ");
             }
         }
     }

@@ -24,7 +24,7 @@ public class Arena implements ArenaInterface {
 
     private View view;
 
-    private ArrayList<String> arenaMesagges = new ArrayList<>();
+    private ArrayList<ArenaMessage> arenaMesagges = new ArrayList<>();
 
     public Arena(Map map, View view, Log log) {
         this.log = log;
@@ -150,10 +150,9 @@ public class Arena implements ArenaInterface {
     public Unit findTheNearestTeamUnit(Unit unit, boolean alien) {
         Unit nearestUnit = null;
         double minDistance = this.map.sizeX + this.map.sizeY;
-        Team ourTeam = this.getUnitTeam(unit);
 
         for (Team tmpTeam : teams) {
-            if ((alien && tmpTeam.equals(ourTeam)) || (!alien && !tmpTeam.equals(ourTeam))) {
+            if ((alien && tmpTeam.equals(unit.getTeam())) || (!alien && !tmpTeam.equals(unit.getTeam()))) {
                 continue;
             }
 
@@ -180,10 +179,8 @@ public class Arena implements ArenaInterface {
         Unit minHealthUnit = null;
         int minHealth = 100;
 
-        Team ourTeam = this.getUnitTeam(unit);
-
         for (Team teamTmp : teams) {
-            if ((alien && teamTmp.equals(ourTeam)) || (!alien && !teamTmp.equals(ourTeam))) {
+            if ((alien && teamTmp.equals(unit.getTeam())) || (!alien && !teamTmp.equals(unit.getTeam()))) {
                 continue;
             }
 
@@ -405,7 +402,7 @@ public class Arena implements ArenaInterface {
         }
     }
 
-    public void addArenaMessage(String message) {
-        arenaMesagges.add(message);
+    public void addArenaMessage(Unit unit, Unit target, String message) {
+        arenaMesagges.add(new ArenaMessage(unit, target, message));
     }
 }
