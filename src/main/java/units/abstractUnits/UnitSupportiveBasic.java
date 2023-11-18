@@ -13,8 +13,7 @@ public abstract class UnitSupportiveBasic extends UnitSupportive {
         super(health, defense, attack, type, name);
     }
 
-    public boolean putUpABarrier(Unit unit) {  //это предварительно, а так должен появитсья объект на карте
+    public void putUpABarrier(Unit unit) {  //это предварительно, а так должен появитсья объект на карте
         unit.decreaseAttack(5);
-        return true;
     }
 }
