@@ -1,9 +1,8 @@
 package units.abstractUnits;
 
 import arena.Arena;
-import arena.map.Map;
 
-public abstract class UnitProtective extends Unit implements UnitProtectiveInterface {
+public abstract class UnitProtective extends Unit {
     private float increasingDefence;
     private int abilityPoints;
 
@@ -17,11 +16,12 @@ public abstract class UnitProtective extends Unit implements UnitProtectiveInter
     }
 
     public boolean concentration() {
+        //super.skipAMove();
         if (abilityPoints < 3) {
             abilityPoints += 1;
+            return true;
         }
-        this.addSuperimposedAction("Концентрация", 1, this.getAttack() / 4, 0, 0);
-        return true;
+        return false;
     }
 
     public int getAbilityPoints() {
@@ -42,14 +42,10 @@ public abstract class UnitProtective extends Unit implements UnitProtectiveInter
 
     @Override
     public void actionInDiapason(Arena arena, Unit targetUnit, boolean moveMade) {
-        if (!targetUnit.getTeam().equals(this.getTeam()) || !this.applyAbility(targetUnit, arena)) {
-            // если это чужой
-            // или
+        if (!this.applyAbility(targetUnit)) {
             // если не смогли применить спобосность
-
             if (this.performAnAttack(targetUnit)) {
                 // если смогли атаковать
-                arena.addArenaMessage(this, targetUnit, " атака на ");
 
                 //проверяем убили ли
                 if (targetUnit.getHealth() == 0) {
@@ -59,21 +55,15 @@ public abstract class UnitProtective extends Unit implements UnitProtectiveInter
 
                 if (!moveMade) {
                     // если шаг НЕ сделан
-                    if (this.concentration()) {
-                        arena.addArenaMessage(this, null, " сконцентрировался.");
-                    }
+                    this.concentration();
                 }
             } else {
                 // если не смогли атаковать
                 if (!moveMade) {
-                    arena.addArenaMessage(this, null, " пропустил ход");
-                    this.skipAMove();
-                } else {
-                    arena.addArenaMessage(this, targetUnit, " подошел к ");
+                    // если шаг НЕ сделан
+                    this.clearPointActivites();
                 }
             }
-        } else {
-            arena.addArenaMessage(this, targetUnit, " способности на ");
         }
     }
 
@@ -81,52 +71,9 @@ public abstract class UnitProtective extends Unit implements UnitProtectiveInter
     public void actionNotInDiapason(Arena arena, Unit targetUnit, boolean moveMade) {
         if (moveMade) {
             // если шаг сделан
-            arena.addArenaMessage(this, targetUnit, " подошел к ");
-
-            if (this.concentration()) {
-                arena.addArenaMessage(this, null, " сконцентрировался ");
-            }
-        } else {
-            arena.addArenaMessage(this, null, " пропустил ход");
-            this.skipAMove();
-        }
-    }
-
-    @Override
-    public void step(Arena arena, Map map) {
-        // ищем своего
-        Unit targetUnit1 = this.findTarget(arena);
-
-        // ищем чужого
-        Unit targetUnit2 = this.findTarget2(arena);
-
-        Unit targetUnit = null;
-
-        // вибираем цель
-        if (targetUnit1 == null) targetUnit = targetUnit2;
-        else if (targetUnit2 == null) targetUnit = targetUnit1;
-        else {
-            // выбираем кто ближе
-            if (this.getCoordinates().calculateDistance(targetUnit1.getCoordinates()) > this.getCoordinates().calculateDistance(targetUnit2.getCoordinates())) {
-                targetUnit = targetUnit1;
-            } else {
-                targetUnit = targetUnit2;
-            }
-        }
-
-        if (targetUnit == null) {
-            arena.addArenaMessage(this, null, " Цель не найдена ");
-        } else {
-            if (this.isInDiapason(targetUnit)) {
-                this.actionInDiapason(arena, targetUnit, false);
-            } else {
-                this.decreasePointActivities();
-                arena.doMove(this, targetUnit.getCoordinates());
-                if (this.isInDiapason(targetUnit)) {
-                    this.actionInDiapason(arena, targetUnit, true);
-                } else {
-                    this.actionNotInDiapason(arena, targetUnit, true);
-                }
+            if (!this.concentration()) {
+                // если не смогли сконцентрироваться
+                this.clearPointActivites();
             }
         }
     }

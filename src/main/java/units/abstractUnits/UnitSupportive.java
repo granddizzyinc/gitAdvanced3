@@ -1,16 +1,15 @@
 package units.abstractUnits;
 
 import arena.Arena;
-import units.Coordinates;
 
 public abstract class UnitSupportive extends Unit {
 
     private int speed;
-    //private int pointActivites;
+    private int pointActivites;
 
     public UnitSupportive(int health, int defense, int attack, UnitsTypes type, String name) {
         super(health, defense, attack, type, name);
-        speed = super.getSpeed() * 2;
+        pointActivites = super.getPointActivites() * 2;
     }
 
     public UnitSupportive(UnitsTypes type, String name) {
@@ -18,22 +17,28 @@ public abstract class UnitSupportive extends Unit {
     }
 
     public void actionInDiapason(Arena arena, Unit targetUnit, boolean moveMade) {
-        if (!this.applyAbility(targetUnit, arena)) {
-            // всегда применяет
+        if (!this.applyAbility(targetUnit)) {
+            // если не смогли применить спобосность
+            if (this.performAnAttack(targetUnit)) {
+                // если смогли атаковать
 
-        } else {
-            arena.addArenaMessage(this, targetUnit, " способности на ");
+                //проверяем убили ли
+                if (targetUnit.getHealth() == 0) {
+                    // выносим труп
+                    arena.removeTheCorpse(targetUnit);
+                }
 
-            // убежать
-            Coordinates directionCoordinatesToRun = new Coordinates(this.getCoordinates().x, this.getCoordinates().y);
-
-            if (targetUnit.getCoordinates().x > directionCoordinatesToRun.x) directionCoordinatesToRun.x -= 10;
-            else if (targetUnit.getCoordinates().x < directionCoordinatesToRun.x) directionCoordinatesToRun.x += 10;
-            if (targetUnit.getCoordinates().y > directionCoordinatesToRun.y) directionCoordinatesToRun.y -= 10;
-            else if (targetUnit.getCoordinates().y < directionCoordinatesToRun.y) directionCoordinatesToRun.y += 10;
-
-            arena.doMove(this, directionCoordinatesToRun);
-            arena.addArenaMessage(this, null, " убежал");
+                if (!moveMade) {
+                    // если шаг НЕ сделан
+                    //this.concentration();
+                }
+            } else {
+                // если не смогли атаковать
+                if (!moveMade) {
+                    // если шаг НЕ сделан
+                    this.clearPointActivites();
+                }
+            }
         }
     }
 
@@ -41,10 +46,10 @@ public abstract class UnitSupportive extends Unit {
     public void actionNotInDiapason(Arena arena, Unit targetUnit, boolean moveMade) {
         if (moveMade) {
             // если шаг сделан
-            arena.addArenaMessage(this, targetUnit, " подошел к ");
-        } else {
-            arena.addArenaMessage(this, null, " пропустил ход");
-            this.skipAMove();
+            //if (!this.concentration()) {
+                // если не смогли сконцентрироваться
+                this.clearPointActivites();
+            //}
         }
     }
 }

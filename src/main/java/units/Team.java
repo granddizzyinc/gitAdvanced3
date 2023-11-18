@@ -81,9 +81,4 @@ public class Team implements Iterator<Unit>, Iterable<Unit> {
 
         return null;
     }
-
-    @Override
-    public String toString() {
-        return this.name;
-    }
 }
